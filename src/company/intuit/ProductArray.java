@@ -4,13 +4,13 @@ package company.intuit;
 public class ProductArray {
     public static void main(String[] args) {
         int arr[] = {10, 3, 5, 6, 2};
-        int result[] = getProductArray(arr);
+        int result[] = productArray(arr);
         for (int x : result) {
             System.out.print(x + " ");
         }
     }
 
-    private static int[] getProductArray(int[] arr) {
+    private static int[] productArray(int[] arr) {
         int prod[] = new int[arr.length];
         int leftProd[] = new int[arr.length];
         int rightProd[] = new int[arr.length];

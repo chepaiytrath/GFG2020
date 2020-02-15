@@ -4,11 +4,11 @@ package company.intuit;
 public class ElementLeftSideSmallerRightSideGreater {
     public static void main(String[] args) {
         int arr[] = {5, 1, 4, 3, 6, 8, 10, 7, 9};
-        int result = checkElement(arr);
+        int result = elementLeftSideSmallerRightSideGreater(arr);
         System.out.println(result);
     }
 
-    private static int checkElement(int[] arr) {
+    private static int elementLeftSideSmallerRightSideGreater(int[] arr) {
         int leftMaxArr[] = getLeftMaxArr(arr);
         int rightMinArr[] = getRightMinArr(arr);
 
