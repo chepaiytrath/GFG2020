@@ -1,7 +1,7 @@
 //https://www.geeksforgeeks.org/sort-binary-array-using-one-traversal/
 package company.intuit;
 
-public class SortBinaryArray {
+public class BinaryArraySorting {
     public static void main(String[] args) {
         int arr[] = {1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0};
         sortBinaryArray(arr);

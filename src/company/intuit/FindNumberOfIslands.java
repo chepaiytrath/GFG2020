@@ -1,10 +1,17 @@
+//https://www.geeksforgeeks.org/find-number-of-islands/
 package company.intuit;
 
 public class FindNumberOfIslands {
     static final int ROW = 5, COL = 5;
 
     public static void main(String[] args) {
-        int mat[][] = {{1, 1, 0, 0, 0}, {0, 1, 0, 0, 1}, {1, 0, 0, 1, 1}, {0, 0, 0, 0, 0}, {1, 0, 1, 1, 0}};
+        int mat[][] = {
+                {1, 1, 0, 0, 0},
+                {0, 1, 0, 0, 1},
+                {1, 0, 0, 1, 1},
+                {0, 0, 0, 0, 0},
+                {1, 0, 1, 1, 0}
+        };
         int count = findNumberOfIslands(mat);
         System.out.println("Count = " + count);
     }
