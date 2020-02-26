@@ -8,12 +8,15 @@ public class MyLinkedListDemo {
         mll.pushToEnd(2);
         mll.pushToEnd(3);
         mll.pushToEnd(4);
-        mll.pushToEnd(5);
         mll.pushToEnd(6);
 
-        mll.printList();
-        mll.pairwiseSwapElements(mll.head);
-        System.out.println();
-        mll.printList();
+        MyLinkedList mll2 = new MyLinkedList();
+
+        mll2.pushToEnd(2);
+        mll2.pushToEnd(4);
+        mll2.pushToEnd(6);
+        mll2.pushToEnd(8);
+        mll.findIntersectionInSortedListRecursively(mll2).printList();
+        //mll.printList();
     }
 }

@@ -6,6 +6,22 @@ public class MyLinkedList {
     Node head;
     Node left; //Used in checkIfPalindromeUsingRecursion
 
+    MyLinkedList(Node node) {
+        this.head = node;
+    }
+
+    MyLinkedList(int data) {
+        this.head = new Node(data);
+    }
+
+    MyLinkedList() {
+    }
+
+    @Override
+    public String toString() {
+        return printList();
+    }
+
     static class Node {
         int data;
         Node next;
@@ -23,12 +39,15 @@ public class MyLinkedList {
         }
     }
 
-    public void printList() {
+    public String printList() {
         Node n = head;
+        StringBuffer sb = new StringBuffer();
         while (n != null) {
-            System.out.print(n.data + " ");
+            sb.append(n.data + " ");
             n = n.next;
         }
+        System.out.println(sb.toString());
+        return sb.toString();
     }
 
     public void pushToStart(int data) {
@@ -307,13 +326,13 @@ public class MyLinkedList {
         if (x == null || y == null)
             return;
 
-
         if (xPrev != null) xPrev.next = y;
         else head = y;
 
         if (yPrev != null) yPrev.next = x;
         else head = x;
 
+        //Positioning of this swap code matters
         Node xNext = x.next;
         Node yNext = y.next;
         y.next = xNext;
@@ -321,7 +340,7 @@ public class MyLinkedList {
     }
 
     public void pairwiseSwapElements(Node node) {
-        if(node == null || node.next == null){
+        if (node == null || node.next == null) {
             return;
         }
         swapData(node, node.next);
@@ -332,5 +351,71 @@ public class MyLinkedList {
         int temp = node.data;
         node.data = next.data;
         next.data = temp;
+    }
+
+
+    public void moveLastElementToFront() {
+        if (head == null || head.next == null) {
+            return;
+        }
+
+        Node curr = head;
+        Node prev = null;
+        while (curr.next != null) {
+            prev = curr;
+            curr = curr.next;
+        }
+        prev.next = null;
+        curr.next = head;
+        head = curr;
+    }
+
+    //20200226
+    public MyLinkedList findIntersectionInSortedList(MyLinkedList other) {
+        if (other == null) {
+            return new MyLinkedList();
+        }
+        Node n1 = head, n2 = other.head, n3 = new Node(0), n3Tail = n3;
+        while (n1 != null && n2 != null) {
+            while (n1.data < n2.data) {
+                n1 = n1.next;
+            }
+            while (n2.data < n1.data) {
+                n2 = n2.next;
+            }
+            if (n1.data == n2.data) {
+                n3Tail.next = new Node(n1.data);
+                n3Tail = n3Tail.next;
+                n1 = n1.next;
+                n2 = n2.next;
+            }
+        }
+        MyLinkedList newMll = new MyLinkedList(n3.next);
+        return newMll;
+    }
+
+
+    public MyLinkedList findIntersectionInSortedListRecursively(MyLinkedList other) {
+        //DID IN ONE SHOT
+        Node newNode = new Node(0);
+        intersectionUtil(this.head, other.head, newNode);
+        MyLinkedList newMll = new MyLinkedList(newNode.next);
+        return newMll;
+    }
+
+    private void intersectionUtil(Node head1, Node head2, Node newNode) {
+        if (head1 == null || head2 == null) {
+            return;
+        }
+        if (head1.data == head2.data) {
+            newNode.next = new Node(head1.data);
+            intersectionUtil(head1.next, head2.next, newNode.next);
+        }
+        if (head1.data < head2.data) {
+            intersectionUtil(head1.next, head2, newNode);
+        }
+        if (head2.data < head1.data) {
+            intersectionUtil(head1, head2.next, newNode);
+        }
     }
 }
