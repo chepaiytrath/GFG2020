@@ -14,6 +14,13 @@ public class MyLinkedList {
             this.data = data;
             this.next = null;
         }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + data +
+                    '}';
+        }
     }
 
     public void printList() {
@@ -248,7 +255,7 @@ public class MyLinkedList {
         return isP2;
     }
 
-    public void removeDuplicatesFromSortedLinkedList() {
+    public void removeDuplicatesFromSortedLinkedListIteratively() {
         if (head == null) {
             return;
         }
@@ -261,5 +268,69 @@ public class MyLinkedList {
             curr.next = temp;
             curr = curr.next;
         }
+    }
+
+    public void removeDuplicatesFromSortedLinkedListRecursively() {
+        Node curr = head;
+        removeDuplicatesUtil(curr);
+    }
+
+    private void removeDuplicatesUtil(Node curr) {
+        if (curr == null) {
+            return;
+        }
+        if (curr.next != null) {
+            if (curr.data == curr.next.data) {
+                Node to_free = curr.next;
+                curr.next = to_free.next;
+                to_free.next = null;
+                removeDuplicatesUtil(curr);
+            } else {
+                removeDuplicatesUtil(curr.next);
+            }
+        }
+    }
+
+    public void swapNodesWithoutSwappingData(int xData, int yData) {
+        if (xData == yData) return;
+        Node xPrev = null, yPrev = null, x = head, y = head;
+        while (x != null && x.data != xData) {
+            xPrev = x;
+            x = x.next;
+        }
+
+        while (y != null && y.data != yData) {
+            yPrev = y;
+            y = y.next;
+        }
+
+        if (x == null || y == null)
+            return;
+
+
+        if (xPrev != null) xPrev.next = y;
+        else head = y;
+
+        if (yPrev != null) yPrev.next = x;
+        else head = x;
+
+        Node xNext = x.next;
+        Node yNext = y.next;
+        y.next = xNext;
+        x.next = yNext;
+    }
+
+    public void pairwiseSwapElements(Node node) {
+        if(node == null || node.next == null){
+            return;
+        }
+        swapData(node, node.next);
+        pairwiseSwapElements(node.next.next);
+    }
+
+    private void swapData(Node node, Node next) {
+        int temp = node.data;
+        node.data = next.data;
+        next.data = temp;
     }
 }

@@ -4,18 +4,16 @@ public class MyLinkedListDemo {
     public static void main(String[] args) {
         MyLinkedList mll = new MyLinkedList();
 
-        mll.pushToEnd(11);
-        mll.pushToEnd(11);
-        mll.pushToEnd(11);
-        mll.pushToEnd(21);
-        mll.pushToEnd(43);
-        mll.pushToEnd(43);
-        mll.pushToEnd(60);
+        mll.pushToEnd(1);
+        mll.pushToEnd(2);
+        mll.pushToEnd(3);
+        mll.pushToEnd(4);
+        mll.pushToEnd(5);
+        mll.pushToEnd(6);
 
-        System.out.println("Initial data in LinkedList");
         mll.printList();
-        mll.removeDuplicatesFromSortedLinkedList();
-        System.out.println("Data after removing duplicates");
+        mll.pairwiseSwapElements(mll.head);
+        System.out.println();
         mll.printList();
     }
 }
