@@ -885,9 +885,289 @@ public class MyLinkedList {
             prev = curr;
             curr = next;
         }
-        if(curr != null){
+        if (curr != null) {
             node.next = pairwiseSwapElementsUtil(curr, k);
         }
         return prev;
     }
+
+    public void rearrangeInPlaceRecursively() {
+        Node curr = head;
+        rearrangeInPlaceRecursivelyUtil(curr);
+    }
+
+    private void rearrangeInPlaceRecursivelyUtil(Node right) {
+        left = head;
+        if (right == null && right.next == null) {
+            return;
+        }
+        rearrangeInPlaceRecursivelyUtil(left.next);
+        if (left.next != null) {
+            Node nextNode = left.next;
+            left.next = right;
+            right.next = nextNode;
+        }
+        left = left.next.next;
+        rearrangeInPlaceRecursivelyUtil(left.next);
+        return;
+    }
+
+
+    public void rearrangeInPlaceByReversingSecondHalfAndMerging() {
+        Node curr = head;
+        Node secondHalf = findMiddle(curr);
+        secondHalf = reverse(secondHalf);
+
+        //In case of odd number of elements, the first half contains the extra element
+        Node firstHalf = head;
+        while (firstHalf != null) {
+            Node firstNext = firstHalf.next;
+            Node secondNext = null;
+            if (secondHalf != null) {
+                secondNext = secondHalf.next;
+                secondHalf.next = firstNext;
+            }
+
+            firstHalf.next = secondHalf;
+            firstHalf = firstNext;
+            secondHalf = secondNext;
+        }
+    }
+
+    private Node findMiddle(Node head) {
+        Node slow = head;
+        Node fast = head;
+
+        while (fast.next != null && fast.next.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        Node secondHalf = slow.next;
+        slow.next = null;
+        return secondHalf;
+    }
+
+    private Node reverse(Node head) {
+        Node current = head;
+        Node prev = null;
+
+        while (current != null) {
+            Node temp = current.next;
+            current.next = prev;
+            prev = current;
+            current = temp;
+        }
+        return prev;
+    }
+
+    public MyLinkedList sortListWhichIsSortedAlternatingAscendingAndDescending() {
+        if (head == null) {
+            return null;
+        }
+        Node curr = head;
+        Node ascEnd = new Node(0);
+        Node descEnd = new Node(0);
+
+        Node asc = ascEnd, desc = descEnd;
+        int i = 0;
+        while (curr != null) {
+            Node nextNode = curr.next;
+            if (i % 2 == 0) {
+                ascEnd.next = curr;
+                ascEnd = ascEnd.next;
+                ascEnd.next = null;
+            } else {
+                descEnd.next = curr;
+                descEnd = descEnd.next;
+                descEnd.next = null;
+            }
+            i++;
+            curr = nextNode;
+        }
+        desc = reverse(desc.next);
+
+        asc = asc.next;
+        Node finalNode = new Node(0);
+        curr = finalNode;
+
+        //Merge asc and reverse of desc lists
+        while (asc != null && desc != null) {
+            if (asc.data < desc.data) {
+                Node ascNext = asc.next;
+                finalNode.next = asc;
+                finalNode = finalNode.next;
+                finalNode.next = null;
+                asc = ascNext;
+            } else {
+                Node descNext = desc.next;
+                finalNode.next = desc;
+                finalNode = finalNode.next;
+                finalNode.next = null;
+                desc = descNext;
+            }
+        }
+        if (asc != null) {
+            finalNode.next = asc;
+        } else {
+            finalNode.next = desc;
+        }
+        return new MyLinkedList(curr.next);
+    }
+
+    public void sortLinkedListWhichIsAlreadySortedByAbsoluteValues() {
+        Node curr = head;
+        if (curr == null || curr.next == null) {
+            return;
+        }
+        while (curr.data < 0) {
+            if (curr.next.data < 0) {
+                Node nextNode = curr.next;
+                curr.next = nextNode.next;
+                nextNode.next = head;
+                head = nextNode;
+            } else {
+                break;
+            }
+        }
+        Node prev = curr;
+        curr = curr.next;
+        while (curr != null) {
+            if (curr.data >= 0) {
+                prev = curr;
+                curr = curr.next;
+            } else {
+                Node nextNode = curr.next;
+                prev.next = nextNode;
+                curr.next = head;
+                head = curr;
+                curr = nextNode;
+            }
+        }
+    }
+
+
+    public void sortLinkedListWhichIsAlreadySortedByAbsoluteValuesEfficiently() {
+        if (head == null) {
+            return;
+        }
+
+        Node prev = head;
+        Node curr = prev.next;
+        while (curr != null) {
+            Node nextNode = curr.next;
+            if (curr.data < prev.data) {
+                prev.next = nextNode;
+                curr.next = head;
+                head = curr;
+            } else {
+                prev = curr;
+            }
+            curr = nextNode;
+        }
+    }
+
+    public void deleteLastOccurenceOfAnItem(int n) {
+        //Better solution at https://www.geeksforgeeks.org/delete-last-occurrence-of-an-item-from-linked-list/
+        Node curr = head;
+        Node prev = null;
+        Node pos = null;
+        while (curr != null) {
+            if (curr.data == n) {
+                pos = prev;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+        if (pos != null && pos.next != null) {
+            pos.next = pos.next.next;
+        } else if (pos == null && head.data == n) {
+            head = head.next;
+        } else {
+            return;
+        }
+    }
+
+    static int length = 0;
+
+    public int decimalEquivalentOfBinaryLinkedList() {
+        Node curr = head;
+        return decimalEquivalentOfBinaryLinkedListUtil(curr, 1);
+    }
+
+    private int decimalEquivalentOfBinaryLinkedListUtil(Node node, int index) {
+        if (node == null) {
+            length = index - 1;
+            return 0;
+        }
+        int restSum = decimalEquivalentOfBinaryLinkedListUtil(node.next, index + 1);
+        int currSum = node.data * (int) Math.pow(2, Math.abs(index - length));
+        return restSum + currSum;
+    }
+
+    public void subtractTwoNumbersRepresentedAsLinkedList(MyLinkedList other) {
+        //Recursive solution at : https://www.geeksforgeeks.org/subtract-two-numbers-represented-as-linked-lists/
+        if (other == null) {
+            return;
+        }
+        Node curr1 = head;
+        Node curr2 = other.head;
+        if (curr1 == null || curr2 == null) {
+            return;
+        }
+        boolean borrowed = false;
+        Node result = null, finalNode = null;
+        while (curr1 != null && curr2 != null) {
+            if (borrowed && curr1.data > 0) {
+                curr1.data = curr1.data - 1;
+                borrowed = false;
+            }
+            if (borrowed && curr1.data == 0) {
+                curr1.data = 9;
+            }
+            if (!borrowed && curr1.data < curr2.data) {
+                curr1.data = curr1.data + 10;
+                borrowed = true;
+            }
+
+            int diff = curr1.data;
+            diff -= curr2.data;
+            if (result == null) {
+                result = new Node(diff);
+                finalNode = result;
+            } else {
+                finalNode.next = new Node(diff);
+                finalNode = finalNode.next;
+            }
+            curr1 = curr1.next;
+            curr2 = curr2.next;
+        }
+        if (curr2 == null && curr1 != null) {
+            while (curr1 != null) {
+                if (borrowed && curr1.data > 0) {
+                    curr1.data = curr1.data - 1;
+                    borrowed = false;
+                }
+                if (borrowed && curr1.data == 0) {
+                    curr1.data = 9;
+                }
+
+                int diff = curr1.data;
+                if (result == null) {
+                    result = new Node(diff);
+                    finalNode = result;
+                } else {
+                    finalNode.next = new Node(diff);
+                    finalNode = finalNode.next;
+                }
+                curr1 = curr1.next;
+            }
+        }
+
+        MyLinkedList response = new MyLinkedList(result);
+        response.reverseRecursively();
+        response.printList();
+    }
+
+    //20200301
+
 }
