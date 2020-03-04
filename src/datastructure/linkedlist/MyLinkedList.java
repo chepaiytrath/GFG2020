@@ -1168,6 +1168,154 @@ public class MyLinkedList {
         response.printList();
     }
 
-    //20200301
+    //20200303
+
+    public void partitionListAroundGivenValue(int x) {
+        if (head == null) {
+            return;
+        }
+        Node curr = head;
+        Node prev = null;
+        Node lessLast = null;
+        while (curr != null && curr.data > x) {
+            prev = curr;
+            curr = curr.next;
+        }
+        while (curr != null) {
+            if (lessLast == null && (curr.data == x || curr.data < x)) {
+                Node currNext = curr.next;
+                lessLast = curr;
+                if (prev != null) {
+                    prev.next = currNext;
+                }
+                curr = currNext;
+                if (lessLast != head) lessLast.next = head;
+                head = lessLast;
+                continue;
+            } else if (lessLast != null && (curr.data == x || curr.data < x)) {
+                Node lessLastNext = lessLast.next;
+                Node currNext = curr.next;
+                if (prev != null) {
+                    prev.next = currNext;
+                }
+                lessLast.next = curr;
+                if (curr.data == x) {
+                    lessLast.next.next = lessLastNext;
+                } else {
+                    lessLast = lessLast.next;
+                    lessLast.next = lessLastNext;
+                }
+                curr = currNext;
+                continue;
+            }
+            prev = curr;
+            curr = curr.next;
+        }
+    }
+    //20200304
+    public boolean checkIfLinkedListWithLoopIsPalindrome() {
+        //https://www.geeksforgeeks.org/check-linked-list-loop-palindrome-not/
+        if (head == null) {
+            return false;
+        } else if (head.next == null) {
+            return true;
+        }
+        detectAndRemoveLoop();
+        return checkIfPalindromeRecursively();
+    }
+
+    public void detectAndRemoveLoop() {
+        Node slow = head;
+        Node fast = head;
+
+        while (slow != null && fast != null && fast.next != null) {
+            fast = fast.next.next;
+            slow = slow.next;
+            if (slow == fast) {
+                removeLoop(head, fast);
+                break;
+            }
+        }
+    }
+
+    private void removeLoop(Node head, Node loopNode) {
+        Node headNode = this.head;
+        while (true) {
+            Node curr = loopNode;
+            while (curr.next != loopNode && curr.next != headNode) {
+                curr = curr.next;
+            }
+            if (curr.next == headNode) {
+                curr.next = null;
+                return;
+            }
+            headNode = headNode.next;
+        }
+    }
+
+    public int lengthOfLongestPalindromeInList() {
+        //https://www.geeksforgeeks.org/length-longest-palindrome-list-linked-list-using-o1-extra-space/
+        return 0;
+    }
+
+    public void moveAllOccurrencesOfKeyToEnd(int key) {
+        if (head == null) {
+            return;
+        }
+        Node x = head;
+        Node curr = head;
+        Node node = null;
+        while (curr != null && curr.data == key) {
+            Node currNext = curr.next;
+            curr.next = node;
+            node = curr;
+            curr = currNext;
+        }
+        head = curr;
+
+        Node prev = null;
+        while (curr != null) {
+            if (curr.data != key) {
+                prev = curr;
+                curr = curr.next;
+            } else {
+                Node currNext = curr.next;
+                curr.next = node;
+                node = curr;
+                prev.next = currNext;
+                curr = currNext;
+            }
+        }
+        prev.next = node;
+    }
+
+    public void removeAllOccurrencesOfDuplicatesFromSortedLL() {
+        Node dummy = new Node(0);
+        dummy.next = head;
+        Node curr = head;
+        Node prev = dummy;
+
+        while (curr != null && curr.next != null) {
+            if (curr.next.data != curr.data) {
+                prev = curr;
+                curr = curr.next;
+            } else if (curr.next.data == curr.data) {
+                curr = removeAllOccurrencesNodesUtil(curr);
+                if (prev != null) {
+                    prev.next = curr;
+                }
+            }
+        }
+        head = dummy.next;
+    }
+
+    private Node removeAllOccurrencesNodesUtil(Node curr) {
+        int data = curr.data;
+        while (curr != null && curr.data == data) {
+            curr = curr.next;
+        }
+        return curr;
+    }
+
 
 }

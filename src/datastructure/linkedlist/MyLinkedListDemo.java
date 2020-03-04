@@ -3,19 +3,17 @@ package datastructure.linkedlist;
 public class MyLinkedListDemo {
     public static void main(String[] args) {
         MyLinkedList mll = new MyLinkedList();
-        mll.pushToEnd(1);
-        mll.pushToEnd(1);
-        mll.pushToEnd(0);
-        mll.pushToEnd(0);
-        mll.pushToEnd(0);
-        mll.pushToEnd(1);
+        mll.pushToEnd(23);
+        mll.pushToEnd(28);
+        mll.pushToEnd(28);
+        mll.pushToEnd(35);
+        mll.pushToEnd(49);
+        mll.pushToEnd(49);
+        mll.pushToEnd(53);
+        mll.pushToEnd(53);
 
-        MyLinkedList mll2 = new MyLinkedList();
-        mll2.pushToEnd(3);
-        mll2.pushToEnd(1);
-        mll2.pushToEnd(2);
 
-        mll.subtractTwoNumbersRepresentedAsLinkedList(mll2);
-        //mll.printList();
+        mll.removeAllOccurrencesOfDuplicatesFromSortedLL();
+        mll.printList();
     }
 }
