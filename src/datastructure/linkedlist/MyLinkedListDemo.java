@@ -1,19 +1,19 @@
 package datastructure.linkedlist;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class MyLinkedListDemo {
     public static void main(String[] args) {
         MyLinkedList mll = new MyLinkedList();
-        mll.pushToEnd(23);
-        mll.pushToEnd(28);
-        mll.pushToEnd(28);
-        mll.pushToEnd(35);
-        mll.pushToEnd(49);
-        mll.pushToEnd(49);
-        mll.pushToEnd(53);
-        mll.pushToEnd(53);
+        mll.pushToEnd(0);
+        mll.pushToEnd(0);
+        mll.pushToEnd(1);
 
 
-        mll.removeAllOccurrencesOfDuplicatesFromSortedLL();
-        mll.printList();
+        MyLinkedList mll2 = new MyLinkedList();
+        mll2.pushToEnd(1);
+
+        mll.subtractTwoNumbersRepresentedAsLinkedList(mll2);
     }
 }

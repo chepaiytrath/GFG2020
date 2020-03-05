@@ -1,5 +1,6 @@
 package datastructure.linkedlist;
 
+import java.util.List;
 import java.util.Stack;
 
 public class MyLinkedList {
@@ -1212,6 +1213,7 @@ public class MyLinkedList {
             curr = curr.next;
         }
     }
+
     //20200304
     public boolean checkIfLinkedListWithLoopIsPalindrome() {
         //https://www.geeksforgeeks.org/check-linked-list-loop-palindrome-not/
@@ -1317,5 +1319,83 @@ public class MyLinkedList {
         return curr;
     }
 
+    public void removeEveryKthNode(int k) {
+        if (k == 1 || head == null) {
+            head = null;
+            return;
+        }
+        Node curr = head;
+        Node prev = null;
+        int count = 0;
+        while (curr != null) {
+            if (++count == k) {
+                prev.next = curr.next;
+                count = 0;
+            } else {
+                prev = curr;
+            }
+            curr = curr.next;
+        }
+    }
 
+    public MyLinkedList mergeTwoSortedLinkedListIteratively(MyLinkedList other) {
+        Node first = head;
+        Node second = other.head;
+        Node dummy = new Node(0);
+        Node currDummy = dummy;
+        while (first != null && second != null) {
+            if (first.data < second.data) {
+                Node firstNext = first.next;
+                currDummy.next = first;
+                first = firstNext;
+            } else {
+                Node secondNext = second.next;
+                currDummy.next = second;
+                second = secondNext;
+            }
+            currDummy = currDummy.next;
+        }
+        if (first == null) {
+            currDummy.next = second;
+        }
+        if (second == null) {
+            currDummy.next = first;
+        }
+        MyLinkedList result = new MyLinkedList(dummy.next);
+        return result;
+    }
+
+    public MyLinkedList mergeTwoSortedLinkedListRecursively(MyLinkedList other) {
+        MyLinkedList result = new MyLinkedList(mergeTwoSortedLinkedListUtil(this.head, other.head));
+        return result;
+    }
+
+    private Node mergeTwoSortedLinkedListUtil(Node first, Node second) {
+        if (first == null) {
+            return second;
+        }
+        if (second == null) {
+            return first;
+        }
+        if (first.data < second.data) {
+            first.next = mergeTwoSortedLinkedListUtil(first.next, second);
+            return first;
+        } else {
+            second.next = mergeTwoSortedLinkedListUtil(first, second.next);
+            return second;
+        }
+    }
+
+    public MyLinkedList mergeKSortedLinkedLists(List<MyLinkedList> lol) {
+        int k = lol.size();
+        MyLinkedList response = null;
+        for (int i = 0; i < k; i++) {
+            if(response == null){
+                response = lol.get(i);
+            }else{
+                response = response.mergeTwoSortedLinkedListRecursively(lol.get(i));
+            }
+        }
+        return response;
+    }
 }
