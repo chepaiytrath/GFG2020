@@ -3,10 +3,10 @@ package datastructures.binarytree;
 import java.util.*;
 
 public class BinaryTree {
-    static class Node {
-        int data;
-        Node left;
-        Node right;
+    public static class Node {
+        public int data;
+        public Node left;
+        public Node right;
 
         @Override
         public String toString() {
@@ -15,23 +15,23 @@ public class BinaryTree {
                     '}';
         }
 
-        Node() {
+        public Node() {
         }
 
-        Node(int data) {
+        public Node(int data) {
             this.data = data;
             this.left = null;
             this.right = null;
         }
     }
 
-    Node root;
+    public Node root;
 
-    BinaryTree() {
+    public BinaryTree() {
         root = null;
     }
 
-    BinaryTree(int data) {
+    public BinaryTree(int data) {
         this.root = new Node(data);
     }
 
