@@ -19,6 +19,6 @@ public class BinaryTreeDemo {
         /*System.out.println("\nMorris InOrder traversal");
         tree.morrisInorderTraversal();*/
 
-        tree.levelOrderTraversalInSpiralFormUsingTwoStacks();
+        tree.levelOrderTraversalUsingRecursion();
     }
 }

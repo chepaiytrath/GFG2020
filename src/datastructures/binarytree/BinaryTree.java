@@ -259,13 +259,9 @@ public class BinaryTree {
         if (node == null) {
             return 0;
         }
-        int hLeft = height(node.left);
-        int hRight = height(node.right);
-        if (hLeft > hRight) {
-            return hLeft + 1;
-        } else {
-            return hRight + 1;
-        }
+        int hLeft = height(node.left) + 1;
+        int hRight = height(node.right) + 1;
+        return hLeft > hRight ? hLeft : hRight;
     }
 
     public void levelOrderTraversalInSpiralFormUsingRecursion() {

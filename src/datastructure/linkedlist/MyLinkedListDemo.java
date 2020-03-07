@@ -1,8 +1,5 @@
 package datastructure.linkedlist;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class MyLinkedListDemo {
     public static void main(String[] args) {
         MyLinkedList mll = new MyLinkedList();
