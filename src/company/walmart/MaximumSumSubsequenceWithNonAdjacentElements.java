@@ -1,4 +1,5 @@
 //Dynamic Programming
+//Stickler Thief
 //https://www.geeksforgeeks.org/maximum-sum-such-that-no-two-elements-are-adjacent/
 package company.walmart;
 

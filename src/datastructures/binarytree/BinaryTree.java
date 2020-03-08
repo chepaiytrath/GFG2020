@@ -325,4 +325,134 @@ public class BinaryTree {
             }
         }
     }
+
+    static class QueueNode {
+        int dis;
+        Node node;
+
+        QueueNode(int dis, Node node) {
+            this.dis = dis;
+            this.node = node;
+        }
+
+        @Override
+        public String toString() {
+            return "QueueNode{" +
+                    "node=" + node +
+                    '}';
+        }
+    }
+
+    public void verticalView() {
+        Queue<QueueNode> q = new LinkedList<>();
+        q.add(new QueueNode(0, root));
+        Map<Integer, List<Integer>> map = new TreeMap<>();
+        while (!q.isEmpty()) {
+            QueueNode popped = q.poll();
+            if (popped.node.left != null) {
+                q.add(new QueueNode(popped.dis - 1, popped.node.left));
+            }
+            if (popped.node.right != null) {
+                q.add(new QueueNode(popped.dis + 1, popped.node.right));
+            }
+            List<Integer> listVal = map.get(popped.dis);
+            if (listVal == null) {
+                listVal = new ArrayList<>();
+                map.put(popped.dis, listVal);
+            }
+            listVal.add(popped.node.data);
+        }
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.print(entry.getValue());
+        }
+    }
+
+    public void topView() {
+        Queue<QueueNode> q = new LinkedList<>();
+        q.add(new QueueNode(0, root));
+        Map<Integer, Integer> map = new TreeMap<>();
+        while (!q.isEmpty()) {
+            QueueNode popped = q.poll();
+            if (popped.node.left != null) {
+                q.add(new QueueNode(popped.dis - 1, popped.node.left));
+            }
+            if (popped.node.right != null) {
+                q.add(new QueueNode(popped.dis + 1, popped.node.right));
+            }
+            Integer val = map.get(popped.dis);
+            if (val == null) {
+                map.put(popped.dis, Integer.valueOf(popped.node.data));
+            }
+        }
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.print(entry.getValue() + " ");
+        }
+    }
+
+    static class ViewNode {
+        int data;
+        int level;
+
+        ViewNode(int data, int level) {
+            this.data = data;
+            this.level = level;
+        }
+    }
+
+    public void topViewRecursively() {
+        Map<Integer, ViewNode> visited = new TreeMap<>();
+        topViewRecursiveUtil(root, 0, 0, visited);
+        for (Map.Entry entry : visited.entrySet()) {
+            System.out.print(((ViewNode) entry.getValue()).data + " ");
+        }
+    }
+
+    private void topViewRecursiveUtil(Node node, int dis, int level, Map<Integer, ViewNode> visited) {
+        if (node == null) {
+            return;
+        }
+        if (visited.get(dis) == null || visited.get(dis).level > level) {
+            visited.put(dis, new ViewNode(node.data, level));
+        }
+        topViewRecursiveUtil(node.left, dis - 1, level + 1, visited);
+        topViewRecursiveUtil(node.right, dis + 1, level + 1, visited);
+    }
+
+    public void bottomView() {
+        Queue<QueueNode> q = new LinkedList<>();
+        q.add(new QueueNode(0, root));
+        Map<Integer, Integer> map = new TreeMap<>();
+        while (!q.isEmpty()) {
+            QueueNode popped = q.poll();
+            if (popped.node.left != null) {
+                q.add(new QueueNode(popped.dis - 1, popped.node.left));
+            }
+            if (popped.node.right != null) {
+                q.add(new QueueNode(popped.dis + 1, popped.node.right));
+            }
+            map.put(popped.dis, Integer.valueOf(popped.node.data));
+        }
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.print(entry.getValue() + " ");
+        }
+    }
+
+    public void bottomViewRecursively() {
+        Map<Integer, ViewNode> visited = new TreeMap<>();
+        bottomViewRecursiveUtil(root, 0, 0, visited);
+        for (Map.Entry entry : visited.entrySet()) {
+            System.out.print(((ViewNode) entry.getValue()).data + " ");
+        }
+    }
+
+    private void bottomViewRecursiveUtil(Node node, int dis, int level, Map<Integer, ViewNode> visited) {
+        if (node == null) {
+            return;
+        }
+        if (visited.get(dis) == null || visited.get(dis).level <= level) {
+            visited.put(dis, new ViewNode(node.data, level));
+        }
+        bottomViewRecursiveUtil(node.left, dis - 1, level + 1, visited);
+        bottomViewRecursiveUtil(node.right, dis + 1, level + 1, visited);
+    }
 }
