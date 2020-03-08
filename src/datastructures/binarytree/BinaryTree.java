@@ -455,4 +455,24 @@ public class BinaryTree {
         bottomViewRecursiveUtil(node.left, dis - 1, level + 1, visited);
         bottomViewRecursiveUtil(node.right, dis + 1, level + 1, visited);
     }
+
+    public void leftViewRecursively() {
+        Map<Integer, Integer> map = new TreeMap<>();
+        leftViewRecursiveUtil(root, 0, map);
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.print(entry.getValue()+ " ");
+        }
+    }
+
+    private void leftViewRecursiveUtil(Node node, int level, Map<Integer, Integer> map) {
+        if (node == null) {
+            return;
+        }
+
+        if (map.get(level) == null) {
+            map.put(level, node.data);
+        }
+        leftViewRecursiveUtil(node.left, level + 1, map);
+        leftViewRecursiveUtil(node.right, level + 1, map);
+    }
 }
