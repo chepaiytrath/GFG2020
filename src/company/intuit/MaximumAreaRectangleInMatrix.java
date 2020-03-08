@@ -3,7 +3,7 @@ package company.intuit;
 
 import java.util.Stack;
 
-class MaxRectangle {
+class MaximumAreaRectangleInMatrix {
     static int maxHist(int R, int C, int row[]) {
         Stack<Integer> result = new Stack<Integer>();
         int top_val;
@@ -48,7 +48,8 @@ class MaxRectangle {
     public static void main(String[] args) {
         int R = 4;
         int C = 4;
-        int A[][] = {{0, 1, 1, 0},
+        int A[][] ={
+                {0, 1, 1, 0},
                 {1, 1, 1, 1},
                 {1, 1, 1, 1},
                 {1, 1, 0, 0},
