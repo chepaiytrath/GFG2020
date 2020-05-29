@@ -4,10 +4,10 @@ public class LargestWordInDictionaryByDeletingCharacaters {
     public static void main(String[] args) {
         String[] dict = {"ale", "apple", "monkey", "plea"};
         String str = "abpcplea";
-        System.out.println(findLargestWordInDictionaryByDeletingCharacaters(dict, str));
+        System.out.println(findLargestWordInDictionaryByDeletingCharacters(dict, str));
     }
 
-    private static String findLargestWordInDictionaryByDeletingCharacaters(String[] dict, String str) {
+    private static String findLargestWordInDictionaryByDeletingCharacters(String[] dict, String str) {
         int matchedLength = 0;
         String result = "";
         for (String word : dict) {

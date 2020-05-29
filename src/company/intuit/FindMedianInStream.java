@@ -24,8 +24,8 @@ class FindMedianInStream {
         else if (ascending.size() == 0 || num >= ascending.peek())
             ascending.add(num);
         else
-            //put the num in an arbitrary heap
-            descending.add(num);
+            //put the num in any of the two heaps
+            ascending.add(num);
         balance();
     }
 

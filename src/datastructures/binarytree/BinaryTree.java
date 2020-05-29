@@ -10,9 +10,7 @@ public class BinaryTree {
 
         @Override
         public String toString() {
-            return "Node{" +
-                    "data=" + data +
-                    '}';
+            return data+" ";
         }
 
         public Node() {
@@ -76,15 +74,6 @@ public class BinaryTree {
         }
     }
 
-    private Node findPreorderPredecessor(Node node) {
-        Node curr = node;
-        Node left = curr.left;
-        while (left.right != null && left.right != curr) {
-            left = left.right;
-        }
-        return left;
-    }
-
     public void printInorder() {
         printInorder(root);
     }
@@ -96,27 +85,6 @@ public class BinaryTree {
         printInorder(node.left);
         visit(node);
         printInorder(node.right);
-    }
-
-    public void printInorderWithStackWithoutRecursion() {
-        //Similar solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
-        Stack<Node> st = new Stack<>();
-        Node curr = root;
-        while (curr != null) {
-            st.push(curr);
-            curr = curr.left;
-        }
-        while (!st.isEmpty()) {
-            Node node = st.pop();
-            visit(node);
-            if (node.right != null) {
-                curr = node.right;
-                while (curr != null) {
-                    st.push(curr);
-                    curr = curr.left;
-                }
-            }
-        }
     }
 
     public void morrisInorderTraversal() {
@@ -144,15 +112,6 @@ public class BinaryTree {
         }
     }
 
-    private Node findInorderPredecessor(Node node) {
-        Node curr = node;
-        Node left = curr.left;
-        while (left.right != null && left.right != curr) {
-            left = left.right;
-        }
-        return left;
-    }
-
     public void printPostorder() {
         printPostorder(root);
     }
@@ -166,6 +125,50 @@ public class BinaryTree {
         visit(node);
     }
 
+
+    //findPredecessors start
+    private Node findPreorderPredecessor(Node node) {
+        Node curr = node;
+        Node left = curr.left;
+        while (left.right != null && left.right != curr) {
+            left = left.right;
+        }
+        return left;
+    }
+
+    private Node findInorderPredecessor(Node node) {
+        Node curr = node;
+        Node left = curr.left;
+        while (left.right != null && left.right != curr) {
+            left = left.right;
+        }
+        return left;
+    }
+    //findPredecessors end
+
+    public void printInorderWithStackWithoutRecursion() {
+        //Similar solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
+        Stack<Node> st = new Stack<>();
+        Node curr = root;
+        while (curr != null) {
+            st.push(curr);
+            curr = curr.left;
+        }
+        while (!st.isEmpty()) {
+            Node node = st.pop();
+            visit(node);
+            if (node.right != null) {
+                curr = node.right;
+                while (curr != null) {
+                    st.push(curr);
+                    curr = curr.left;
+                }
+            }
+        }
+    }
+
+
+    //replaceNodeWithSumOfInorderPredecessorAndSuccessor starts
     static class INT {
         int data;
     }
@@ -198,26 +201,28 @@ public class BinaryTree {
         i.data++;
         replaceNodeWithSumOfInorderUtil(list, node.right, i);
     }
+    //replaceNodeWithSumOfInorderPredecessorAndSuccessor ends
+
 
     static int count = 0;
     static Node result = new Node();
 
-    public Node populateNthNodeOfInorderTraversal(int k) {
-        populateNthNodeOfInorderUtil(root, k, result);
+    public Node findNthNodeOfInorderTraversal(int k) {
+        findNthNodeOfInorderTraversalUtil(root, k, result);
         return result;
     }
 
-    private void populateNthNodeOfInorderUtil(Node node, int k, Node result) {
+    private void findNthNodeOfInorderTraversalUtil(Node node, int k, Node result) {
         if (node == null) {
             return;
         }
         if (count <= k) {
-            populateNthNodeOfInorderUtil(node.left, k, result);
+            findNthNodeOfInorderTraversalUtil(node.left, k, result);
             count++;
             if (count == k && result.data == 0) {
                 result.data = node.data;
             }
-            populateNthNodeOfInorderUtil(node.right, k, result);
+            findNthNodeOfInorderTraversalUtil(node.right, k, result);
         }
     }
 
@@ -266,10 +271,11 @@ public class BinaryTree {
 
     public void levelOrderTraversalInSpiralFormUsingRecursion() {
         int height = height(root);
-        boolean dir = false;
+        boolean dir = true;
         for (int i = 1; i <= height; i++) {
-            printGivenLevelAlternateOrder(root, i, dir);
             dir = !dir;
+            printGivenLevelAlternateOrder(root, i, dir);
+            System.out.println();
         }
     }
 
@@ -287,6 +293,20 @@ public class BinaryTree {
                 printGivenLevelAlternateOrder(node.right, level - 1, dir);
                 printGivenLevelAlternateOrder(node.left, level - 1, dir);
             }
+        }
+    }
+
+    public void levelOrderTraversalWithDirectionChangeAfterEveryTwoLevels() {
+        int height = height(root);
+        boolean dir = true;
+        int prev = 1;
+        for (int i = 1; i <= height; i++) {
+            if (i - prev == 2) {
+                prev = i;
+                dir = !dir;
+            }
+            printGivenLevelAlternateOrder(root, i, dir);
+            System.out.println();
         }
     }
 
@@ -326,6 +346,8 @@ public class BinaryTree {
         }
     }
 
+
+    //Views start
     static class QueueNode {
         int dis;
         Node node;
@@ -343,7 +365,17 @@ public class BinaryTree {
         }
     }
 
-    public void verticalView() {
+    static class ViewNode {
+        int data;
+        int level;
+
+        ViewNode(int data, int level) {
+            this.data = data;
+            this.level = level;
+        }
+    }
+
+    public void verticalViewWithQueue() {
         Queue<QueueNode> q = new LinkedList<>();
         q.add(new QueueNode(0, root));
         Map<Integer, List<Integer>> map = new TreeMap<>();
@@ -367,7 +399,7 @@ public class BinaryTree {
         }
     }
 
-    public void topView() {
+    public void topViewWithQueue() {
         Queue<QueueNode> q = new LinkedList<>();
         q.add(new QueueNode(0, root));
         Map<Integer, Integer> map = new TreeMap<>();
@@ -386,16 +418,6 @@ public class BinaryTree {
         }
         for (Map.Entry entry : map.entrySet()) {
             System.out.print(entry.getValue() + " ");
-        }
-    }
-
-    static class ViewNode {
-        int data;
-        int level;
-
-        ViewNode(int data, int level) {
-            this.data = data;
-            this.level = level;
         }
     }
 
@@ -418,7 +440,7 @@ public class BinaryTree {
         topViewRecursiveUtil(node.right, dis + 1, level + 1, visited);
     }
 
-    public void bottomView() {
+    public void bottomViewWithQueue() {
         Queue<QueueNode> q = new LinkedList<>();
         q.add(new QueueNode(0, root));
         Map<Integer, Integer> map = new TreeMap<>();
@@ -460,11 +482,12 @@ public class BinaryTree {
         Map<Integer, Integer> map = new TreeMap<>();
         leftViewRecursiveUtil(root, 0, map);
         for (Map.Entry entry : map.entrySet()) {
-            System.out.print(entry.getValue()+ " ");
+            System.out.print(entry.getValue() + " ");
         }
     }
 
     private void leftViewRecursiveUtil(Node node, int level, Map<Integer, Integer> map) {
+        // Traverse in preorder manner
         if (node == null) {
             return;
         }
@@ -475,4 +498,68 @@ public class BinaryTree {
         leftViewRecursiveUtil(node.left, level + 1, map);
         leftViewRecursiveUtil(node.right, level + 1, map);
     }
+
+    public void rightViewRecursively() {
+        Map<Integer, Integer> map = new TreeMap<>();
+        rightViewRecursiveUtil(root, 0, map);
+        for (Map.Entry entry : map.entrySet()) {
+            System.out.print(entry.getValue() + " ");
+        }
+    }
+
+    private void rightViewRecursiveUtil(Node node, int level, Map<Integer, Integer> map) {
+        // Traverse in preorder manner
+        if (node == null) {
+            return;
+        }
+
+        map.put(level, node.data);
+
+        rightViewRecursiveUtil(node.left, level + 1, map);
+        rightViewRecursiveUtil(node.right, level + 1, map);
+    }
+
+    public void rightViewUsingQueue() {
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            int size = q.size();
+            for (int i = 1; i <= size; i++) {
+                Node temp = q.poll();
+                if (i == size) {
+                    System.out.print(temp.data + " ");
+                }
+                if (temp.left != null) {
+                    q.add(temp.left);
+                }
+                if (temp.right != null) {
+                    q.add(temp.right);
+                }
+            }
+        }
+    }
+
+    public void diagonalViewUsingRecursively() {
+        Map<Integer, List<Node>> map = new TreeMap<>();
+        diagonalViewUsingRecursiveUtil(root, 0, map);
+        for (Map.Entry e : map.entrySet()) {
+            System.out.println(e.getValue());
+        }
+    }
+
+    private void diagonalViewUsingRecursiveUtil(Node node, int dis, Map<Integer, List<Node>> map) {
+        if (node == null) {
+            return;
+        }
+        List<Node> list = map.get(dis);
+        if (list == null) {
+            list = new ArrayList<>();
+        }
+        list.add(node);
+        map.put(dis, list);
+
+        diagonalViewUsingRecursiveUtil(node.left, dis + 1, map);
+        diagonalViewUsingRecursiveUtil(node.right, dis, map);
+    }
+    //Views end
 }

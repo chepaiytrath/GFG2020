@@ -10,9 +10,11 @@ public class TotalCountOfPathsWithOnlyUpOrRightMovement {
     }
 
     private static int findTotalNumberOfPathsRecursively(int[][] mat, int i, int j, int[][] memo) {
+        //Done for reducing overlapping subwraps
         if (memo[i][j] != 0) {
             return memo[i][j];
         }
+
         if (i == 0 && j == 0) {
             return 0;
         }

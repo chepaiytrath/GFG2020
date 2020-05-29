@@ -240,7 +240,8 @@ public class MyLinkedList {
         return false;
     }
 
-    public boolean checkIfPalindrome() {
+    public boolean checkIfPalindromeIteratively() {
+        //Push all elements to stack. Then pop one by one and compare with each element of the list.
         Node curr = head;
         Stack<Integer> s = new Stack<>();
         while (curr != null) {
@@ -263,6 +264,7 @@ public class MyLinkedList {
     }
 
     private boolean checkIfPalindromeRecursivelyUtil(Node right) {
+        //In each stack, left = head. Move left to its next only if left.data == right.data
         left = head;
         if (right == null) {
             return true;
@@ -276,7 +278,7 @@ public class MyLinkedList {
         return isP2;
     }
 
-    public void removeDuplicatesFromSortedLinkedListIteratively() {
+    public void removeDuplicatesFromSortedLLIteratively() {
         if (head == null) {
             return;
         }
@@ -367,7 +369,7 @@ public class MyLinkedList {
     }
 
     //20200226
-    public MyLinkedList findIntersectionInSortedListIteratively(MyLinkedList other) {
+    public MyLinkedList findIntersectionInSortedLLIteratively(MyLinkedList other) {
         if (other == null) {
             return new MyLinkedList();
         }
@@ -390,7 +392,7 @@ public class MyLinkedList {
         return newMll;
     }
 
-    public MyLinkedList findIntersectionInSortedListRecursively(MyLinkedList other) {
+    public MyLinkedList findIntersectionInSortedLLRecursively(MyLinkedList other) {
         //DID IN ONE SHOT
         Node newNode = new Node(0);
         intersectionUtil(this.head, other.head, newNode);
@@ -468,7 +470,7 @@ public class MyLinkedList {
             if (curr.data % 2 == 0 && prev != null) {
                 prev.next = next;
                 //Move curr to last even position and Update pos to that last index
-                pos = positionEvenNode(pos, curr);
+                pos = placeEvenNode(pos, curr);
             } else {
                 prev = curr;
             }
@@ -476,7 +478,7 @@ public class MyLinkedList {
         }
     }
 
-    private Node positionEvenNode(Node pos, Node curr) {
+    private Node placeEvenNode(Node pos, Node curr) {
         if (pos == null) {
             curr.next = head;
             head = curr;
@@ -500,6 +502,8 @@ public class MyLinkedList {
     }
 
     private void reverseUtil(Node node) {
+        //Recursively move till last node. Mark it head and tail both.
+        //In each rollback, point tail.next to node and tail = tail.next, so that last rollback makes first node as tail
         tail = node;
         if (node.next == null) {
             head = node;
@@ -567,8 +571,8 @@ public class MyLinkedList {
         return this;
     }
 
-    private Node reverseEveryKNodesUtil(Node head, int k) {
-        Node curr = head;
+    private Node reverseEveryKNodesUtil(Node node, int k) {
+        Node curr = node;
         Node prev = null;
         Node next = null;
         for (int i = 0; i < k && curr != null; i++) {
@@ -578,7 +582,7 @@ public class MyLinkedList {
             curr = next;
         }
         if (curr != null) {
-            head.next = reverseEveryKNodesUtil(curr, k);
+            node.next = reverseEveryKNodesUtil(curr, k);
         }
         return prev;
     }
