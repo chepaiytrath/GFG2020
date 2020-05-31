@@ -1,16 +1,19 @@
 package datastructures.binarytree;
 
+import datastructures.binarytree.BinaryTree.Node;
+
 public class BinaryTreeDemo {
     public static void main(String[] args) {
         BinaryTree tree = new BinaryTree();
-        tree.root = new BinaryTree.Node(1);
-        BinaryTree.Node root = tree.root;
-        root.left = new BinaryTree.Node(2);
-        root.right = new BinaryTree.Node(3);
-        root.left.left = new BinaryTree.Node(4);
-        root.left.right = new BinaryTree.Node(5);
-        root.right.left = new BinaryTree.Node(6);
-        root.right.right = new BinaryTree.Node(7);
+        tree.root = new Node(1);
+        Node root = tree.root;
+        root.left = new Node(2);
+        root.left.left = new Node(4);
+        root.left.right = new Node(5);
+        root.left.right.left = new Node(6);
+        root.right = new Node(3);
+        root.right.right = new Node(7);
+        root.right.right.right = new Node(8);
 
 
 
@@ -25,6 +28,6 @@ public class BinaryTreeDemo {
         root.right.right.right.left = new BinaryTree.Node(16);
         root.right.right.right.right = new BinaryTree.Node(17);*/
 
-        tree.diagonalViewUsingRecursively();
+//        tree.diagonalViewUsingRecursively();
     }
 }

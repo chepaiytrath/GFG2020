@@ -15,6 +15,6 @@ public class BottomViewOfBinaryTree {
         root.right.left.right = new BinaryTree.Node(8);
         root.right.right = new BinaryTree.Node(7);
 
-        tree.bottomViewRecursively();
+        //tree.bottomViewWithRecursion();
     }
 }
