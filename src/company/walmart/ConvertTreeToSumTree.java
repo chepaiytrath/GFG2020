@@ -14,11 +14,11 @@ public class ConvertTreeToSumTree {
         root.right.left = new BinaryTree.Node(7);
         root.right.right = new BinaryTree.Node(5);
 
-        tree.printInorder();
+        //tree.printInorder();
         ConvertTreeToSumTree mt = new ConvertTreeToSumTree();
         System.out.println();
         mt.convertTreeToSumTree(tree.root);
-        tree.printInorder();
+        //tree.printInorder();
     }
 
     private int convertTreeToSumTree(BinaryTree.Node node) {

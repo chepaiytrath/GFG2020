@@ -12,11 +12,11 @@ public class FixBST {
         root.left.left = new BinaryTree.Node(1);
         root.left.right = new BinaryTree.Node(4);
 
-        tree.printInorder();
+        //tree.printInorder();
         System.out.println();
         FixBST f = new FixBST();
         f.fixBST(tree);
-        tree.printInorder();
+        //tree.printInorder();
     }
 
     BinaryTree.Node prev, first, last, middle;

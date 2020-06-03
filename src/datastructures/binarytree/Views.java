@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 import java.util.TreeMap;
+import java.util.function.Function;
 
 public class Views {
     public void topViewWithQueue(BinaryTree tree) {
@@ -143,5 +144,20 @@ public class Views {
 
         rightViewWithRecursionUtil(node.left, level + 1, map);
         rightViewWithRecursionUtil(node.right, level + 1, map);
+    }
+
+    public void bottomRightViewWithRecursion(BinaryTree tree) {
+        TreeMap<Integer, Integer> map = new TreeMap<>();
+        bottomRightViewWithRecursionUtil(tree.root, 1, map);
+        map.values().forEach(System.out::println);
+    }
+
+    private void bottomRightViewWithRecursionUtil(Node node, int level, TreeMap<Integer, Integer> map) {
+        if (node == null) {
+            return;
+        }
+        map.put(level, node.data);
+        bottomRightViewWithRecursionUtil(node.left, level + 1, map);
+        bottomRightViewWithRecursionUtil(node.right, level, map);
     }
 }

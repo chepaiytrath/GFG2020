@@ -153,20 +153,25 @@ public class Traversals {
     public void printPostOrderWithOneStacksWithoutRecursion(BinaryTree tree) {
         Node curr = tree.root;
         Stack<Node> st = new Stack<>();
-        while(!st.isEmpty() || curr != null){
-            if(curr != null){
+        while (!st.isEmpty() || curr != null) {
+            //Keep adding left children till null
+            if (curr != null) {
                 st.add(curr);
                 curr = curr.left;
-            }else{
+            } else {
+                //When null, check if top of stack has right child to explore
                 Node right = st.peek().right;
-                if(right == null){
+                if (right == null) {
+                    //Pop the stack top element and print
                     Node popped = st.pop();
                     System.out.println(popped.data);
-                    while(!st.isEmpty() && popped == st.peek().right){
+                    //Pop elements from stack whle popped element is right child of stack's top element so as not to fall into an infinite loop
+                    while (!st.isEmpty() && popped == st.peek().right) {
                         popped = st.pop();
                         System.out.println(popped.data);
                     }
-                }else{
+                } else {
+                    //Move curr to right child to explore and in next loop keep adding left children till null
                     curr = right;
                 }
             }
@@ -202,22 +207,22 @@ public class Traversals {
         Node node = tree.root;
         q.add(node);
 
-        while(!q.isEmpty()){
+        while (!q.isEmpty()) {
             Node n = q.poll();
             st.add(n);
-            if(n.right != null){
+            if (n.right != null) {
                 q.add(n.right);
             }
-            if(n.left != null){
+            if (n.left != null) {
                 q.add(n.left);
             }
         }
-        while(!st.isEmpty()){
-            System.out.print(st.pop()+" ");
+        while (!st.isEmpty()) {
+            System.out.print(st.pop() + " ");
         }
     }
 
-    public void reverseLevelOrderTraversalWithRecursion(BinaryTree tree){
+    public void reverseLevelOrderTraversalWithRecursion(BinaryTree tree) {
         int height = height(tree.root);
         for (int i = height; i >= 1; i--) {
             printGivenLevel(tree.root, i);
@@ -247,8 +252,9 @@ public class Traversals {
     }
 
     public void levelOrderTraversalInSpiralFormWithRecursion(BinaryTree tree) {
+        //Zig Zag Traversal
         int height = height(tree.root);
-        boolean dir = true;
+        boolean dir = false;
         for (int i = 1; i <= height; i++) {
             dir = !dir;
             printGivenLevelAlternateOrder(tree.root, i, dir);
@@ -323,22 +329,52 @@ public class Traversals {
         }
     }
 
+    public void middleToUpDownTraversal(BinaryTree tree) {
+        int height = height(tree.root);
+        int middleLevel = (height / 2) + 1;
+        int count = 1;
+        printGivenLevel(tree.root, middleLevel);
+        System.out.println();
+        while (count >= 1 && count <= height) {
+            printGivenLevel(tree.root, middleLevel - count);
+            System.out.println();
+            printGivenLevel(tree.root, middleLevel + count);
+            System.out.println();
+            count++;
+        }
+    }
+
     public void diagonalOrderTraversalWithRecursion(BinaryTree tree) {
         Map<Integer, List<Integer>> map = new TreeMap<>();
         diagonalOrderTraversalWithRecursionUtil(tree.root, 0, map);
-        for (Map.Entry e : map.entrySet()) {
+        /*for (Map.Entry e : map.entrySet()) {
             System.out.println(e.getValue());
-        }
+        }*/
+        map.values().forEach(System.out::println);
     }
 
     private void diagonalOrderTraversalWithRecursionUtil(Node node, int dis, Map<Integer, List<Integer>> map) {
         if (node == null) {
             return;
         }
-        List<Integer> list = map.computeIfAbsent(dis, k-> new ArrayList<>());
+        List<Integer> list = map.computeIfAbsent(dis, k -> new ArrayList<>());
         list.add(node.data);
         diagonalOrderTraversalWithRecursionUtil(node.left, dis + 1, map);
         diagonalOrderTraversalWithRecursionUtil(node.right, dis, map);
+    }
+
+    public void diagonalOrderTraversalWithoutRecursion(BinaryTree tree) {
+        Queue<Node> q = new LinkedList<>();
+        q.add(tree.root);
+        Node curr = tree.root;
+        while (!q.isEmpty()) {
+            curr = q.poll();
+            while (curr != null) {
+                System.out.print(curr + " ");
+                q.add(curr.left);
+                curr = curr.right;
+            }
+        }
     }
 
     public void verticalOrderTraversalWithQueue(BinaryTree tree) {
@@ -378,5 +414,138 @@ public class Traversals {
         list.add(node.data);
         verticalOrderTraversalWithRecursionUtil(node.left, i - 1, map);
         verticalOrderTraversalWithRecursionUtil(node.right, i + 1, map);
+    }
+
+    public void boundaryTraversalCompleteBinaryTree(BinaryTree tree) {
+        if (tree.root != null) {
+            System.out.print(tree.root.data + " ");
+            printLeftBoundaryCompleteBinaryTree(tree.root.left);
+            printLeafNodesCompleteBinaryTree(tree.root);
+            printRightBoundaryCompleteBinaryTree(tree.root.right);
+        }
+    }
+
+    private void printLeftBoundaryCompleteBinaryTree(Node node) {
+        while (node != null && node.left != null) {
+            System.out.print(node.data + " ");
+            node = node.left;
+        }
+    }
+
+    private void printLeafNodesCompleteBinaryTree(Node node) {
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(node);
+        while (!queue.isEmpty()) {
+            Node temp = queue.poll();
+            if (temp.left == null && temp.right == null) {
+                System.out.print(temp.data + " ");
+            }
+            if (temp.left != null) {
+                queue.add(temp.left);
+            }
+            if (temp.right != null) {
+                queue.add(temp.right);
+            }
+        }
+    }
+
+    private void printRightBoundaryCompleteBinaryTree(Node node) {
+        List<Node> list = new ArrayList<>();
+        while (node != null && node.right != null) {
+            list.add(node);
+            node = node.right;
+        }
+        Collections.reverse(list);
+        /*for (Node x : list) {
+            System.out.println(x.data + " ");
+        }*/
+        list.forEach(n -> System.out.println(n.data + " "));
+    }
+
+    public void boundaryTraversalIncompleteBinaryTree(BinaryTree tree) {
+        if (tree.root != null) {
+            System.out.print(tree.root.data + " ");
+            printLeftBoundaryIncompleteBinaryTree(tree.root.left);
+            printLeafNodesIncompleteBinaryTree(tree.root.left);
+            printLeafNodesIncompleteBinaryTree(tree.root.right);
+            printRightBoundaryIncompleteBinaryTree(tree.root.right);
+        }
+    }
+
+    private void printLeftBoundaryIncompleteBinaryTree(Node node) {
+        if (node == null) {
+            return;
+        }
+        if (node.left != null) {
+            System.out.print(node.data + " ");
+            printLeftBoundaryIncompleteBinaryTree(node.left);
+        } else if (node.right != null) {
+            System.out.print(node.data + " ");
+            printLeftBoundaryIncompleteBinaryTree(node.right);
+        }
+    }
+
+    private void printLeafNodesIncompleteBinaryTree(Node node) {
+        if (node == null) {
+            return;
+        }
+        printLeafNodesIncompleteBinaryTree(node.left);
+        if (node.left == null && node.right == null) {
+            System.out.print(node.data + " ");
+        }
+        printLeafNodesIncompleteBinaryTree(node.right);
+    }
+
+    private void printRightBoundaryIncompleteBinaryTree(Node node) {
+        if (node == null) {
+            return;
+        }
+        if (node.right != null) {
+            printRightBoundaryIncompleteBinaryTree(node.right);
+            System.out.print(node.data + " ");
+        } else if (node.left != null) {
+            printRightBoundaryIncompleteBinaryTree(node.left);
+            System.out.print(node.data + " ");
+        }
+    }
+
+    public void boundaryLevelOrderTraversal(BinaryTree tree) {
+        System.out.print(tree.root.data + "  ");
+        Queue<Node> queue = new LinkedList<>();
+        queue.add(tree.root);
+        int count = 0, limit = 1;
+        while (!queue.isEmpty()) {
+            List<Node> list = new ArrayList<>();
+            int newLimit = 0;
+            while (count < limit) {
+                Node n = queue.poll();
+                if (n.left != null) {
+                    list.add(n.left);
+                    newLimit++;
+                }
+                if (n.right != null) {
+                    list.add(n.right);
+                    newLimit++;
+                }
+                count++;
+            }
+            printList(list);
+            queue.addAll(list);
+            count = 0;
+            limit = newLimit;
+        }
+    }
+
+    private void printList(List<Node> list) {
+        int i = 0, j = list.size() - 1;
+        while (i < j) {
+            System.out.print(list.get(i) + " ");
+            System.out.print(list.get(j) + " ");
+            i++;
+            j--;
+        }
+        if (i == j) {
+            System.out.println(list.get(i));
+        }
     }
 }

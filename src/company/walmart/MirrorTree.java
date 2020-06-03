@@ -14,11 +14,11 @@ public class MirrorTree {
         root.right.left = new BinaryTree.Node(6);
         root.right.right = new BinaryTree.Node(7);
 
-        tree.printInorder();
+        //tree.printInorder();
         MirrorTree mt = new MirrorTree();
         System.out.println();
         mt.mirrorTree(tree);
-        tree.printInorder();
+        //tree.printInorder();
     }
 
     public void mirrorTree(BinaryTree tree){
