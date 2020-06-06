@@ -60,4 +60,8 @@ public class BinaryTree {
         this.root = new Node(data);
     }
 
+    public BinaryTree(Node root) {
+        this.root = root;
+    }
+
 }

@@ -93,7 +93,6 @@ public class Traversals {
                     curr = curr.right;
                 }
             }
-
         }
     }
 

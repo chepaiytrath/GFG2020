@@ -1,19 +1,14 @@
 package datastructures.binarytree;
 
-import datastructures.binarytree.BinaryTree.Node;
-
 public class BinaryTreeDemo {
     public static void main(String[] args) {
-        BinaryTree tree = new BinaryTree();
-        tree.root = new Node(1);
-        Node root = tree.root;
-        root.left = new Node(2);
-        root.left.right = new Node(5);
-        root.right = new Node(3);
-        root.right.right = new Node(4);
+        ConstructionsAndConversions c = new ConstructionsAndConversions();
+        /*int in[] = new int[]{4, 8, 10, 12, 14, 20, 22};
+        int level[] = new int[]{20, 8, 22, 4, 12, 10, 14};*/
 
-        Views t = new Views();
-        t.bottomRightViewWithRecursion(tree);
+        int in[] = new int[]{4, 5, 8, 7, 6, 2, 1, 9, 11, 13, 14, 10, 3, 12};
+        int level[] = new int[]{1, 2, 3, 4, 9, 10, 5, 10, 6, 11, 7, 13, 8, 14};
+        c.constructFromInorderAndLevelorder(in, level);
 
 /*        root.left.left.left = new BinaryTree.Node(8);
         root.left.left.right = new BinaryTree.Node(9);
