@@ -150,6 +150,20 @@ public class Traversals {
     }
 
     public void printPostOrderWithOneStacksWithoutRecursion(BinaryTree tree) {
+        /*BinaryTree tree = new BinaryTree(1);
+        tree.root.left = new Node(2);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.left.right.left = new Node(6);
+        tree.root.left.right.left.left = new Node(7);
+        tree.root.left.right.right = new Node(8);
+        tree.root.left.right.right.left = new Node(9);
+        tree.root.right = new Node(3);
+        tree.root.right.left = new Node(10);
+        tree.root.right.right = new Node(11);
+        tree.root.right.right.right = new Node(12);
+        tree.root.right.right.right.left = new Node(13);*/
+
         Node curr = tree.root;
         Stack<Node> st = new Stack<>();
         while (!st.isEmpty() || curr != null) {
@@ -172,6 +186,32 @@ public class Traversals {
                 } else {
                     //Move curr to right child to explore and in next loop keep adding left children till null
                     curr = right;
+                }
+            }
+        }
+    }
+
+    public void printPostOrderWithOneStacksWithoutRecursion2(BinaryTree tree) {
+        Stack<Node> st = new Stack<>();
+        Node n = tree.root;
+        while (n != null) {
+            st.add(n);
+            n = n.left;
+        }
+        while (!st.isEmpty()) {
+            Node node = st.peek();
+            if (node.right == null) {
+                Node popped = st.pop();
+                System.out.print(popped.data + " ");
+                while (!st.isEmpty() && popped == st.peek().right) {
+                    popped = st.pop();
+                    System.out.print(popped.data + " ");
+                }
+            } else {
+                Node rightNode = node.right;
+                while (rightNode != null) {
+                    st.add(rightNode);
+                    rightNode = rightNode.left;
                 }
             }
         }
