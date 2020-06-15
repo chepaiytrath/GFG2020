@@ -6,15 +6,14 @@ public class BinaryTreeDemo {
     public static void main(String[] args) {
         ConstructionsAndConversions c = new ConstructionsAndConversions();
         Traversals t = new Traversals();
-        BinaryTree tree = new BinaryTree(5);
-
+        BinaryTree tree = new BinaryTree(1);
         tree.root.left = new Node(1);
         tree.root.left.left = new Node(0);
-        tree.root.left.right = new Node(4);
-        tree.root.right = new Node(2);
-        tree.root.right.left = new Node(3);
-
-        c.convertToAncestorMatrix(tree);
+        tree.root.left.right = new Node(1);
+        tree.root.right = new Node(0);
+        tree.root.right.left = new Node(1);
+        tree.root.right.right = new Node(1);
+        c.convertBinaryTreeToTreeThatHoldsLogicalAndProperty(tree);
 
 /*        root.left.left.left = new BinaryTree.Node(8);
         root.left.left.right = new BinaryTree.Node(9);
