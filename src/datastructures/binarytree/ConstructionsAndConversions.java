@@ -405,8 +405,9 @@ public class ConstructionsAndConversions {
         //1 is parent of 2 elements and 6 is a parent of 2 elements: parentOfHowManyMap will have an entry of 2->1,6
         for (int i = 0; i < N; i++) {
             int sum = Arrays.stream(mat[i]).sum();
-            List<Integer> list = parentOfHowManyMap.computeIfAbsent(sum, k -> new ArrayList<>());
-            list.add(i);
+            /*List<Integer> list = parentOfHowManyMap.computeIfAbsent(sum, k -> new ArrayList<>());
+            list.add(i);*/
+            parentOfHowManyMap.computeIfAbsent(sum, k -> new ArrayList<>()).add(i);
         }
 
         boolean[] parentFlagSet = new boolean[N];

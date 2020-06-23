@@ -21,6 +21,10 @@ public class BinaryTree {
             this.left = null;
             this.right = null;
         }
+
+        public boolean isLeaf(){
+            return left == null && right == null;
+        }
     }
 
     static class QueueNode {

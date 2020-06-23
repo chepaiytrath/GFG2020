@@ -501,49 +501,49 @@ public class Traversals {
         list.forEach(n -> System.out.println(n.data + " "));
     }
 
-    public void boundaryTraversalIncompleteBinaryTree(BinaryTree tree) {
+    public void boundaryTraversalForIncompleteBinaryTree(BinaryTree tree) {
         if (tree.root != null) {
             System.out.print(tree.root.data + " ");
-            printLeftBoundaryIncompleteBinaryTree(tree.root.left);
-            printLeafNodesIncompleteBinaryTree(tree.root.left);
-            printLeafNodesIncompleteBinaryTree(tree.root.right);
-            printRightBoundaryIncompleteBinaryTree(tree.root.right);
+            printLeftBoundaryForIncompleteBinaryTree(tree.root.left);
+            printLeafNodesForIncompleteBinaryTree(tree.root.left);
+            printLeafNodesForIncompleteBinaryTree(tree.root.right);
+            printRightBoundaryForIncompleteBinaryTree(tree.root.right);
         }
     }
 
-    private void printLeftBoundaryIncompleteBinaryTree(Node node) {
+    private void printLeftBoundaryForIncompleteBinaryTree(Node node) {
         if (node == null) {
             return;
         }
         if (node.left != null) {
             System.out.print(node.data + " ");
-            printLeftBoundaryIncompleteBinaryTree(node.left);
+            printLeftBoundaryForIncompleteBinaryTree(node.left);
         } else if (node.right != null) {
             System.out.print(node.data + " ");
-            printLeftBoundaryIncompleteBinaryTree(node.right);
+            printLeftBoundaryForIncompleteBinaryTree(node.right);
         }
     }
 
-    private void printLeafNodesIncompleteBinaryTree(Node node) {
+    private void printLeafNodesForIncompleteBinaryTree(Node node) {
         if (node == null) {
             return;
         }
-        printLeafNodesIncompleteBinaryTree(node.left);
+        printLeafNodesForIncompleteBinaryTree(node.left);
         if (node.left == null && node.right == null) {
             System.out.print(node.data + " ");
         }
-        printLeafNodesIncompleteBinaryTree(node.right);
+        printLeafNodesForIncompleteBinaryTree(node.right);
     }
 
-    private void printRightBoundaryIncompleteBinaryTree(Node node) {
+    private void printRightBoundaryForIncompleteBinaryTree(Node node) {
         if (node == null) {
             return;
         }
         if (node.right != null) {
-            printRightBoundaryIncompleteBinaryTree(node.right);
+            printRightBoundaryForIncompleteBinaryTree(node.right);
             System.out.print(node.data + " ");
         } else if (node.left != null) {
-            printRightBoundaryIncompleteBinaryTree(node.left);
+            printRightBoundaryForIncompleteBinaryTree(node.left);
             System.out.print(node.data + " ");
         }
     }
