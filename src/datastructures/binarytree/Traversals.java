@@ -105,7 +105,7 @@ public class Traversals {
         return left;
     }
 
-    public void printInorderWithStackWithoutRecursion(BinaryTree tree) {
+    /* public void printInorderWithStackWithoutRecursion(BinaryTree tree) {
         //Similar solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
         Stack<Node> st = new Stack<>();
         Node curr = tree.root;
@@ -122,6 +122,27 @@ public class Traversals {
                     st.push(curr);
                     curr = curr.left;
                 }
+            }
+        }
+    } */
+    
+    public void printInorderWithStackWithoutRecursion(BinaryTree tree) {
+        //Same solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
+        Stack<Node> st = new Stack<>();
+        Node curr = tree.root;
+        while (curr != null || !st.isEmpty()) {
+            while (curr != null) {
+                st.push(curr);
+                curr = curr.left;
+            }
+            Node node = st.pop();
+            visit(node);
+            if (node.right != null) {
+                curr = node.right;
+                // while (curr != null) {
+                //     st.push(curr);
+                //     curr = curr.left;
+                // }
             }
         }
     }

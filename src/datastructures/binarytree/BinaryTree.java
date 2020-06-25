@@ -1,7 +1,5 @@
 package datastructures.binarytree;
 
-import java.util.*;
-
 public class BinaryTree {
     public static class Node {
         public int data;
