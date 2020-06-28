@@ -66,4 +66,14 @@ public class BinaryTree {
         this.root = root;
     }
 
+    public int size(){
+        return findSize(this.root);
+    }
+
+    private int findSize(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + findSize(node.left) + findSize(node.right);
+    }
 }

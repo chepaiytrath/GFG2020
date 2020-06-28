@@ -1,9 +1,12 @@
 package datastructures.binarytree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -723,5 +726,373 @@ public class CheckingAndPrinting {
 
         return checkIfBinaryTreeHasDuplicateValuesWithRecursionUtil(node.left, set)
                 || checkIfBinaryTreeHasDuplicateValuesWithRecursionUtil(node.right, set);
+    }
+
+    public void checkIfTwoNodesAreCousins(int a, int b, BinaryTree tree) {
+        Node root = tree.root;
+        boolean isSatisfied = checkIfTwoNodesAreCousinsUtil(a, b, root);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfTwoNodesAreCousinsUtil(int a, int b, Node root) {
+        return (findLevel(a, root, 1) == findLevel(b, root, 1)) && (!isSibling(a, b, root));
+    }
+
+    private int findLevel(int val, Node node, int level) {
+        if (node == null) {
+            return 0;
+        }
+        if (node.data == val) {
+            return level;
+        }
+        int leftLevel = findLevel(val, node.left, level + 1);
+        if (leftLevel != 0) {
+            return leftLevel;
+        }
+        return findLevel(val, node.right, level + 1);
+    }
+
+    private boolean isSibling(int a, int b, Node node) {
+        if (node == null) {
+            return false;
+        }
+
+        if ((node.left != null && node.right != null)
+                && ((node.left.data == a && node.right.data == b) || (node.left.data == b && node.right.data == a))) {
+            return true;
+        }
+
+        return isSibling(a, b, node.left) || isSibling(a, b, node.right);
+    }
+
+    public void checkIfLeafNodesAreOnSameLevelUsingRecursion(BinaryTree tree) {
+        Node root = tree.root;
+        Integer leafLevel = null;
+        boolean isSatisfied = checkIfLeafNodesAreOnSameLevelUsingRecursionUtil(root, leafLevel, 1);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfLeafNodesAreOnSameLevelUsingRecursionUtil(Node node, Integer leafLevel, int level) {
+        if (node == null) {
+            return true;
+        }
+        if (node.isLeaf()) {
+            if (leafLevel == null) {
+                leafLevel = level;
+                return true;
+            } else {
+                return leafLevel == level;
+            }
+        }
+        return checkIfLeafNodesAreOnSameLevelUsingRecursionUtil(node.left, leafLevel, level + 1)
+                && checkIfLeafNodesAreOnSameLevelUsingRecursionUtil(node.right, leafLevel, level + 1);
+    }
+
+    public void checkIfLeafNodesAreOnSameLevelUsingMapAndRecursion(BinaryTree tree) {
+        Node root = tree.root;
+        Map<Integer, Integer> map = new HashMap<>();
+        checkIfLeafNodesAreOnSameLevelUsingMapAndRecursionUtil(root, map, 1);
+        if (new HashSet<Integer>(map.values()).size() > 1) {
+            System.out.println("LEAF NODES NOT ON SAME LEVEL");
+        } else {
+            System.out.println("LEAF NODES ON SAME LEVEL");
+        }
+    }
+
+    private void checkIfLeafNodesAreOnSameLevelUsingMapAndRecursionUtil(Node node, Map<Integer, Integer> map,
+            int level) {
+        if (node.isLeaf()) {
+            map.put(node.data, level);
+            return;
+        }
+
+        if (node.left != null) {
+            checkIfLeafNodesAreOnSameLevelUsingMapAndRecursionUtil(node.left, map, level + 1);
+        }
+        if (node.right != null) {
+            checkIfLeafNodesAreOnSameLevelUsingMapAndRecursionUtil(node.right, map, level + 1);
+        }
+    }
+
+    public void checkIfLeafNodesAreOnSameLevelUsingStack(BinaryTree tree) {
+        boolean isSatisfied = checkIfLeafNodesAreOnSameLevelUsingStackUtil(tree.root);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfLeafNodesAreOnSameLevelUsingStackUtil(Node root) {
+        if (root.isLeaf()) {
+            return true;
+        }
+
+        Node curr = root;
+        int leafLevel = -1;
+        Stack<Node> st = new Stack<>();
+        while (curr != null || (!st.isEmpty() && st.size() > 1)) {
+            while (curr != null) {
+                st.add(curr);
+                curr = curr.left;
+            }
+            int size = st.size();
+            curr = st.peek();
+            if (curr.right == null) {
+                curr = st.pop();
+                if (curr.isLeaf()) {
+                    if (leafLevel == -1) {
+                        leafLevel = size;
+                    } else if (leafLevel != size) {
+                        return false;
+                    }
+                }
+                while (!st.isEmpty() && curr == st.peek().right) {
+                    curr = st.pop();
+                }
+                curr = null;
+                continue;
+            }
+            curr = curr.right;
+        }
+        return true;
+    }
+
+    public void checkIfLeafNodesAreOnSameLevelUsingQueueLevelOrderTraversal(BinaryTree tree) {
+        boolean isSatisfied = checkIfLeafNodesAreOnSameLevelUsingQueueLevelOrderTraversalUtil(tree.root);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfLeafNodesAreOnSameLevelUsingQueueLevelOrderTraversalUtil(Node root) {
+        if (root == null)
+            return true;
+        Queue<Node> q = new LinkedList<>();
+        q.add(root);
+        int result = Integer.MAX_VALUE;
+        int level = 0;
+        while (q.size() != 0) {
+            int size = q.size();
+            level++;
+            while (size > 0) {
+                Node temp = q.remove();
+                if (temp.left != null) {
+                    q.add(temp.left);
+                    if (temp.left.left == null && temp.left.right == null) {
+                        if (result == Integer.MAX_VALUE)
+                            result = level;
+                        else if (result != level)
+                            return false;
+                    }
+                }
+                if (temp.right != null) {
+                    q.add(temp.right);
+                    if (temp.right.left == null && temp.right.right == null) {
+                        if (result == Integer.MAX_VALUE)
+                            result = level;
+                        else if (result != level)
+                            return false;
+                    }
+                }
+                size--;
+            }
+
+        }
+        return true;
+    }
+
+    public void checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDown(BinaryTree tree) {
+        // 2 approaches: Top down: O(n2), Bottom up: O(n)
+        int totalSize = tree.size();
+        boolean isSatisfied = checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(
+                tree.root, totalSize);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(Node node,
+            int totalSize) {
+        if (node == null) {
+            return false;
+        }
+        int currSize = findSize(node);
+        if (totalSize - currSize == currSize) {
+            return true;
+        }
+        return checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(node.left, totalSize)
+                || checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(node.right,
+                        totalSize);
+    }
+
+    private int findSize(Node node) {
+        if (node == null) {
+            return 0;
+        }
+        return 1 + findSize(node.left) + findSize(node.right);
+    }
+
+    class RESULT {
+        Boolean res = false;
+    }
+
+    public void checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUp(BinaryTree tree) {
+        RESULT obj = new RESULT();
+        int totalSize = findSize(tree.root);
+        checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(tree.root, totalSize, obj);
+        System.out.println(obj.res);
+    }
+
+    private int checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(Node node,
+            int totalSize, RESULT obj) {
+        if (node == null) {
+            return 0;
+        }
+        int currSize = checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(node.left,
+                totalSize, obj)
+                + checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(node.left,
+                        totalSize, obj)
+                + 1;
+        if (totalSize - currSize == currSize) {
+            obj.res = true;
+        }
+        return currSize;
+    }
+
+    public void checkIfThereIsARootToLeafPathWithGivenSequence(BinaryTree tree, int[] arr) {
+        boolean isSatisfied = checkIfThereIsARootToLeafPathWithGivenSequenceUtil(tree.root, arr, arr.length, 0);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfThereIsARootToLeafPathWithGivenSequenceUtil(Node node, int[] arr, int arrSize, int index) {
+        if (index == arrSize) {
+            return true;
+        }
+        if (node == null) {
+            return false;
+        }
+        return ((index < arrSize) && (arr[index] == node.data))
+                && (checkIfThereIsARootToLeafPathWithGivenSequenceUtil(node.left, arr, arrSize, index + 1)
+                        || checkIfThereIsARootToLeafPathWithGivenSequenceUtil(node.right, arr, arrSize, index + 1));
+    }
+
+    public void printSiblingsOfNodeInBinaryTree(BinaryTree tree, int data) {
+        // BinaryTree tree = new BinaryTree(1);
+        // tree.root.left = new Node(2);
+        // tree.root.left.left = new Node(4);
+        // tree.root.left.left.left = new Node(8);
+        // tree.root.left.left.right = new Node(9);
+        // tree.root.left.right = new Node(5);
+        // tree.root.left.right.left = new Node(10);
+        // tree.root.left.right.right = new Node(11);
+        // tree.root.right = new Node(3);
+        // tree.root.right.left = new Node(6);
+        // tree.root.right.left.left = new Node(12);
+        // tree.root.right.left.right = new Node(13);
+        // tree.root.right.right = new Node(7);
+        // tree.root.right.right.left = new Node(14);
+        // tree.root.right.right.right = new Node(15);
+
+        int level = findLevel(data, tree.root, 1);
+        printSiblingsOfNodeInBinaryTreeUtil(tree.root, data, level - 1);
+    }
+
+    private void printSiblingsOfNodeInBinaryTreeUtil(Node node, int data, int level) {
+        if (node == null) {
+            return;
+        }
+        if (level == 1 && notChild(node, data)) {
+            if (node.left != null) {
+                System.out.print(node.left.data + " ");
+            }
+            if (node.right != null) {
+                System.out.print(node.right.data + " ");
+            }
+        } else {
+            printSiblingsOfNodeInBinaryTreeUtil(node.left, data, level - 1);
+            printSiblingsOfNodeInBinaryTreeUtil(node.right, data, level - 1);
+        }
+    }
+
+    private boolean notChild(Node node, int data) {
+        if (node.left != null && node.left.data == data) {
+            return false;
+        }
+        if (node.right != null && node.right.data == data) {
+            return false;
+        }
+        return true;
+    }
+
+    public void printAllNodesThatHaveNoSiblings(BinaryTree tree) {
+        printAllNodesThatHaveNoSiblingsUtil(tree.root);
+    }
+
+    private void printAllNodesThatHaveNoSiblingsUtil(Node node) {
+        if (node == null || node.isLeaf()) {
+            return;
+        }
+        if (node.left != null && node.right != null) {
+            printAllNodesThatHaveNoSiblingsUtil(node.left);
+            printAllNodesThatHaveNoSiblingsUtil(node.right);
+        } else if (node.left != null) {
+            System.out.print(node.left.data + " ");
+            printAllNodesThatHaveNoSiblingsUtil(node.left);
+        } else if (node.right != null) {
+            System.out.print(node.right.data + " ");
+            printAllNodesThatHaveNoSiblingsUtil(node.right);
+        }
+    }
+
+    public void printAllRootToLeafPathsOnePerLine(BinaryTree tree) {
+        List<Integer> list = new ArrayList<>();
+        printAllRootToLeafPathsOnePerLineUtil(tree.root, list);
+    }
+
+    private void printAllRootToLeafPathsOnePerLineUtil(Node node, List<Integer> list) {
+        if (node == null) {
+            return;
+        }
+        list.add(node.data);
+        if (node.isLeaf()) {
+            System.out.print(list);
+        } else {
+            printAllRootToLeafPathsOnePerLineUtil(node.left, new ArrayList<Integer>(list));
+            printAllRootToLeafPathsOnePerLineUtil(node.right, new ArrayList<Integer>(list));
+        }
+    }
+
+    public void printAllRootToLeafPathsWithTheirRelativePositions(BinaryTree tree) {
+        printAllRootToLeafPathsWithTheirRelativePositionsUtil(tree.root, new ArrayList<Integer>(),
+                new ArrayList<Integer>(), 0, 0);
+    }
+
+    private void printAllRootToLeafPathsWithTheirRelativePositionsUtil(Node node, List<Integer> list,
+            List<Integer> dirList, int lowestNegative, int dir) {
+        if (node == null) {
+            return;
+        }
+        lowestNegative = Math.min(lowestNegative, dir);
+        list.add(node.data);
+        dirList.add(dir);
+        if (node.isLeaf()) {
+            int delta = Math.abs(lowestNegative);
+            for (int i = 0; i < list.size(); i++) {
+                if (lowestNegative < 0) {
+                    printChar('_', delta + dirList.get(i));
+                } else {
+                    printChar('_', dirList.get(i));
+                }
+                System.out.print(list.get(i) + " ");
+                System.out.println("");
+            }
+
+            System.out.println("");
+        } else {
+            printAllRootToLeafPathsWithTheirRelativePositionsUtil(node.left, new ArrayList<Integer>(list),
+                    new ArrayList<Integer>(dirList), lowestNegative, dir - 1);
+            printAllRootToLeafPathsWithTheirRelativePositionsUtil(node.right, new ArrayList<Integer>(list),
+                    new ArrayList<Integer>(dirList), lowestNegative, dir + 1);
+        }
+    }
+
+    private void printChar(char ch, int lim) {
+        while (lim > 0) {
+            System.out.print(ch + " ");
+            lim--;
+        }
     }
 }
