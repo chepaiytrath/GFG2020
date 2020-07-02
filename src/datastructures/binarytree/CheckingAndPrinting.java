@@ -15,17 +15,17 @@ import datastructures.binarytree.BinaryTree.Node;
 public class CheckingAndPrinting {
     Traversals t = new Traversals();
 
-    public void checkForChildrenSumProperty(final BinaryTree tree) {
-        final boolean isSatisfied = checkForChildrenSumPropertyUtil(tree.root);
+    public void checkForChildrenSumProperty(BinaryTree tree) {
+        boolean isSatisfied = checkForChildrenSumPropertyUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkForChildrenSumPropertyUtil(final Node node) {
+    private boolean checkForChildrenSumPropertyUtil(Node node) {
         if (node == null || (node.left == null && node.right == null)) {
             return true;
         }
-        final boolean isLeftSatisfied = checkForChildrenSumPropertyUtil(node.left);
-        final boolean isRightSatisfied = checkForChildrenSumPropertyUtil(node.right);
+        boolean isLeftSatisfied = checkForChildrenSumPropertyUtil(node.left);
+        boolean isRightSatisfied = checkForChildrenSumPropertyUtil(node.right);
 
         int sum = 0;
         if (node.left != null) {
@@ -37,8 +37,8 @@ public class CheckingAndPrinting {
         return isLeftSatisfied && isRightSatisfied && (sum == node.data);
     }
 
-    public void checkIfSumOfCoveredNodesEqualsSumOfUncoveredNodesWithQueue(final BinaryTree tree) {
-        final Queue<Node> nodes = new LinkedList<>();
+    public void checkIfSumOfCoveredNodesEqualsSumOfUncoveredNodesWithQueue(BinaryTree tree) {
+        Queue<Node> nodes = new LinkedList<>();
 
         int leftBoundarySum = 0;
         int rightBoundarySum = 0;
@@ -70,7 +70,7 @@ public class CheckingAndPrinting {
         System.out.println(uncoveredSum == leftBoundarySum + rightBoundarySum);
     }
 
-    private void extractRightBoundaryIntoQueue(final Node node, final Queue<Node> nodes) {
+    private void extractRightBoundaryIntoQueue(Node node, Queue<Node> nodes) {
         if (node == null) {
             return;
         }
@@ -82,7 +82,7 @@ public class CheckingAndPrinting {
         }
     }
 
-    private void extractLeftBoundaryIntoQueue(final Node node, final Queue<Node> nodes) {
+    private void extractLeftBoundaryIntoQueue(Node node, Queue<Node> nodes) {
         if (node == null) {
             return;
         }
@@ -94,28 +94,28 @@ public class CheckingAndPrinting {
         }
     }
 
-    private int sumOfNodes(final Node node) {
+    private int sumOfNodes(Node node) {
         if (node == null) {
             return 0;
         }
         return sumOfNodes(node.left) + sumOfNodes(node.right) + node.data;
     }
 
-    public void checkIfSumOfCoveredNodesEqualsSumOfUncoveredNodesWithoutQueue(final BinaryTree tree) {
-        final Node root = tree.root;
-        final int sumUncovered = findUncoveredSum(root);
-        final int sumTotalTree = sumOfNodes(root);
-        final boolean isSatisfied = sumTotalTree - sumUncovered == sumUncovered;
+    public void checkIfSumOfCoveredNodesEqualsSumOfUncoveredNodesWithoutQueue(BinaryTree tree) {
+        Node root = tree.root;
+        int sumUncovered = findUncoveredSum(root);
+        int sumTotalTree = sumOfNodes(root);
+        boolean isSatisfied = sumTotalTree - sumUncovered == sumUncovered;
         System.out.println(isSatisfied);
     }
 
-    private int findUncoveredSum(final Node node) {
-        final int lbs = findUncoveredSumLeftBoundary(node.left);
-        final int rbs = findUncoveredSumRightBoundary(node.right);
+    private int findUncoveredSum(Node node) {
+        int lbs = findUncoveredSumLeftBoundary(node.left);
+        int rbs = findUncoveredSumRightBoundary(node.right);
         return lbs + rbs + node.data;
     }
 
-    private int findUncoveredSumLeftBoundary(final Node node) {
+    private int findUncoveredSumLeftBoundary(Node node) {
         if (node.left == null && node.right == null) {
             return node.data;
         }
@@ -126,7 +126,7 @@ public class CheckingAndPrinting {
         }
     }
 
-    private int findUncoveredSumRightBoundary(final Node node) {
+    private int findUncoveredSumRightBoundary(Node node) {
         if (node.left == null && node.right == null) {
             return node.data;
         }
@@ -137,36 +137,34 @@ public class CheckingAndPrinting {
         }
     }
 
-    public void checkIfInorderPreorderPostorderTraversalsAreOfSameTree(final String in, final String pre,
-            final String post) {
-        final boolean isSatisfied = checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(in, pre, post);
+    public void checkIfInorderPreorderPostorderTraversalsAreOfSameTree(String in, String pre, String post) {
+        boolean isSatisfied = checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(in, pre, post);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(final String in, final String pre,
-            final String post) {
+    private boolean checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(String in, String pre, String post) {
         if (in.length() == 1 && pre.length() == 1 && post.length() == 1) {
             return in.charAt(0) == pre.charAt(0) && pre.charAt(0) == post.charAt(0);
         }
-        final int root = pre.charAt(0);
-        final int rootIndexInorder = in.indexOf(root); // left subtree size
-        final boolean isLeftSatisfied = checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(
+        int root = pre.charAt(0);
+        int rootIndexInorder = in.indexOf(root); // left subtree size
+        boolean isLeftSatisfied = checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(
                 in.substring(0, rootIndexInorder), pre.substring(1, 1 + rootIndexInorder),
                 post.substring(0, rootIndexInorder));
-        final boolean isRightSatisfied = checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(
+        boolean isRightSatisfied = checkIfInorderPreorderPostorderTraversalsAreOfSameTreeUtil(
                 in.substring(rootIndexInorder + 1), pre.substring(1 + rootIndexInorder),
                 post.substring(rootIndexInorder, post.length() - 1));
         return isLeftSatisfied && isRightSatisfied;
     }
 
-    public void checkIfLeafTraversalOfTwoBinaryTreesIsSame(final BinaryTree tree1, final BinaryTree tree2) {
-        final boolean isSatisfied = checkIfLeafTraversalOfTwoBinaryTreesIsSameUtil(tree1.root, tree2.root);
+    public void checkIfLeafTraversalOfTwoBinaryTreesIsSame(BinaryTree tree1, BinaryTree tree2) {
+        boolean isSatisfied = checkIfLeafTraversalOfTwoBinaryTreesIsSameUtil(tree1.root, tree2.root);
         System.out.println(isSatisfied);
     }
 
-    private static boolean checkIfLeafTraversalOfTwoBinaryTreesIsSameUtil(final Node root1, final Node root2) {
-        final Stack<Node> st1 = new Stack<>();
-        final Stack<Node> st2 = new Stack<>();
+    private static boolean checkIfLeafTraversalOfTwoBinaryTreesIsSameUtil(Node root1, Node root2) {
+        Stack<Node> st1 = new Stack<>();
+        Stack<Node> st2 = new Stack<>();
         st1.add(root1);
         st2.add(root2);
 
@@ -206,20 +204,20 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfLevelOrderOfCompleteBinaryTreeIsMinHeap(final int[] arr) {
+    public void checkIfLevelOrderOfCompleteBinaryTreeIsMinHeap(int[] arr) {
         // int[] arr = {10, 15, 14, 25, 30};
         // int[] arr = {30, 56, 22, 49, 30, 51, 2, 67};
-        final boolean isSatisfied = checkIfLevelOrderOfCompleteBinaryTreeIsMinHeapUtil(arr);
+        boolean isSatisfied = checkIfLevelOrderOfCompleteBinaryTreeIsMinHeapUtil(arr);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfLevelOrderOfCompleteBinaryTreeIsMinHeapUtil(final int[] arr) {
+    private boolean checkIfLevelOrderOfCompleteBinaryTreeIsMinHeapUtil(int[] arr) {
         // Another approach to get rid of the break condition is to start from i = (n/2
         // - 1) to i = 0
         // https://www.geeksforgeeks.org/given-level-order-traversal-binary-tree-check-tree-min-heap/
         for (int i = 0; i < arr.length; i++) {
-            final int li = 2 * i + 1;
-            final int ri = 2 * i + 2;
+            int li = 2 * i + 1;
+            int ri = 2 * i + 2;
             if (li > arr.length - 1) {
                 break;
             }
@@ -230,12 +228,12 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfBinaryTreeIsFullWithRecursion(final BinaryTree tree) {
-        final boolean isSatisfied = checkIfBinaryTreeIsFullWithRecursionUtil(tree.root);
+    public void checkIfBinaryTreeIsFullWithRecursion(BinaryTree tree) {
+        boolean isSatisfied = checkIfBinaryTreeIsFullWithRecursionUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsFullWithRecursionUtil(final Node node) {
+    private boolean checkIfBinaryTreeIsFullWithRecursionUtil(Node node) {
         if (node == null || node.isLeaf()) {
             return true;
         }
@@ -246,16 +244,16 @@ public class CheckingAndPrinting {
         return false;
     }
 
-    public void checkIfBinaryTreeIsFullWithoutRecursion(final BinaryTree tree) {
-        final boolean isSatisfied = checkIfBinaryTreeIsFullWithoutRecursionUtil(tree.root);
+    public void checkIfBinaryTreeIsFullWithoutRecursion(BinaryTree tree) {
+        boolean isSatisfied = checkIfBinaryTreeIsFullWithoutRecursionUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsFullWithoutRecursionUtil(final Node node) {
-        final Queue<Node> q = new LinkedList<>();
+    private boolean checkIfBinaryTreeIsFullWithoutRecursionUtil(Node node) {
+        Queue<Node> q = new LinkedList<>();
         q.add(node);
         while (!q.isEmpty()) {
-            final Node n = q.poll();
+            Node n = q.poll();
             if (n.isLeaf()) {
                 continue;
             }
@@ -269,17 +267,17 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfBinaryTreeIsComplete(final BinaryTree tree) {
-        final boolean isSatisfied = checkIfBinaryTreeIsCompleteUtil2(tree);
+    public void checkIfBinaryTreeIsComplete(BinaryTree tree) {
+        boolean isSatisfied = checkIfBinaryTreeIsCompleteUtil2(tree);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsCompleteUtil(final BinaryTree tree) {
-        final Queue<Node> que = new LinkedList<>();
+    private boolean checkIfBinaryTreeIsCompleteUtil(BinaryTree tree) {
+        Queue<Node> que = new LinkedList<>();
         que.add(tree.root);
         boolean flag = false;
         while (!que.isEmpty()) {
-            final Node node = que.poll();
+            Node node = que.poll();
             if (flag && !node.isLeaf()) {
                 return false;
             }
@@ -300,8 +298,8 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    private boolean checkIfBinaryTreeIsCompleteUtil2(final BinaryTree tree) {
-        final Queue<Node> que = new LinkedList<>();
+    private boolean checkIfBinaryTreeIsCompleteUtil2(BinaryTree tree) {
+        Queue<Node> que = new LinkedList<>();
         que.add(tree.root);
         boolean flag = false;
         // NON-FULL node: 1 child node: either only left OR only right
@@ -310,7 +308,7 @@ public class CheckingAndPrinting {
         // nodes
         // 2. If left child is null, right child should also be null
         while (!que.isEmpty()) {
-            final Node node = que.poll();
+            Node node = que.poll();
             if (node.left != null) {
                 if (flag) { // 1.2. all subsequent nodes must be leaf nodes
                     return false;
@@ -331,14 +329,14 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    private int findHeight(final Node node) {
+    private int findHeight(Node node) {
         if (node == null) {
             return 0;
         }
         return Math.max(1 + findHeight(node.left), 1 + findHeight(node.right));
     }
 
-    public void checkIfBinaryTreeIsPerfect(final BinaryTree tree) {
+    public void checkIfBinaryTreeIsPerfect(BinaryTree tree) {
         // Sample input
         /*
          * Perfect BinaryTree tree = new BinaryTree(10); tree.root.left = new Node(20);
@@ -351,13 +349,13 @@ public class CheckingAndPrinting {
          * tree.root.right.left = new Node(5); tree.root.right.right = new Node(6);
          */
 
-        final Node root = tree.root;
-        final int height = findHeight(root);
-        final boolean isSatisfied = checkIfBinaryTreeIsPerfectUtil(root, height);
+        Node root = tree.root;
+        int height = findHeight(root);
+        boolean isSatisfied = checkIfBinaryTreeIsPerfectUtil(root, height);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsPerfectUtil(final Node node, final int height) {
+    private boolean checkIfBinaryTreeIsPerfectUtil(Node node, int height) {
         if (node.isLeaf() && height == 1) {
             return true;
         } else if (node.isLeaf() && height != 1) {
@@ -374,12 +372,12 @@ public class CheckingAndPrinting {
         return isLeftSatisfied && isRightSatisfied;
     }
 
-    public void checkIfBinaryTreeIsSumTree(final BinaryTree tree) {
-        final boolean isSatisfied = checkIfBinaryTreeIsSumTreeUtil(tree.root);
+    public void checkIfBinaryTreeIsSumTree(BinaryTree tree) {
+        boolean isSatisfied = checkIfBinaryTreeIsSumTreeUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsSumTreeUtil(final Node node) {
+    private boolean checkIfBinaryTreeIsSumTreeUtil(Node node) {
         if (node == null || node.isLeaf()) {
             return true;
         }
@@ -394,19 +392,19 @@ public class CheckingAndPrinting {
                 && checkIfBinaryTreeIsSumTreeUtil(node.right);
     }
 
-    public void checkIfBinaryTreeIsHeightBalanced(final BinaryTree tree) {
+    public void checkIfBinaryTreeIsHeightBalanced(BinaryTree tree) {
         // GFG :
         // https://www.geeksforgeeks.org/check-given-binary-tree-follows-height-property-red-black-tree/
-        final boolean isSatisfied = checkIfBinaryTreeIsHeightBalancedUtil(tree.root);
+        boolean isSatisfied = checkIfBinaryTreeIsHeightBalancedUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsHeightBalancedUtil(final Node node) {
+    private boolean checkIfBinaryTreeIsHeightBalancedUtil(Node node) {
         if (node == null || node.isLeaf()) {
             return true;
         }
-        final int lh = findHeight(node.left) + 1;
-        final int rh = findHeight(node.right) + 1;
+        int lh = findHeight(node.left) + 1;
+        int rh = findHeight(node.right) + 1;
         boolean flag = false;
         if (lh > rh) {
             flag = true;
@@ -428,42 +426,42 @@ public class CheckingAndPrinting {
         }
     }
 
-    public void checkIfBinaryTreeIsHeightBalancedInOofN(final BinaryTree tree) {
+    public void checkIfBinaryTreeIsHeightBalancedInOofN(BinaryTree tree) {
         // NOT GFG : GENERIC PROBLEM STATEMENT :
         // https://www.youtube.com/watch?v=LU4fGD-fgJQ
-        final INT i = new INT();
-        final boolean isSatisfied = checkIfBinaryTreeIsHeightBalancedInOofNUtil(tree.root, i);
+        INT i = new INT();
+        boolean isSatisfied = checkIfBinaryTreeIsHeightBalancedInOofNUtil(tree.root, i);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfBinaryTreeIsHeightBalancedInOofNUtil(final Node node, final INT par) {
+    private boolean checkIfBinaryTreeIsHeightBalancedInOofNUtil(Node node, INT par) {
         if (node == null) {
             par.d = -1;
             return true;
         }
 
-        final INT left = new INT();
-        final INT right = new INT();
-        final boolean leftSatisfied = checkIfBinaryTreeIsHeightBalancedInOofNUtil(node.left, left);
-        final boolean rightSatisfied = checkIfBinaryTreeIsHeightBalancedInOofNUtil(node.right, right);
-        final int diff = Math.abs(left.d - right.d);
+        INT left = new INT();
+        INT right = new INT();
+        boolean leftSatisfied = checkIfBinaryTreeIsHeightBalancedInOofNUtil(node.left, left);
+        boolean rightSatisfied = checkIfBinaryTreeIsHeightBalancedInOofNUtil(node.right, right);
+        int diff = Math.abs(left.d - right.d);
         par.d = Math.max(left.d, right.d) + 1;
         return leftSatisfied && rightSatisfied && diff <= 1;
     }
 
-    public void checkIfBinaryTreeIsMirrorOfItself(final BinaryTree tree) {
-        final boolean isSatisfied = checkIfMirrorOfItselfUtil(tree.root);
+    public void checkIfBinaryTreeIsMirrorOfItself(BinaryTree tree) {
+        boolean isSatisfied = checkIfMirrorOfItselfUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfMirrorOfItselfUtil(final Node root) {
-        final Queue<Node> que = new LinkedList<>();
+    private boolean checkIfMirrorOfItselfUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
         que.add(root.left);
         que.add(root.right);
 
         while (!que.isEmpty()) {
-            final Node left = que.poll();
-            final Node right = que.poll();
+            Node left = que.poll();
+            Node right = que.poll();
 
             if (left == null && right == null) {
                 continue;
@@ -480,12 +478,12 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursion(final BinaryTree tree1, final BinaryTree tree2) {
-        final boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(tree1.root, tree2.root);
+    public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursion(BinaryTree tree1, BinaryTree tree2) {
+        boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(tree1.root, tree2.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(final Node node1, final Node node2) {
+    private boolean checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(Node node1, Node node2) {
         if (node1 == null && node2 == null) {
             return true;
         }
@@ -498,18 +496,16 @@ public class CheckingAndPrinting {
                 && checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(node1.right, node2.left);
     }
 
-    public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursion(final BinaryTree tree1,
-            final BinaryTree tree2) {
+    public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursion(BinaryTree tree1, BinaryTree tree2) {
         // Use iterative inorder traversal
 
-        final boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionUtil(tree1.root,
-                tree2.root);
+        boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionUtil(tree1.root, tree2.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionUtil(final Node root1, final Node root2) {
+    private boolean checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionUtil(Node root1, Node root2) {
         Node curr1 = root1, curr2 = root2;
-        final Stack<Node> st1 = new Stack<>(), st2 = new Stack<>();
+        Stack<Node> st1 = new Stack<>(), st2 = new Stack<>();
         while (true) {
             while (curr1 != null && curr2 != null) {
                 if (curr1.data != curr2.data) {
@@ -537,12 +533,12 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfTwoBinaryTreesAreIdenticalWithRecursion(final BinaryTree tree1, final BinaryTree tree2) {
-        final boolean isSatisfied = checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(tree1.root, tree2.root);
+    public void checkIfTwoBinaryTreesAreIdenticalWithRecursion(BinaryTree tree1, BinaryTree tree2) {
+        boolean isSatisfied = checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(tree1.root, tree2.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(final Node node1, final Node node2) {
+    private boolean checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(Node node1, Node node2) {
         if (node1 == null && node2 == null) {
             return true;
         }
@@ -553,19 +549,17 @@ public class CheckingAndPrinting {
                 && checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(node1.right, node2.right);
     }
 
-    public void checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingTwoStacks(final BinaryTree tree1,
-            final BinaryTree tree2) {
+    public void checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingTwoStacks(BinaryTree tree1, BinaryTree tree2) {
         // Use iterative inorder traversal
 
-        final boolean isSatisfied = checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingTwoStacksUtil(tree1.root,
+        boolean isSatisfied = checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingTwoStacksUtil(tree1.root,
                 tree2.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingTwoStacksUtil(final Node root1,
-            final Node root2) {
+    private boolean checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingTwoStacksUtil(Node root1, Node root2) {
         Node curr1 = root1, curr2 = root2;
-        final Stack<Node> st1 = new Stack<>(), st2 = new Stack<>();
+        Stack<Node> st1 = new Stack<>(), st2 = new Stack<>();
         while (true) {
             while (curr1 != null && curr2 != null) {
                 if (curr1.data != curr2.data) {
@@ -593,19 +587,16 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingQueue(final BinaryTree tree1,
-            final BinaryTree tree2) {
+    public void checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingQueue(BinaryTree tree1, BinaryTree tree2) {
         // Use iterative inorder traversal
 
-        final boolean isSatisfied = checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingQueueUtil(tree1.root,
-                tree2.root);
+        boolean isSatisfied = checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingQueueUtil(tree1.root, tree2.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingQueueUtil(final Node root1,
-            final Node root2) {
+    private boolean checkIfTwoBinaryTreesAreIdenticalWithoutRecursionUsingQueueUtil(Node root1, Node root2) {
         Node curr1 = root1, curr2 = root2;
-        final Queue<Node> que = new LinkedList<>();
+        Queue<Node> que = new LinkedList<>();
         que.add(curr1);
         que.add(curr2);
 
@@ -632,12 +623,12 @@ public class CheckingAndPrinting {
         return true;
     }
 
-    public void checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursion(final BinaryTree parent, final BinaryTree child) {
-        final boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(parent.root, child.root);
+    public void checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursion(BinaryTree parent, BinaryTree child) {
+        boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(parent.root, child.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(final Node parent, final Node child) {
+    private boolean checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(Node parent, Node child) {
         if (child == null) {
             return true;
         }
@@ -653,7 +644,7 @@ public class CheckingAndPrinting {
                 && checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(parent.right, child);
     }
 
-    private boolean isIdentical(final Node n1, final Node n2) {
+    private boolean isIdentical(Node n1, Node n2) {
         if (n1 == null && n2 == null) {
             return true;
         }
@@ -1037,12 +1028,12 @@ public class CheckingAndPrinting {
         }
     }
 
-    public void printAllRootToLeafPathsOnePerLine(BinaryTree tree) {
+    public void printAllRootToLeafPathsOnePerLineWithRecursion(BinaryTree tree) {
         List<Integer> list = new ArrayList<>();
-        printAllRootToLeafPathsOnePerLineUtil(tree.root, list);
+        printAllRootToLeafPathsOnePerLineWithRecursionUtil(tree.root, list);
     }
 
-    private void printAllRootToLeafPathsOnePerLineUtil(Node node, List<Integer> list) {
+    private void printAllRootToLeafPathsOnePerLineWithRecursionUtil(Node node, List<Integer> list) {
         if (node == null) {
             return;
         }
@@ -1050,9 +1041,43 @@ public class CheckingAndPrinting {
         if (node.isLeaf()) {
             System.out.print(list);
         } else {
-            printAllRootToLeafPathsOnePerLineUtil(node.left, new ArrayList<Integer>(list));
-            printAllRootToLeafPathsOnePerLineUtil(node.right, new ArrayList<Integer>(list));
+            printAllRootToLeafPathsOnePerLineWithRecursionUtil(node.left, new ArrayList<Integer>(list));
+            printAllRootToLeafPathsOnePerLineWithRecursionUtil(node.right, new ArrayList<Integer>(list));
         }
+    }
+
+    public void printAllRootToLeafPathsOnePerLineWithoutRecursion(BinaryTree tree) {
+        Node root = tree.root;
+        Stack<Node> st = new Stack<>();
+        Node curr = root;
+        while (curr != null || !st.isEmpty()) {
+            while (curr != null) {
+                st.add(curr);
+                curr = curr.left;
+            }
+            curr = st.peek();
+            if (curr.isLeaf()) {
+                printStackInBottomUp(st);
+                System.out.println();
+                curr = st.pop();
+                while (!st.isEmpty() && curr == st.peek().right) {
+                    curr = st.pop();
+                }
+                curr = null;
+            } else {
+                curr = curr.right;
+            }
+        }
+    }
+
+    private void printStackInBottomUp(Stack<Node> st) {
+        if (st.isEmpty()) {
+            return;
+        }
+        Node node = st.pop();
+        printStackInBottomUp(st);
+        System.out.print(node.data + " ");
+        st.push(node);
     }
 
     public void printAllRootToLeafPathsWithTheirRelativePositions(BinaryTree tree) {
@@ -1079,7 +1104,6 @@ public class CheckingAndPrinting {
                 System.out.print(list.get(i) + " ");
                 System.out.println("");
             }
-
             System.out.println("");
         } else {
             printAllRootToLeafPathsWithTheirRelativePositionsUtil(node.left, new ArrayList<Integer>(list),
@@ -1093,6 +1117,224 @@ public class CheckingAndPrinting {
         while (lim > 0) {
             System.out.print(ch + " ");
             lim--;
+        }
+    }
+
+    public void printPathFromRootToGivenNodeInBinaryTree(BinaryTree tree, int data) {
+        int[] arr = new int[7];
+        if (!printPathFromRootToGivenNodeInBinaryTreeUtil(tree.root, data, arr, 0)) {
+            System.out.println("No Path");
+        }
+    }
+
+    private boolean printPathFromRootToGivenNodeInBinaryTreeUtil(Node node, int data, int[] arr, int index) {
+        if (node == null) {
+            return false;
+        }
+        arr[index] = node.data;
+        if (node.data == data) {
+            printArr(arr, index);
+            return true;
+        }
+        index++;
+        return printPathFromRootToGivenNodeInBinaryTreeUtil(node.left, data, arr, index)
+                || printPathFromRootToGivenNodeInBinaryTreeUtil(node.right, data, arr, index);
+    }
+
+    private void printArr(int[] arr, int ind) {
+        for (int i = 0; i <= ind; i++) {
+            System.out.print(arr[i] + " ");
+        }
+        System.out.println();
+    }
+
+    public void calculateDiameterOfBinaryTreeWithRecursionApproach1(BinaryTree tree) {
+        // SAMPLE INPUT
+        // BinaryTree tree = new BinaryTree(1);
+        // tree.root.left = new Node(2);
+        // tree.root.left.left = new Node(4);
+        // tree.root.left.left.left = new Node(6);
+        // tree.root.left.left.right = new Node(7);
+        // tree.root.left.left.right.left = new Node(9);
+        // tree.root.left.left.right.left.right = new Node(12);
+        // tree.root.left.right = new Node(5);
+        // tree.root.left.right.right = new Node(8);
+        // tree.root.left.right.right.left = new Node(10);
+        // tree.root.left.right.right.right = new Node(11);
+        // tree.root.left.right.right.right.left = new Node(13);
+        // tree.root.right = new Node(3);
+
+        // Basic approach : O(n2)
+        // Only one Rule: Diamter of a tree is largest value of the following 3
+        // 1. Left subtree diameter
+        // 2. Right subtree diameter
+        // 3. 1 + left subtree height + right subtree height
+
+        int diameter = calculateDiameterOfBinaryTreeWithRecursionApproach1Util(tree.root);
+        System.out.println(diameter);
+    }
+
+    private int calculateDiameterOfBinaryTreeWithRecursionApproach1Util(Node node) {
+        if (node == null) {
+            return 0;
+        }
+
+        int leftHeight = findHeight(node.left);
+        int rightHeight = findHeight(node.right);
+
+        int leftDiameter = calculateDiameterOfBinaryTreeWithRecursionApproach1Util(node.left);
+        int rightDiameter = calculateDiameterOfBinaryTreeWithRecursionApproach1Util(node.right);
+
+        return Math.max(1 + leftHeight + rightHeight, Math.max(leftDiameter, rightDiameter));
+    }
+
+    public void calculateDiameterOfBinaryTreeWithRecursionApproach2(BinaryTree tree) {
+        // Improvement over basic approach : O(n)
+        // Same one Rule: Diamter of a tree is largest value of the following 3
+        // 1. Left subtree diameter
+        // 2. Right subtree diameter
+        // 3. 1 + left subtree height + right subtree height
+
+        int diameter = calculateDiameterOfBinaryTreeWithRecursionApproach2Util(tree.root, new Height());
+        System.out.println(diameter);
+    }
+
+    class Height {
+        int val = Integer.MIN_VALUE;
+        Node node = null;
+        int leftHeight = 0, rightHeight = 0;
+    }
+
+    private int calculateDiameterOfBinaryTreeWithRecursionApproach2Util(Node node, Height h) {
+        if (node == null) {
+            h.val = 0;
+            return 0;
+        }
+        Height leftHeight = new Height();
+        Height rightHeight = new Height();
+        int leftDiameter = calculateDiameterOfBinaryTreeWithRecursionApproach2Util(node.left, leftHeight);
+        int rightDiameter = calculateDiameterOfBinaryTreeWithRecursionApproach2Util(node.right, rightHeight);
+
+        h.val = 1 + Math.max(leftHeight.val, rightHeight.val);
+        return Math.max(1 + leftHeight.val + rightHeight.val, Math.max(leftDiameter, rightDiameter));
+    }
+
+    public void calculateDiameterOfBinaryTreeWithRecursionApproach3(BinaryTree tree) {
+        // Different Rule: Diameter of a tree is max of 1 + left subtree height + right
+        // subtree height for each node in tree
+        Height h = new Height();
+        calculateDiameterOfBinaryTreeWithRecursionApproach3Util(tree.root, h);
+        int diameter = h.val;
+        System.out.println(diameter);
+    }
+
+    private int calculateDiameterOfBinaryTreeWithRecursionApproach3Util(Node node, Height height) {
+        if (node == null) {
+            return 0;
+        }
+
+        int leftHeight = calculateDiameterOfBinaryTreeWithRecursionApproach3Util(node.left, height);
+        int rightHeight = calculateDiameterOfBinaryTreeWithRecursionApproach3Util(node.right, height);
+        height.val = Math.max(height.val, 1 + leftHeight + rightHeight);
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+    public void printLongestLeafToLeafPath(BinaryTree tree) {
+        // Print diameter path of tree
+        Height h = new Height();
+        calculateMiddleNodeInDiameter(tree.root, h);
+        printDiameter(h.node.left, h.leftHeight, false);
+        System.out.print(h.node.data + " ");
+        printDiameter(h.node.right, h.rightHeight, true);
+    }
+
+    private int calculateMiddleNodeInDiameter(Node node, Height h) {
+        if (node == null) {
+            return 0;
+        }
+        int lh = calculateMiddleNodeInDiameter(node.left, h);
+        int rh = calculateMiddleNodeInDiameter(node.right, h);
+        if (h.val < 1 + lh + rh) {
+            h.val = 1 + lh + rh;
+            h.leftHeight = lh;
+            h.rightHeight = rh;
+            h.node = node;
+        }
+        return 1 + Math.max(lh, rh);
+    }
+
+    private void printDiameter(Node node, int height, boolean flag) {
+        int arr[] = new int[100];
+        int index = 1;
+        fetchLongestNodeToLeafRoute(node, arr, index, height);
+        printArray(arr, height, flag);
+    }
+
+    private void printArray(int[] arr, int height, boolean flag) {
+        if (flag) {
+            for (int i = 1; i <= height; i++) {
+                System.out.print(arr[i] + " ");
+            }
+        } else {
+            for (int i = height; i >= 1; i--) {
+                System.out.print(arr[i] + " ");
+            }
+        }
+    }
+
+    private boolean fetchLongestNodeToLeafRoute(Node node, int[] arr, int index, int height) {
+        if (node == null) {
+            return false;
+        }
+        arr[index] = node.data;
+        if (index == height) {
+            return true;
+        }
+        index++;
+        return fetchLongestNodeToLeafRoute(node.left, arr, index, height)
+                || fetchLongestNodeToLeafRoute(node.right, arr, index, height);
+    }
+
+    public void printAllNodesAtKDistanceFromRootWithRecursion(BinaryTree tree, int k) {
+        printAllNodesAtKDistanceFromRootWithRecursionUtil(tree.root, k);
+    }
+
+    private void printAllNodesAtKDistanceFromRootWithRecursionUtil(Node node, int k) {
+        if (node == null) {
+            return;
+        }
+        if (k == 0) {
+            System.out.print(node.data + " ");
+            return;
+        }
+        printAllNodesAtKDistanceFromRootWithRecursionUtil(node.left, k - 1);
+        printAllNodesAtKDistanceFromRootWithRecursionUtil(node.right, k - 1);
+    }
+
+    public void printAllNodesAtKDistanceFromRootWithoutRecursion(BinaryTree tree, int k) {
+        printAllNodesAtKDistanceFromRootWithoutRecursionUtil(tree.root, k);
+    }
+
+    private void printAllNodesAtKDistanceFromRootWithoutRecursionUtil(Node root, int k) {
+        Node curr = root;
+        Stack<Node> st = new Stack<>();
+        while (curr != null || st.size() > 1) {
+            while (curr != null && st.size() < 3) {
+                st.add(curr);
+                curr = curr.left;
+            }
+            curr = st.peek();
+            if(st.size() == k){
+                System.out.print(curr.data + " ");
+            }
+            curr = st.pop();
+            while (curr != null && !st.isEmpty() && curr == st.peek().right) {
+                curr = st.pop();
+            }
+            if(curr == root){
+                break;
+            }
+            curr = st.peek().right;
         }
     }
 }
