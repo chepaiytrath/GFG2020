@@ -12,7 +12,7 @@ import java.util.Stack;
 import datastructures.binarytree.BinaryTree.Node;
 
 public class CheckingAndPrinting {
-    Traversals t = new Traversals();
+    TraversalAndView t = new TraversalAndView();
 
     public void checkForChildrenSumProperty(BinaryTree tree) {
         boolean isSatisfied = checkForChildrenSumPropertyUtil(tree.root);

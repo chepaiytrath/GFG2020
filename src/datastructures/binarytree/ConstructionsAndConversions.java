@@ -15,7 +15,7 @@ public class ConstructionsAndConversions {
         }
     }
 
-    Traversals t = new Traversals();
+    TraversalAndView t = new TraversalAndView();
 
     public void constructFromInorderAndPreorder(String in, String pre) {
         BinaryTree tree = new BinaryTree(constructFromInorderAndPreorderUtil(in, pre));
