@@ -1,7 +1,6 @@
 package datastructures.binarytree;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -1324,17 +1323,96 @@ public class CheckingAndPrinting {
                 curr = curr.left;
             }
             curr = st.peek();
-            if(st.size() == k){
+            if (st.size() == k) {
                 System.out.print(curr.data + " ");
             }
             curr = st.pop();
             while (curr != null && !st.isEmpty() && curr == st.peek().right) {
                 curr = st.pop();
             }
-            if(curr == root){
+            if (curr == root) {
                 break;
             }
             curr = st.peek().right;
+        }
+    }
+
+    public void printAllNodesAtKDistanceFromGivenNode(BinaryTree tree, Node target, int k) {
+        printAllNodesAtKDistanceFromGivenNodeUtil(tree.root, target, k);
+    }
+
+    private int printAllNodesAtKDistanceFromGivenNodeUtil(Node node, Node target, int k) {
+        if (node == null) {
+            return -1;
+        }
+        if (node == target) {
+            printAllNodesAtKDistanceFromRootWithRecursionUtil(target, k);
+            return 0;
+        }
+        int leftDis = printAllNodesAtKDistanceFromGivenNodeUtil(node.left, target, k);
+        if (leftDis != -1) {
+            if (k - 1 == leftDis) {
+                System.out.print(node.data + " ");
+            } else {
+                printAllNodesAtKDistanceFromRootWithRecursionUtil(node.right, k - 2 - leftDis);
+            }
+            return 1 + leftDis;
+        }
+
+        int rightDis = printAllNodesAtKDistanceFromGivenNodeUtil(node.right, target, k);
+        if (rightDis != -1) {
+            if (k - 1 == rightDis) {
+                System.out.print(node.data + " ");
+            } else {
+                printAllNodesAtKDistanceFromRootWithRecursionUtil(node.left, k - 2 - rightDis);
+            }
+            return 1 + rightDis;
+        }
+        return -1;
+    }
+
+    public void printNodesAtOddLevelsWithRecursion(BinaryTree tree) {
+        printNodesAtOddLevelsWithRecursionUtil(tree.root, true);
+    }
+
+    private void printNodesAtOddLevelsWithRecursionUtil(Node node, boolean isOdd) {
+        if(node == null){
+            return;
+        }
+        if(isOdd){
+            System.out.println(node.data);
+        }
+        printNodesAtOddLevelsWithRecursionUtil(node.left, !isOdd);
+        printNodesAtOddLevelsWithRecursionUtil(node.right, !isOdd);
+    }
+
+    public void printNodesAtOddLevelsWithoutRecursion(BinaryTree tree) {
+        printNodesAtOddLevelsWithoutRecursionUtil(tree.root);
+    }
+
+    private void printNodesAtOddLevelsWithoutRecursionUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        que.add(null);
+        int level = 1;
+        while (!que.isEmpty()) {
+            Node popped = que.poll();
+            if (popped == null) {
+                if (que.peek() != null) {
+                    que.add(null);
+                }
+                level++;
+                continue;
+            }
+            if (level % 2 != 0) {
+                System.out.println(popped.data);
+            }
+            if (popped.left != null) {
+                que.add(popped.left);
+            }
+            if (popped.right != null) {
+                que.add(popped.right);
+            }
         }
     }
 }
