@@ -17,29 +17,29 @@ public class ConstructionAndConversion {
 
     TraversalAndView t = new TraversalAndView();
 
-    public void constructFromInOrderAndPreOrder(String in, String pre) {
-        BinaryTree tree = new BinaryTree(constructFromInOrderAndPreOrderUtil(in, pre));
+    public void constructBinaryTreeFromInOrderAndPreOrder(String in, String pre) {
+        BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndPreOrderUtil(in, pre));
         t.printInOrder(tree);
     }
 
-    private Node constructFromInOrderAndPreOrderUtil(String in, String pre) {
+    private Node constructBinaryTreeFromInOrderAndPreOrderUtil(String in, String pre) {
         if (pre.isEmpty()) {
             return null;
         }
         char preFirstChar = pre.charAt(0);
         int inorderIndexOfPreFirstChar = in.indexOf(preFirstChar);
         Node node = new Node(Character.getNumericValue(preFirstChar));
-        node.left = constructFromInOrderAndPreOrderUtil(in.substring(0, inorderIndexOfPreFirstChar), pre.substring(1, 1 + inorderIndexOfPreFirstChar));
-        node.right = constructFromInOrderAndPreOrderUtil(in.substring(1 + inorderIndexOfPreFirstChar), pre.substring(1 + inorderIndexOfPreFirstChar));
+        node.left = constructBinaryTreeFromInOrderAndPreOrderUtil(in.substring(0, inorderIndexOfPreFirstChar), pre.substring(1, 1 + inorderIndexOfPreFirstChar));
+        node.right = constructBinaryTreeFromInOrderAndPreOrderUtil(in.substring(1 + inorderIndexOfPreFirstChar), pre.substring(1 + inorderIndexOfPreFirstChar));
         return node;
     }
 
-    public void constructFromInOrderAndPostorder(String in, String post) {
-        BinaryTree tree = new BinaryTree(constructFromInOrderAndPostorderUtil(in, post));
+    public void constructBinaryTreeFromInOrderAndPostOrder(String in, String post) {
+        BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndPostOrderUtil(in, post));
         t.printInOrder(tree);
     }
 
-    private Node constructFromInOrderAndPostorderUtil(String in, String post) {
+    private Node constructBinaryTreeFromInOrderAndPostOrderUtil(String in, String post) {
         if (in.isEmpty() && post.isEmpty()) {
             return null;
         }
@@ -47,17 +47,17 @@ public class ConstructionAndConversion {
         char postLastChar = post.charAt(postLastIndex);
         int inorderIndexOfPostLastChar = in.indexOf(postLastChar);
         Node node = new Node(Character.getNumericValue(post.charAt(post.length() - 1)));
-        node.left = constructFromInOrderAndPostorderUtil(in.substring(0, inorderIndexOfPostLastChar), post.substring(0, inorderIndexOfPostLastChar));
-        node.right = constructFromInOrderAndPostorderUtil(in.substring(1 + inorderIndexOfPostLastChar), post.substring(inorderIndexOfPostLastChar, post.length() - 1));
+        node.left = constructBinaryTreeFromInOrderAndPostOrderUtil(in.substring(0, inorderIndexOfPostLastChar), post.substring(0, inorderIndexOfPostLastChar));
+        node.right = constructBinaryTreeFromInOrderAndPostOrderUtil(in.substring(1 + inorderIndexOfPostLastChar), post.substring(inorderIndexOfPostLastChar, post.length() - 1));
         return node;
     }
 
-    public void constructFromInOrderAndLevelorder(int[] in, int[] level) {
-        BinaryTree tree = new BinaryTree(constructFromInOrderAndLevelorderUtil(in, level));
+    public void constructBinaryTreeFromInOrderAndLevelOrder(int[] in, int[] level) {
+        BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndLevelOrderUtil(in, level));
         t.printInOrder(tree);
     }
 
-    private Node constructFromInOrderAndLevelorderUtil(int[] in, int[] level) {
+    private Node constructBinaryTreeFromInOrderAndLevelOrderUtil(int[] in, int[] level) {
         if (in.length == 0) {
             return null;
         }
@@ -71,8 +71,8 @@ public class ConstructionAndConversion {
             i++;
         }
         Node node = new Node(in[inorderIndexOfFirstFoundLevelChar]);
-        node.left = constructFromInOrderAndLevelorderUtil(Arrays.copyOfRange(in, 0, inorderIndexOfFirstFoundLevelChar), level);
-        node.right = constructFromInOrderAndLevelorderUtil(Arrays.copyOfRange(in, 1 + inorderIndexOfFirstFoundLevelChar, in.length), level);
+        node.left = constructBinaryTreeFromInOrderAndLevelOrderUtil(Arrays.copyOfRange(in, 0, inorderIndexOfFirstFoundLevelChar), level);
+        node.right = constructBinaryTreeFromInOrderAndLevelOrderUtil(Arrays.copyOfRange(in, 1 + inorderIndexOfFirstFoundLevelChar, in.length), level);
         return node;
     }
 
@@ -151,17 +151,17 @@ public class ConstructionAndConversion {
         return node;
     }
 
-    public void constructFullBinaryTreeFromPreOrderAndPostorder(int[] pre, int[] post) {
+    public void constructFullBinaryTreeFromPreOrderAndPostOrder(int[] pre, int[] post) {
         //FBT : Either 0 OR 2 children
         //Sample Input
         /*int[] pre = {1, 2, 4, 8, 9, 5, 3, 6, 7};
         int[] post = {8, 9, 4, 5, 2, 6, 7, 3, 1};*/
 
-        BinaryTree tree = new BinaryTree(constructFullBinaryTreeFromPreOrderAndPostorderUtil(pre, post));
+        BinaryTree tree = new BinaryTree(constructFullBinaryTreeFromPreOrderAndPostOrderUtil(pre, post));
         t.printPreOrder(tree);
     }
 
-    private Node constructFullBinaryTreeFromPreOrderAndPostorderUtil(int[] pre, int[] post) {
+    private Node constructFullBinaryTreeFromPreOrderAndPostOrderUtil(int[] pre, int[] post) {
         if (pre.length == post.length && post.length == 1) {
             return new Node(pre[0]);
         }
@@ -172,8 +172,8 @@ public class ConstructionAndConversion {
         Node node = new Node(post[len - 1]);
         int preIndexRightChild = findIndex(pre, post[len - 2]);
         int rightSubtreeLen = pre.length - preIndexRightChild;
-        node.left = constructFullBinaryTreeFromPreOrderAndPostorderUtil(Arrays.copyOfRange(pre, 1, preIndexRightChild), Arrays.copyOfRange(post, 0, len - 1 - rightSubtreeLen));
-        node.right = constructFullBinaryTreeFromPreOrderAndPostorderUtil(Arrays.copyOfRange(pre, preIndexRightChild, len), Arrays.copyOfRange(post, len - 1 - rightSubtreeLen, len - 1));
+        node.left = constructFullBinaryTreeFromPreOrderAndPostOrderUtil(Arrays.copyOfRange(pre, 1, preIndexRightChild), Arrays.copyOfRange(post, 0, len - 1 - rightSubtreeLen));
+        node.right = constructFullBinaryTreeFromPreOrderAndPostOrderUtil(Arrays.copyOfRange(pre, preIndexRightChild, len), Arrays.copyOfRange(post, len - 1 - rightSubtreeLen, len - 1));
         return node;
     }
 
@@ -262,16 +262,8 @@ public class ConstructionAndConversion {
     static Node head = null;
     static Node prev = null;
 
-    public void convertToInOrderDoublyLinkedListWithStaticField(Node node) {
-        convertToInOrderDoublyLinkedListWithStaticFieldUtil(node);
-        while (head != null) {
-            System.out.print(head.data + " ");
-            head = head.right;
-        }
-    }
-
-    public void convertToInOrderCircularDoublyLinkedListWithStaticField(Node node) {
-        convertToInOrderDoublyLinkedListWithStaticFieldUtil(node);
+    public void convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticField(Node node) {
+        convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node);
         head.left = prev;
         prev.right = head;
         Node curr = head;
@@ -281,11 +273,11 @@ public class ConstructionAndConversion {
         } while (curr != head);
     }
 
-    public void convertToInOrderDoublyLinkedListWithStaticFieldUtil(Node node) {
+    public void convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(Node node) {
         if (node == null) {
             return;
         }
-        convertToInOrderDoublyLinkedListWithStaticFieldUtil(node.left);
+        convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node.left);
         if (prev == null) {
             head = node;
         } else {
@@ -293,11 +285,19 @@ public class ConstructionAndConversion {
             node.left = prev;
         }
         prev = node;
-        convertToInOrderDoublyLinkedListWithStaticFieldUtil(node.right);
+        convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node.right);
     }
 
-    public void convertToInOrderDoublyLinkedListWithoutStaticField(Node node) {
-        Node n = convertToInOrderDoublyLinkedListWithoutStaticFieldUtil(node);
+    public void convertBinaryTreeToInOrderDoublyLinkedListWithRecursionAndStaticField(Node node) {
+        convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node);
+        while (head != null) {
+            System.out.print(head.data + " ");
+            head = head.right;
+        }
+    }
+
+    public void convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticField(Node node) {
+        Node n = convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticFieldUtil(node);
         while (n.left != null) {
             n = n.left;
         }
@@ -307,18 +307,18 @@ public class ConstructionAndConversion {
         }
     }
 
-    private Node convertToInOrderDoublyLinkedListWithoutStaticFieldUtil(Node node) {
+    private Node convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticFieldUtil(Node node) {
         if (node == null) {
             return null;
         }
         if (node.left != null) {
-            Node left = convertToInOrderDoublyLinkedListWithoutStaticFieldUtil(node.left);
+            Node left = convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticFieldUtil(node.left);
             for (; left.right != null; left = left.right) ;
             left.right = node;
             node.left = left;
         }
         if (node.right != null) {
-            Node right = convertToInOrderDoublyLinkedListWithoutStaticFieldUtil(node.right);
+            Node right = convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticFieldUtil(node.right);
             for (; right.left != null; right = right.left) ;
             right.left = node;
             node.right = right;
@@ -334,7 +334,7 @@ public class ConstructionAndConversion {
         return left;
     }
 
-    public void convertToLevelOrderSpiralFashionDoublyLinkedList(BinaryTree tree) {
+    public void convertBinaryTreeToLevelOrderSpiralFashionDoublyLinkedListWithoutRecursionWithQueueAndStack(BinaryTree tree) {
         Deque<Node> queue = new LinkedList<>();
         queue.add(tree.root);
         Stack<Node> stack = new Stack<>();
@@ -438,12 +438,12 @@ public class ConstructionAndConversion {
         t.levelOrderTraversalWithoutRecursionWithQueue(new BinaryTree(nodeStorageArr[last]));
     }
 
-    public void convertToAncestorMatrixUsingExtraArray(BinaryTree tree) {
+    public void constructAncestorMatrixFromBinaryTreeUsingExtraArray(BinaryTree tree) {
         Node node = tree.root;
         int size = findSize(node);
         int[][] mat;
         mat = new int[size][size];
-        convertToAncestorMatrixUsingExtraArrayUtil(node, mat, size);
+        constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(node, mat, size);
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 System.out.print(mat[i][j] + " ");
@@ -465,13 +465,13 @@ public class ConstructionAndConversion {
         }
     }
 
-    private Node convertToAncestorMatrixUsingExtraArrayUtil(Node node, int[][] mat, int size) {
+    private Node constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(Node node, int[][] mat, int size) {
         if (node == null) {
             return null;
         }
         int[] result = new int[size];
-        Node left = convertToAncestorMatrixUsingExtraArrayUtil(node.left, mat, size);
-        Node right = convertToAncestorMatrixUsingExtraArrayUtil(node.right, mat, size);
+        Node left = constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(node.left, mat, size);
+        Node right = constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(node.right, mat, size);
         if (left != null) {
             result[left.data] = 1;
             addArrays(result, mat[left.data]);
@@ -484,12 +484,12 @@ public class ConstructionAndConversion {
         return node;
     }
 
-    public void convertToAncestorMatrixWithoutUsingExtraArray(BinaryTree tree) {
+    public void constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArray(BinaryTree tree) {
         Node node = tree.root;
         int size = findSize(node);
         int[][] mat;
         mat = new int[size][size];
-        convertToAncestorMatrixWithoutUsingExtraArrayUtil(node, mat, size);
+        constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArrayUtil(node, mat, size);
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 System.out.print(mat[i][j] + " ");
@@ -498,12 +498,12 @@ public class ConstructionAndConversion {
         }
     }
 
-    private void convertToAncestorMatrixWithoutUsingExtraArrayUtil(Node node, int[][] mat, int size) {
+    private void constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArrayUtil(Node node, int[][] mat, int size) {
         if (node == null) {
             return;
         }
-        convertToAncestorMatrixWithoutUsingExtraArrayUtil(node.left, mat, size);
-        convertToAncestorMatrixWithoutUsingExtraArrayUtil(node.right, mat, size);
+        constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArrayUtil(node.left, mat, size);
+        constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArrayUtil(node.right, mat, size);
         if (node.left != null) {
             mat[node.data][node.left.data] = 1;
             for (int i = 0; i < size; i++) {
@@ -522,7 +522,7 @@ public class ConstructionAndConversion {
         }
     }
 
-    public void constructBinaryTreeFromParentArrayWithQueue(int[] arr) {
+    public void constructBinaryTreeFromParentArrayWithoutRecursionWithQueue(int[] arr) {
         Map<Integer, List<Integer>> map = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
             List<Integer> list = map.computeIfAbsent(arr[i], k -> new ArrayList<>());
@@ -584,7 +584,21 @@ public class ConstructionAndConversion {
         }
     }
 
-    private Node addChild(Node node, int data) {
+    public void constructBinaryTreeWithLeftChildRightSiblingRelationship() {
+        Node root = new Node(10);
+        Node n2 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(root, 2);
+        Node n3 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(root, 3);
+        Node n4 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(root, 4);
+        Node n5 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(root, 5);
+        Node n6 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(n4, 6);
+        Node n7 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(n5, 7);
+        Node n8 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(n5, 8);
+        Node n9 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(n5, 9);
+
+        t.levelOrderTraversalWithoutRecursionWithQueue(new BinaryTree(root));
+    }
+
+    private Node addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(Node node, int data) {
         if (node == null) {
             return null;
         }
@@ -592,11 +606,11 @@ public class ConstructionAndConversion {
             node.left = new Node(data);
             return node.left;
         } else {
-            return addSibling(node.left, data);
+            return addSiblingToConstructBinaryTreeWithLeftChildRightSiblingRelationship(node.left, data);
         }
     }
 
-    private Node addSibling(Node node, int data) {
+    private Node addSiblingToConstructBinaryTreeWithLeftChildRightSiblingRelationship(Node node, int data) {
         if (node == null) {
             return null;
         }
@@ -605,20 +619,6 @@ public class ConstructionAndConversion {
         }
         node.right = new Node(data);
         return node.right;
-    }
-
-    public void constructBinaryTreeWithLeftChildRightSiblingRelationship() {
-        Node root = new Node(10);
-        Node n2 = addChild(root, 2);
-        Node n3 = addChild(root, 3);
-        Node n4 = addChild(root, 4);
-        Node n5 = addChild(root, 5);
-        Node n6 = addChild(n4, 6);
-        Node n7 = addChild(n5, 7);
-        Node n8 = addChild(n5, 8);
-        Node n9 = addChild(n5, 9);
-
-        t.levelOrderTraversalWithoutRecursionWithQueue(new BinaryTree(root));
     }
 
     public void convertBinaryTreeToLeftChildRightSiblingRelationshipTree(BinaryTree tree) {
