@@ -273,7 +273,7 @@ public class ConstructionAndConversion {
         } while (curr != head);
     }
 
-    public void convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(Node node) {
+    private void convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(Node node) {
         if (node == null) {
             return;
         }
