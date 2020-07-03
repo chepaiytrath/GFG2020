@@ -1,6 +1,7 @@
 package datastructures.binarytree;
 
 import datastructures.binarytree.BinaryTree.Node;
+import datastructures.binarytree.BinaryTree.QueueNode;
 
 import java.util.*;
 
@@ -9,50 +10,50 @@ public class TraversalAndView {
         System.out.print(node.data + " ");
     }
 
-    public void printPreorder(BinaryTree tree) {
-        printPreorder(tree.root);
+    public void printPreOrder(BinaryTree tree) {
+        printPreOrder(tree.root);
     }
 
-    private void printPreorder(Node node) {
+    private void printPreOrder(Node node) {
         if (node == null) {
             return;
         }
         visit(node);
-        printPreorder(node.left);
-        printPreorder(node.right);
+        printPreOrder(node.left);
+        printPreOrder(node.right);
     }
 
-    public void printInorder(BinaryTree tree) {
-        printInorder(tree.root);
+    public void printInOrder(BinaryTree tree) {
+        printInOrder(tree.root);
     }
 
-    private void printInorder(Node node) {
+    private void printInOrder(Node node) {
         if (node == null) {
             return;
         }
-        printInorder(node.left);
+        printInOrder(node.left);
         visit(node);
-        printInorder(node.right);
+        printInOrder(node.right);
     }
 
-    public void printPostorder(BinaryTree tree) {
-        printPostorder(tree.root);
+    public void printPostOrder(BinaryTree tree) {
+        printPostOrder(tree.root);
     }
 
-    private void printPostorder(Node node) {
+    private void printPostOrder(Node node) {
         if (node == null) {
             return;
         }
-        printPostorder(node.left);
-        printPostorder(node.right);
+        printPostOrder(node.left);
+        printPostOrder(node.right);
         visit(node);
     }
 
-    public void morrisPreorderTraversal(BinaryTree tree) {
-        morrisPreorderTraversalUtil(tree.root);
+    public void morrisPreOrderTraversal(BinaryTree tree) {
+        morrisPreOrderTraversalUtil(tree.root);
     }
 
-    private void morrisPreorderTraversalUtil(Node node) {
+    private void morrisPreOrderTraversalUtil(Node node) {
         Node curr = node;
         while (curr != null) {
             if (curr.left == null) {
@@ -72,11 +73,11 @@ public class TraversalAndView {
         }
     }
 
-    public void morrisInorderTraversal(BinaryTree tree) {
-        morrisInorderTraversalUtil(tree.root);
+    public void morrisInOrderTraversal(BinaryTree tree) {
+        morrisInOrderTraversalUtil(tree.root);
     }
 
-    private void morrisInorderTraversalUtil(Node node) {
+    private void morrisInOrderTraversalUtil(Node node) {
         Node curr = node;
         while (curr != null) {
             if (curr.left == null) {
@@ -105,7 +106,7 @@ public class TraversalAndView {
         return left;
     }
 
-    /* public void printInorderWithStackWithoutRecursion(BinaryTree tree) {
+    /* public void printInOrderWithStackWithoutRecursion(BinaryTree tree) {
         //Similar solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
         Stack<Node> st = new Stack<>();
         Node curr = tree.root;
@@ -126,7 +127,7 @@ public class TraversalAndView {
         }
     } */
     
-    public void printInorderWithStackWithoutRecursion(BinaryTree tree) {
+    public void printInOrderWithoutRecursionWithStack(BinaryTree tree) {
         //Same solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
         Stack<Node> st = new Stack<>();
         Node curr = tree.root;
@@ -170,7 +171,7 @@ public class TraversalAndView {
         }
     }
 
-    public void printPostOrderWithOneStacksWithoutRecursion(BinaryTree tree) {
+    public void printPostOrderWithOneStackWithoutRecursion(BinaryTree tree) {
         /*BinaryTree tree = new BinaryTree(1);
         tree.root.left = new Node(2);
         tree.root.left.left = new Node(4);
@@ -212,7 +213,7 @@ public class TraversalAndView {
         }
     }
 
-    public void printPostOrderWithOneStacksWithoutRecursion2(BinaryTree tree) {
+    public void printPostOrderWithOneStackWithoutRecursion2(BinaryTree tree) {
         Stack<Node> st = new Stack<>();
         Node n = tree.root;
         while (n != null) {
@@ -238,7 +239,7 @@ public class TraversalAndView {
         }
     }
 
-    public void levelOrderTraversalWithQueue(BinaryTree tree) {
+    public void levelOrderTraversalWithoutRecursionWithQueue(BinaryTree tree) {
         Queue<Node> q = new LinkedList<>();
         q.add(tree.root);
         while (!q.isEmpty()) {
@@ -261,7 +262,7 @@ public class TraversalAndView {
         }
     }
 
-    public void reverseLevelOrderTraversalWithQueueandStack(BinaryTree tree) {
+    public void reverseLevelOrderTraversalWithoutRecursionWithQueueAndStack(BinaryTree tree) {
         Stack<Node> st = new Stack<>();
         Queue<Node> q = new LinkedList<>();
         Node node = tree.root;
@@ -353,7 +354,7 @@ public class TraversalAndView {
         }
     }
 
-    public void levelOrderTraversalInSpiralFormWithTwoStacks(BinaryTree tree) {
+    public void levelOrderTraversalInSpiralFormWithoutRecursionWithTwoStacks(BinaryTree tree) {
         if (tree.root == null) {
             return;
         }
@@ -437,17 +438,17 @@ public class TraversalAndView {
         }
     }
 
-    public void verticalOrderTraversalWithQueue(BinaryTree tree) {
-        Queue<BinaryTree.QueueNode> q = new LinkedList<>();
-        q.add(new BinaryTree.QueueNode(0, tree.root));
+    public void verticalOrderTraversalWithoutRecursionWithQueueAndTreeMap(BinaryTree tree) {
+        Queue<QueueNode> q = new LinkedList<>();
+        q.add(new QueueNode(0, tree.root));
         Map<Integer, List<Integer>> map = new TreeMap<>();
         while (!q.isEmpty()) {
-            BinaryTree.QueueNode popped = q.poll();
+            QueueNode popped = q.poll();
             if (popped.node.left != null) {
-                q.add(new BinaryTree.QueueNode(popped.dis - 1, popped.node.left));
+                q.add(new QueueNode(popped.dis - 1, popped.node.left));
             }
             if (popped.node.right != null) {
-                q.add(new BinaryTree.QueueNode(popped.dis + 1, popped.node.right));
+                q.add(new QueueNode(popped.dis + 1, popped.node.right));
             }
             List<Integer> listVal = map.computeIfAbsent(popped.dis, k -> new ArrayList<>());
             listVal.add(popped.node.data);
@@ -457,7 +458,7 @@ public class TraversalAndView {
         }
     }
 
-    public void verticalOrderTraversalWithRecursion(BinaryTree tree) {
+    public void verticalOrderTraversalWithRecursionAndTreeMap(BinaryTree tree) {
         Node node = tree.root;
         Map<Integer, List<Integer>> map = new TreeMap<>();
         verticalOrderTraversalWithRecursionUtil(node, 0, map);
@@ -525,46 +526,46 @@ public class TraversalAndView {
     public void boundaryTraversalForIncompleteBinaryTree(BinaryTree tree) {
         if (tree.root != null) {
             System.out.print(tree.root.data + " ");
-            printLeftBoundaryForIncompleteBinaryTree(tree.root.left);
-            printLeafNodesForIncompleteBinaryTree(tree.root.left);
-            printLeafNodesForIncompleteBinaryTree(tree.root.right);
-            printRightBoundaryForIncompleteBinaryTree(tree.root.right);
+            printLeftBoundaryIncompleteBinaryTree(tree.root.left);
+            printLeafNodesIncompleteBinaryTree(tree.root.left);
+            printLeafNodesIncompleteBinaryTree(tree.root.right);
+            printRightBoundaryIncompleteBinaryTree(tree.root.right);
         }
     }
 
-    private void printLeftBoundaryForIncompleteBinaryTree(Node node) {
+    private void printLeftBoundaryIncompleteBinaryTree(Node node) {
         if (node == null) {
             return;
         }
         if (node.left != null) {
             System.out.print(node.data + " ");
-            printLeftBoundaryForIncompleteBinaryTree(node.left);
+            printLeftBoundaryIncompleteBinaryTree(node.left);
         } else if (node.right != null) {
             System.out.print(node.data + " ");
-            printLeftBoundaryForIncompleteBinaryTree(node.right);
+            printLeftBoundaryIncompleteBinaryTree(node.right);
         }
     }
 
-    private void printLeafNodesForIncompleteBinaryTree(Node node) {
+    private void printLeafNodesIncompleteBinaryTree(Node node) {
         if (node == null) {
             return;
         }
-        printLeafNodesForIncompleteBinaryTree(node.left);
+        printLeafNodesIncompleteBinaryTree(node.left);
         if (node.left == null && node.right == null) {
             System.out.print(node.data + " ");
         }
-        printLeafNodesForIncompleteBinaryTree(node.right);
+        printLeafNodesIncompleteBinaryTree(node.right);
     }
 
-    private void printRightBoundaryForIncompleteBinaryTree(Node node) {
+    private void printRightBoundaryIncompleteBinaryTree(Node node) {
         if (node == null) {
             return;
         }
         if (node.right != null) {
-            printRightBoundaryForIncompleteBinaryTree(node.right);
+            printRightBoundaryIncompleteBinaryTree(node.right);
             System.out.print(node.data + " ");
         } else if (node.left != null) {
-            printRightBoundaryForIncompleteBinaryTree(node.left);
+            printRightBoundaryIncompleteBinaryTree(node.left);
             System.out.print(node.data + " ");
         }
     }
@@ -609,18 +610,18 @@ public class TraversalAndView {
         }
     }
 
-    public void topViewWithQueue(BinaryTree tree) {
+    public void topViewWithoutRecursionWithQueueAndTreeMap(BinaryTree tree) {
         //Recursive approach for top view needs an extra level check of the node in addition to distance because of traversing the left subtree completely first
-        Queue<BinaryTree.QueueNode> q = new LinkedList<>();
-        q.add(new BinaryTree.QueueNode(0, tree.root));
+        Queue<QueueNode> q = new LinkedList<>();
+        q.add(new QueueNode(0, tree.root));
         Map<Integer, Integer> map = new TreeMap<>();
         while (!q.isEmpty()) {
-            BinaryTree.QueueNode popped = q.poll();
+            QueueNode popped = q.poll();
             if (popped.node.left != null) {
-                q.add(new BinaryTree.QueueNode(popped.dis - 1, popped.node.left));
+                q.add(new QueueNode(popped.dis - 1, popped.node.left));
             }
             if (popped.node.right != null) {
-                q.add(new BinaryTree.QueueNode(popped.dis + 1, popped.node.right));
+                q.add(new QueueNode(popped.dis + 1, popped.node.right));
             }
             map.computeIfAbsent(popped.dis, k -> popped.node.data);
         }
@@ -629,36 +630,36 @@ public class TraversalAndView {
         }
     }
 
-    public void topViewWithRecursion(BinaryTree tree) {
+    public void topViewWithRecursionAndTreeMap(BinaryTree tree) {
         Map<Integer, BinaryTree.ViewNode> visited = new TreeMap<>();
-        topViewWithRecursionUtil(tree.root, 0, 0, visited);
+        topViewWithRecursionAndTreeMapUtil(tree.root, 0, 0, visited);
         for (Map.Entry entry : visited.entrySet()) {
             System.out.print(((BinaryTree.ViewNode) entry.getValue()).data + " ");
         }
     }
 
-    private void topViewWithRecursionUtil(Node node, int dis, int level, Map<Integer, BinaryTree.ViewNode> visited) {
+    private void topViewWithRecursionAndTreeMapUtil(Node node, int dis, int level, Map<Integer, BinaryTree.ViewNode> visited) {
         if (node == null) {
             return;
         }
         if (visited.get(dis) == null || visited.get(dis).level > level) {
             visited.put(dis, new BinaryTree.ViewNode(node.data, level));
         }
-        topViewWithRecursionUtil(node.left, dis - 1, level + 1, visited);
-        topViewWithRecursionUtil(node.right, dis + 1, level + 1, visited);
+        topViewWithRecursionAndTreeMapUtil(node.left, dis - 1, level + 1, visited);
+        topViewWithRecursionAndTreeMapUtil(node.right, dis + 1, level + 1, visited);
     }
 
-    public void bottomViewWithQueue(BinaryTree tree) {
-        Queue<BinaryTree.QueueNode> q = new LinkedList<>();
-        q.add(new BinaryTree.QueueNode(0, tree.root));
+    public void bottomViewWithoutRecursionWithQueue(BinaryTree tree) {
+        Queue<QueueNode> q = new LinkedList<>();
+        q.add(new QueueNode(0, tree.root));
         Map<Integer, Integer> map = new TreeMap<>();
         while (!q.isEmpty()) {
-            BinaryTree.QueueNode popped = q.poll();
+            QueueNode popped = q.poll();
             if (popped.node.left != null) {
-                q.add(new BinaryTree.QueueNode(popped.dis - 1, popped.node.left));
+                q.add(new QueueNode(popped.dis - 1, popped.node.left));
             }
             if (popped.node.right != null) {
-                q.add(new BinaryTree.QueueNode(popped.dis + 1, popped.node.right));
+                q.add(new QueueNode(popped.dis + 1, popped.node.right));
             }
             map.put(popped.dis, popped.node.data);
         }
@@ -705,7 +706,7 @@ public class TraversalAndView {
         leftViewWithRecursionUtil(node.right, level + 1, map);
     }
 
-    public void rightViewUsingQueue(BinaryTree tree) {
+    public void rightViewWithoutRecursionWithQueue(BinaryTree tree) {
         Queue<Node> q = new LinkedList<>();
         q.add(tree.root);
         while (!q.isEmpty()) {
