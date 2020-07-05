@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Stack;
 import datastructures.binarytree.BinaryTree.Node;
@@ -963,6 +964,111 @@ public class CheckingAndPrinting {
                         || checkIfThereIsARootToLeafPathWithGivenSequenceUtil(node.right, arr, arrSize, index + 1));
     }
 
+    public void printCousinsOfGivenNodeWithRecursion(BinaryTree tree, int data) {
+        int level = findLevel(data, tree.root, 1);
+        printCousinsOfGivenNodeWithRecursionUtil(tree.root, data, level);
+    }
+
+    private void printCousinsOfGivenNodeWithRecursionUtil(Node node, int data, int level) {
+        if (node == null) {
+            return;
+        }
+        if (level == 2) {
+            if ((node.left != null && node.left.data == data) || (node.right != null && node.right.data == data)) {
+                return;
+            }
+            if (node.left != null) {
+                System.out.print(node.left.data + " ");
+            }
+            if (node.right != null) {
+                System.out.print(node.right.data + " ");
+            }
+        } else if (level > 2) {
+            printCousinsOfGivenNodeWithRecursionUtil(node.left, data, level - 1);
+            printCousinsOfGivenNodeWithRecursionUtil(node.right, data, level - 1);
+        }
+    }
+
+    public void printCousinsOfGivenNodeWithoutRecursionWithQueueApproach1(BinaryTree tree, int data) {
+        int level = findLevel(data, tree.root, 1);
+        printCousinsOfGivenNodeWithoutRecursionWithQueueApproach1Util(tree.root, data, level);
+    }
+
+    private void printCousinsOfGivenNodeWithoutRecursionWithQueueApproach1Util(Node root, int data, int level) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        que.add(null);
+        int currLevel = 1;
+        while (!que.isEmpty()) {
+            Node popped = que.poll();
+            if (popped == null) {
+                currLevel++;
+                if (que.isEmpty() || currLevel >= level) {
+                    break;
+                }
+                que.add(null);
+                continue;
+            }
+            if (currLevel == level - 1 && !isParentOfTargetNode(popped, data)) {
+                if (popped.left != null) {
+                    System.out.print(popped.left.data + " ");
+                }
+                if (popped.right != null) {
+                    System.out.print(popped.right.data + " ");
+                }
+            }
+            if (popped.left != null) {
+                que.add(popped.left);
+            }
+            if (popped.right != null) {
+                que.add(popped.right);
+            }
+        }
+    }
+
+    public void printCousinsOfGivenNodeWithoutRecursionWithQueueApproach2(BinaryTree tree, int data) {
+        printCousinsOfGivenNodeWithoutRecursionWithQueueApproach2Util(tree.root, data);
+    }
+
+    private void printCousinsOfGivenNodeWithoutRecursionWithQueueApproach2Util(Node root, int data) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        que.add(null);
+        boolean breakFlag = false;
+        while (!que.isEmpty()) {
+            Node popped = que.poll();
+            if (popped == null) {
+                if (que.isEmpty() || breakFlag) {
+                    break;
+                }
+                que.add(null);
+                continue;
+            }
+            if (!isParentOfTargetNode(popped, data)) {
+                if(popped.left != null){
+                    que.add(popped.left);
+                }
+                if(popped.right != null){
+                    que.add(popped.right);
+                }
+            }else{
+                breakFlag = true;
+            }
+        }
+        while (que.peek() != null) {
+            System.out.print(que.poll().data + " ");
+        }
+    }
+
+    private boolean isParentOfTargetNode(Node node, int target) {
+        if (node.left != null && node.left.data == target) {
+            return true;
+        } else if (node.right != null && node.right.data == target) {
+            return true;
+        }
+        return false;
+    }
+
     public void printSiblingOfNodeInBinaryTree(BinaryTree tree, int data) {
         // BinaryTree tree = new BinaryTree(1);
         // tree.root.left = new Node(2);
@@ -1557,6 +1663,38 @@ public class CheckingAndPrinting {
                 que.add(popped.right);
             }
         }
-
     }
+
+    public void printElementsInEachLevelInSortedOrderWithoutRecursionWithPriorityQueue(BinaryTree tree) {
+        printElementsInEachLevelInSortedOrderUtil(tree.root);
+    }
+
+    private void printElementsInEachLevelInSortedOrderUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        que.add(null);
+        PriorityQueue<Integer> pque = new PriorityQueue<>();
+        while (!que.isEmpty()) {
+            Node popped = que.poll();
+            if (popped == null) {
+                while (!pque.isEmpty()) {
+                    System.out.print(pque.poll() + " ");
+                }
+                if (que.isEmpty()) {
+                    break;
+                }
+                System.out.println();
+                que.add(null);
+                continue;
+            }
+            if (popped.left != null) {
+                que.add(popped.left);
+            }
+            if (popped.right != null) {
+                que.add(popped.right);
+            }
+            pque.add(popped.data);
+        }
+    }
+
 }
