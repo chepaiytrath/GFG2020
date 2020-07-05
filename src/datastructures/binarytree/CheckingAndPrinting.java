@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
-
 import datastructures.binarytree.BinaryTree.Node;
 
 public class CheckingAndPrinting {
@@ -495,10 +494,12 @@ public class CheckingAndPrinting {
                 && checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(node1.right, node2.left);
     }
 
-    public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionWithTwoStacks(BinaryTree tree1, BinaryTree tree2) {
+    public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionWithTwoStacks(BinaryTree tree1,
+            BinaryTree tree2) {
         // Use iterative inorder traversal
 
-        boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionWithTwoStacksUtil(tree1.root, tree2.root);
+        boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionWithTwoStacksUtil(tree1.root,
+                tree2.root);
         System.out.println(isSatisfied);
     }
 
@@ -653,12 +654,15 @@ public class CheckingAndPrinting {
         return n1.data == n2.data && isIdentical(n1.left, n2.left) && isIdentical(n1.right, n2.right);
     }
 
-    public void checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrder(BinaryTree parent, BinaryTree child) {
-        boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrderUtil(parent.root, child.root);
+    public void checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrder(BinaryTree parent,
+            BinaryTree child) {
+        boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrderUtil(parent.root,
+                child.root);
         System.out.println(isSatisfied);
     }
 
-    private boolean checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrderUtil(Node parent, Node child) {
+    private boolean checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrderUtil(Node parent,
+            Node child) {
         List<String> inP = new ArrayList<>();
         populateInorder(parent, inP);
         String inParent = String.join("", inP);
@@ -790,7 +794,7 @@ public class CheckingAndPrinting {
     }
 
     private void checkIfLeafNodesAreOnSameLevelWithRecursionAndMapUtil(Node node, Map<Integer, Integer> map,
-                                                                       int level) {
+            int level) {
         if (node.isLeaf()) {
             map.put(node.data, level);
             return;
@@ -1376,10 +1380,10 @@ public class CheckingAndPrinting {
     }
 
     private void printNodesAtOddLevelsWithRecursionUtil(Node node, boolean isOdd) {
-        if(node == null){
+        if (node == null) {
             return;
         }
-        if(isOdd){
+        if (isOdd) {
             System.out.println(node.data);
         }
         printNodesAtOddLevelsWithRecursionUtil(node.left, !isOdd);
@@ -1414,5 +1418,145 @@ public class CheckingAndPrinting {
                 que.add(popped.right);
             }
         }
+    }
+
+    public void printNodesBetweenTwoGivenLevelNumbersOfBinaryTree(BinaryTree tree, int lo, int hi) {
+        printNodesBetweenTwoGivenLevelNumbersOfBinaryTreeUtil(tree.root, lo, hi);
+    }
+
+    private void printNodesBetweenTwoGivenLevelNumbersOfBinaryTreeUtil(Node node, int lo, int hi) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(node);
+        que.add(null);
+        int level = 1;
+        while (!que.isEmpty()) {
+            Node popped = que.poll();
+            if (popped == null) {
+                level++;
+                if (que.isEmpty() || level > hi) {
+                    break;
+                }
+                que.add(null);
+                continue;
+            }
+            if (level >= lo) {
+                System.out.print(popped.data + " ");
+            }
+            if (popped.left != null) {
+                que.add(popped.left);
+            }
+            if (popped.right != null) {
+                que.add(popped.right);
+            }
+        }
+    }
+
+    public void printNumbersPresentAKthLevelOfFibonacciBinaryTree(int k) {
+        printNumbersPresentAKthLevelOfFibonacciBinaryTreeUtil(k);
+    }
+
+    private void printNumbersPresentAKthLevelOfFibonacciBinaryTreeUtil(int k) {
+        int[] arr = new int[1000000 + 1];
+        populateFibonacciSeries(arr);
+
+        int lo = (int) Math.pow(2, k - 1) - 1;
+        int hi = (int) Math.pow(2, k) - 1 - 1;
+
+        while (lo <= hi) {
+            System.out.print(arr[lo] + " ");
+            lo++;
+        }
+    }
+
+    private void populateFibonacciSeries(int[] arr) {
+        arr[0] = 0;
+        arr[1] = 1;
+        for (int i = 2; i < arr.length; i++) {
+            arr[i] = arr[i - 2] + arr[i - 1];
+        }
+    }
+
+    public void printPrimeNumbersPresentAKthLevelOfBinaryTree(int k) {
+        printPrimeNumbersPresentAKthLevelOfBinaryTreeUtil(k);
+    }
+
+    private void printPrimeNumbersPresentAKthLevelOfBinaryTreeUtil(int k) {
+        List<Integer> list = new ArrayList<>();
+        populatePrimeNumberArray(list);
+        int lo = (int) Math.pow(2, k - 1) - 1;
+        int hi = (int) Math.pow(2, k) - 1 - 1;
+        while (lo <= hi) {
+            System.out.print(list.get(lo) + " ");
+            lo++;
+        }
+    }
+
+    private void populatePrimeNumberArray(List<Integer> list) {
+        boolean[] arr = new boolean[1000000 + 1];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = true;
+        }
+
+        for (int i = 2; i * i < arr.length; i++) {
+            if (arr[i]) {
+                for (int j = i * i; j < arr.length; j += i) {
+                    arr[j] = false;
+                }
+            }
+        }
+        for (int i = 2; i < arr.length; i++) {
+            if (arr[i]) {
+                list.add(i);
+            }
+        }
+    }
+
+    public void printLevelOfNodeInBinaryTreeWithRecursion(BinaryTree tree, int data) {
+        System.out.println(printLevelOfNodeInBinaryTreeWithRecursionUtil(tree.root, data, 1));
+    }
+
+    private int printLevelOfNodeInBinaryTreeWithRecursionUtil(Node node, int data, int level) {
+        if (node == null) {
+            return 0;
+        }
+        if (node.data == data) {
+            return level;
+        }
+        int left = printLevelOfNodeInBinaryTreeWithRecursionUtil(node.left, data, level + 1);
+        if (left != 0) {
+            return left;
+        }
+        return printLevelOfNodeInBinaryTreeWithRecursionUtil(node.right, data, level + 1);
+    }
+
+    public void printLevelOfAllNodesInBinaryTreeWithoutRecursionWithQueue(BinaryTree tree) {
+        printLevelOfAllNodesInBinaryTreeWithoutRecursionWithQueueUtil(tree.root);
+    }
+
+    private void printLevelOfAllNodesInBinaryTreeWithoutRecursionWithQueueUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        que.add(null);
+
+        int level = 1;
+        while (!que.isEmpty()) {
+            Node popped = que.poll();
+            if (popped == null) {
+                if (que.isEmpty()) {
+                    break;
+                }
+                level++;
+                que.add(null);
+                continue;
+            }
+            System.out.println("Level of " + popped.data + " is " + level);
+            if (popped.left != null) {
+                que.add(popped.left);
+            }
+            if (popped.right != null) {
+                que.add(popped.right);
+            }
+        }
+
     }
 }
