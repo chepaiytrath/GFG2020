@@ -1982,4 +1982,185 @@ public class CheckingAndPrinting {
             }
         }
     }
+
+    public void printAllFullNodesWithRecursion(BinaryTree tree) {
+        printAllFullNodesWithRecursionUtil(tree.root);
+    }
+
+    private void printAllFullNodesWithRecursionUtil(Node node) {
+        if (node == null || node.isLeaf()) {
+            return;
+        } else {
+            printAllFullNodesWithRecursionUtil(node.left);
+            if (node.left != null && node.right != null) {
+                System.out.print(node.data + " ");
+            }
+            printAllFullNodesWithRecursionUtil(node.right);
+        }
+    }
+
+    public void printAllLeafNodesLeftToRightWithRecursion(BinaryTree tree) {
+        printAllLeafNodesLeftToRightWithRecursionUtil(tree.root);
+    }
+
+    private void printAllLeafNodesLeftToRightWithRecursionUtil(Node node) {
+        if (node == null) {
+            return;
+        }
+        if (node.isLeaf()) {
+            System.out.print(node.data + " ");
+        }
+        printAllLeafNodesLeftToRightWithRecursionUtil(node.left);
+        printAllLeafNodesLeftToRightWithRecursionUtil(node.right);
+    }
+
+    public void printNodesAsTheyBecomeLeafNodeWithRecursion(BinaryTree tree) {
+        Node root = tree.root;
+        PriorityQueue<Integer> que = new PriorityQueue<>();
+        if (tree.root == null) {
+            return;
+        }
+        while (!root.isLeaf()) {
+            printNodesAsTheyBecomeLeafNodeWithRecursionUtil(root, que);
+            while (!que.isEmpty()) {
+                System.out.print(que.poll() + " ");
+            }
+            System.out.println();
+        }
+        System.out.print(tree.root.data);
+    }
+
+    private void printNodesAsTheyBecomeLeafNodeWithRecursionUtil(Node node, PriorityQueue<Integer> que) {
+        if (node == null) {
+            return;
+        }
+        if (node.left != null && !node.left.isLeaf()) {
+            printNodesAsTheyBecomeLeafNodeWithRecursionUtil(node.left, que);
+        } else if (node.left != null) {
+            que.add(node.left.data);
+            node.left = null;
+        }
+        if (node.right != null && !node.right.isLeaf()) {
+            printNodesAsTheyBecomeLeafNodeWithRecursionUtil(node.right, que);
+        } else if (node.right != null) {
+            que.add(node.right.data);
+            node.right = null;
+        }
+    }
+
+    public void printEvenPositionedNodesOfEvenLevelsInLevelOrder(BinaryTree tree) {
+        printEvenPositionedNodesOfEvenLevelsInLevelOrderUtil(tree.root);
+    }
+
+    private void printEvenPositionedNodesOfEvenLevelsInLevelOrderUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        int level = 0;
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (level % 2 == 0 && i % 2 == 0) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            if(level % 2 == 0){
+                System.out.println();
+            }
+            level++;
+        }
+    }
+
+    public void printOddPositionedNodesOfOddLevelsInLevelOrder(BinaryTree tree) {
+        printOddPositionedNodesOfOddLevelsInLevelOrderUtil(tree.root);
+    }
+
+    private void printOddPositionedNodesOfOddLevelsInLevelOrderUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        int level = 0;
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (level % 2 != 0 && i % 2 != 0) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            if(level % 2 != 0){
+                System.out.println();
+            }
+            level++;
+        }
+    }
+
+    public void printEvenPositionedNodesOfOddLevelsInLevelOrder(BinaryTree tree) {
+        printEvenPositionedNodesOfOddLevelsInLevelOrderUtil(tree.root);
+    }
+
+    private void printEvenPositionedNodesOfOddLevelsInLevelOrderUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        int level = 0;
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (level % 2 != 0 && i % 2 == 0) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            if(level % 2 != 0){
+                System.out.println();
+            }
+            level++;
+        }
+    }
+
+    public void printOddPositionedNodesOfEvenLevelsInLevelOrder(BinaryTree tree) {
+        printOddPositionedNodesOfEvenLevelsInLevelOrderUtil(tree.root);
+    }
+
+    private void printOddPositionedNodesOfEvenLevelsInLevelOrderUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        int level = 0;
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (level % 2 == 0 && i % 2 != 0) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            if(level % 2 == 0){
+                System.out.println();
+            }
+            level++;
+        }
+    }
 }
