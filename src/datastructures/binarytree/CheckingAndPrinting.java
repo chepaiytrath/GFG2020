@@ -1,19 +1,8 @@
 package datastructures.binarytree;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
-import java.util.Stack;
-
 import datastructures.binarytree.BinaryTree.Node;
+
+import java.util.*;
 
 public class CheckingAndPrinting {
     TraversalAndView t = new TraversalAndView();
@@ -346,7 +335,7 @@ public class CheckingAndPrinting {
          * tree.root.left.left = new Node(40); tree.root.left.right = new Node(50);
          * tree.root.right = new Node(30); tree.root.right.left = new Node(60);
          * tree.root.right.right = new Node(70);
-         * 
+         *
          * Not perfect BinaryTree tree = new BinaryTree(1); tree.root.left = new
          * Node(2); tree.root.left.right = new Node(4); tree.root.right = new Node(3);
          * tree.root.right.left = new Node(5); tree.root.right.right = new Node(6);
@@ -500,7 +489,7 @@ public class CheckingAndPrinting {
     }
 
     public void checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionWithTwoStacks(BinaryTree tree1,
-            BinaryTree tree2) {
+                                                                                       BinaryTree tree2) {
         // Use iterative inorder traversal
 
         boolean isSatisfied = checkIfTwoBinaryTreesAreMirrorOfEachOtherWithoutRecursionWithTwoStacksUtil(tree1.root,
@@ -660,14 +649,14 @@ public class CheckingAndPrinting {
     }
 
     public void checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrder(BinaryTree parent,
-            BinaryTree child) {
+                                                                                         BinaryTree child) {
         boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrderUtil(parent.root,
                 child.root);
         System.out.println(isSatisfied);
     }
 
     private boolean checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrderUtil(Node parent,
-            Node child) {
+                                                                                                 Node child) {
         List<String> inP = new ArrayList<>();
         populateInorder(parent, inP);
         String inParent = String.join("", inP);
@@ -799,7 +788,7 @@ public class CheckingAndPrinting {
     }
 
     private void checkIfLeafNodesAreOnSameLevelWithRecursionAndMapUtil(Node node, Map<Integer, Integer> map,
-            int level) {
+                                                                       int level) {
         if (node.isLeaf()) {
             map.put(node.data, level);
             return;
@@ -904,7 +893,7 @@ public class CheckingAndPrinting {
     }
 
     private boolean checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(Node node,
-            int totalSize) {
+                                                                                                      int totalSize) {
         if (node == null) {
             return false;
         }
@@ -914,7 +903,7 @@ public class CheckingAndPrinting {
         }
         return checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(node.left, totalSize)
                 || checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeTopDownUtil(node.right,
-                        totalSize);
+                totalSize);
     }
 
     private int findSize(Node node) {
@@ -936,14 +925,14 @@ public class CheckingAndPrinting {
     }
 
     private int checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(Node node,
-            int totalSize, RESULT obj) {
+                                                                                                   int totalSize, RESULT obj) {
         if (node == null) {
             return 0;
         }
         int currSize = checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(node.left,
                 totalSize, obj)
                 + checkIfRemovingAnEdgeInBinaryTreeCanDivideItIntoTwoHalvesWithEqualSizeBottomUpUtil(node.left,
-                        totalSize, obj)
+                totalSize, obj)
                 + 1;
         if (totalSize - currSize == currSize) {
             obj.res = true;
@@ -965,7 +954,7 @@ public class CheckingAndPrinting {
         }
         return ((index < arrSize) && (arr[index] == node.data))
                 && (checkIfThereIsARootToLeafPathWithGivenSequenceUtil(node.left, arr, arrSize, index + 1)
-                        || checkIfThereIsARootToLeafPathWithGivenSequenceUtil(node.right, arr, arrSize, index + 1));
+                || checkIfThereIsARootToLeafPathWithGivenSequenceUtil(node.right, arr, arrSize, index + 1));
     }
 
     public void printCousinsOfGivenNodeWithRecursion(BinaryTree tree, int data) {
@@ -1199,7 +1188,7 @@ public class CheckingAndPrinting {
     }
 
     private void printAllRootToLeafPathsWithTheirRelativePositionsUtil(Node node, List<Integer> list,
-            List<Integer> dirList, int lowestNegative, int dir) {
+                                                                       List<Integer> dirList, int lowestNegative, int dir) {
         if (node == null) {
             return;
         }
@@ -1494,7 +1483,7 @@ public class CheckingAndPrinting {
     }
 
     private List<Integer> printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach2Util(Node root, Node target,
-            int K) {
+                                                                                          int K) {
         Stack<Node> stk = new Stack<>();
         if (!findTargetHelper(root, target, stk)) {
             return Collections.emptyList();
@@ -1543,7 +1532,7 @@ public class CheckingAndPrinting {
     }
 
     public void printAllNodesAtKDistanceFromGivenNodeWithoutRecursionWithQueueAndSet(BinaryTree tree, Node target,
-            int k) {
+                                                                                     int k) {
         // Populate ParentMap for each node
         // Level order traversl starting with target node in queue
         // Add children and parents of popped elements to que only if they have not been
@@ -1563,7 +1552,7 @@ public class CheckingAndPrinting {
     }
 
     private void printAllNodesAtKDistanceFromGivenNodeWithoutRecursionWithQueueAndSetUtil(Node root, Node target,
-            int k) {
+                                                                                          int k) {
         Queue<Node> que = new LinkedList<>();
         Set<Node> visited = new HashSet<>();
         Map<Node, Node> parentMap = new HashMap<>();
@@ -1841,7 +1830,156 @@ public class CheckingAndPrinting {
         }
     }
 
-    public void printAllNodesExceptLeftmostNodeInEveryLevel(BinaryTree tree){
+    public void printAllNodesExceptLeftmostNodeInEveryLevel(BinaryTree tree) {
+        // Sample Input
+        // BinaryTree tree = new BinaryTree(15);
+        // tree.root.left = new Node(10);
+        // tree.root.left.left = new Node(8);
+        // tree.root.left.right = new Node(12);
+        // tree.root.right = new Node(20);
+        // tree.root.right.left = new Node(16);
+        // tree.root.right.right = new Node(25);
         printAllNodesExceptLeftmostNodeInEveryLevelUtil(tree.root);
+    }
+
+    private void printAllNodesExceptLeftmostNodeInEveryLevelUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+
+        while (!que.isEmpty()) {
+            int size = que.size();
+            boolean isLeftmost = true;
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (isLeftmost) {
+                    isLeftmost = !isLeftmost;
+                } else {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void printAllNodesExceptRightmostNodeInEveryLevel(BinaryTree tree) {
+        printAllNodesExceptRightmostNodeInEveryLevelUtil(tree.root);
+    }
+
+    private void printAllNodesExceptRightmostNodeInEveryLevelUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (i != size - 1 && size != 1) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public void printExtremeNodesOfEachLevelInAlternateOrderWithoutRecursionWithQueue(BinaryTree tree) {
+        //Sample Input
+        /*BinaryTree tree = new BinaryTree(1);
+        tree.root.left = new Node(2);
+        tree.root.left.left = new Node(4);
+        tree.root.left.left.left = new Node(8);
+        tree.root.left.left.left.left = new Node(16);
+        tree.root.left.left.left.right = new Node(17);
+        tree.root.left.left.right = new Node(9);
+        tree.root.left.left.right.left = new Node(18);
+        tree.root.left.left.right.right = new Node(19);
+        tree.root.left.right = new Node(5);
+        tree.root.left.right.left = new Node(10);
+        tree.root.left.right.left.left = new Node(20);
+        tree.root.left.right.left.right = new Node(21);
+        tree.root.left.right.right = new Node(11);
+        tree.root.left.right.right.left = new Node(22);
+        tree.root.left.right.right.right = new Node(23);
+        tree.root.right = new Node(3);
+        tree.root.right.left = new Node(6);
+        tree.root.right.left.left = new Node(12);
+        tree.root.right.left.left.left = new Node(24);
+        tree.root.right.left.left.right = new Node(25);
+        tree.root.right.left.right = new Node(13);
+        tree.root.right.left.right.left = new Node(26);
+        tree.root.right.left.right.right = new Node(27);
+        tree.root.right.right = new Node(7);
+        tree.root.right.right.left = new Node(14);
+        tree.root.right.right.left.left = new Node(28);
+        tree.root.right.right.left.right = new Node(29);
+        tree.root.right.right.right = new Node(15);
+        tree.root.right.right.right.left = new Node(30);
+        tree.root.right.right.right.right = new Node(31);*/
+        printExtremeNodesOfEachLevelInAlternateOrderWithoutRecursionWithQueueUtil(tree.root);
+    }
+
+    private void printExtremeNodesOfEachLevelInAlternateOrderWithoutRecursionWithQueueUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        int level = 1;
+        while (!que.isEmpty()) {
+            int size = que.size();
+            boolean isLeftmost = true;
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (level % 2 == 0 && isLeftmost) {
+                    System.out.print(popped.data + " ");
+                    isLeftmost = !isLeftmost;
+                } else if (level % 2 != 0 && i == size - 1) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+            level++;
+        }
+    }
+
+    public void printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversal(BinaryTree tree) {
+        int height = findHeight(tree.root);
+        boolean dir = true;
+        INT temp = new INT();
+        for (int i = 1; i <= height; i++) {
+            printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversalUtil(tree.root, temp, dir, i);
+            dir = !dir;
+            temp.d = 0;
+        }
+    }
+
+    private void printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversalUtil(Node node, INT temp, boolean dir, int level) {
+        if (node == null) {
+            return;
+        }
+        if (level == 1 && temp.d == 0) {
+            System.out.print(node.data + " ");
+            temp.d = 1;
+        } else {
+            if (dir) {
+                printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversalUtil(node.left, temp, dir, level - 1);
+                printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversalUtil(node.right, temp, dir, level - 1);
+            } else {
+                printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversalUtil(node.right, temp, dir, level - 1);
+                printExtremeNodesOfEachLevelInAlternateOrderWithRecursionAndSpiralTraversalUtil(node.left, temp, dir, level - 1);
+            }
+        }
     }
 }
