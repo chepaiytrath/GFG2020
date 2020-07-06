@@ -1,6 +1,8 @@
 package datastructures.binarytree;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -8,7 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
+
 import datastructures.binarytree.BinaryTree.Node;
 
 public class CheckingAndPrinting {
@@ -1045,13 +1049,13 @@ public class CheckingAndPrinting {
                 continue;
             }
             if (!isParentOfTargetNode(popped, data)) {
-                if(popped.left != null){
+                if (popped.left != null) {
                     que.add(popped.left);
                 }
-                if(popped.right != null){
+                if (popped.right != null) {
                     que.add(popped.right);
                 }
-            }else{
+            } else {
                 breakFlag = true;
             }
         }
@@ -1447,11 +1451,11 @@ public class CheckingAndPrinting {
         }
     }
 
-    public void printAllNodesAtKDistanceFromGivenNodeWithRecursion(BinaryTree tree, Node target, int k) {
-        printAllNodesAtKDistanceFromGivenNodeWithRecursionUtil(tree.root, target, k);
+    public void printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1(BinaryTree tree, Node target, int k) {
+        printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1Util(tree.root, target, k);
     }
 
-    private int printAllNodesAtKDistanceFromGivenNodeWithRecursionUtil(Node node, Node target, int k) {
+    private int printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1Util(Node node, Node target, int k) {
         if (node == null) {
             return -1;
         }
@@ -1459,7 +1463,7 @@ public class CheckingAndPrinting {
             printAllNodesAtKDistanceFromRootWithRecursionUtil(target, k);
             return 0;
         }
-        int leftDis = printAllNodesAtKDistanceFromGivenNodeWithRecursionUtil(node.left, target, k);
+        int leftDis = printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1Util(node.left, target, k);
         if (leftDis != -1) {
             if (k - 1 == leftDis) {
                 System.out.print(node.data + " ");
@@ -1469,7 +1473,7 @@ public class CheckingAndPrinting {
             return 1 + leftDis;
         }
 
-        int rightDis = printAllNodesAtKDistanceFromGivenNodeWithRecursionUtil(node.right, target, k);
+        int rightDis = printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1Util(node.right, target, k);
         if (rightDis != -1) {
             if (k - 1 == rightDis) {
                 System.out.print(node.data + " ");
@@ -1479,6 +1483,122 @@ public class CheckingAndPrinting {
             return 1 + rightDis;
         }
         return -1;
+    }
+
+    public void printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach2(BinaryTree tree, Node target, int k) {
+        // 1. Get the root to target node path in a stack
+        // 2. Visit each node in that path from target node till root
+        // 3. Find children at k dis for each node and ignore the ones already visited
+        List<Integer> list = printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach2Util(tree.root, target, k);
+        System.out.println(list);
+    }
+
+    private List<Integer> printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach2Util(Node root, Node target,
+            int K) {
+        Stack<Node> stk = new Stack<>();
+        if (!findTargetHelper(root, target, stk)) {
+            return Collections.emptyList();
+        }
+        int cnt = 0;
+        Node lastNode = null;
+        List<Integer> ans = new ArrayList<>();
+        while (!stk.isEmpty()) {
+            Node node = stk.pop();
+            ans.addAll(findChild(node, lastNode, K - cnt));
+            cnt++;
+            lastNode = node;
+        }
+        return ans;
+    }
+
+    private boolean findTargetHelper(Node root, Node target, Stack<Node> stk) {
+        if (root == null) {
+            return false;
+        }
+        stk.push(root);
+        if (root == target) {
+            return true;
+        }
+        if (findTargetHelper(root.left, target, stk)) {
+            return true;
+        }
+        if (findTargetHelper(root.right, target, stk)) {
+            return true;
+        }
+        stk.pop();
+        return false;
+    }
+
+    private List<Integer> findChild(Node root, Node pre, int k) {
+        if (root == null || k < 0 || root == pre) {
+            return Collections.emptyList();
+        }
+        if (k == 0) {
+            return Arrays.asList(root.data);
+        }
+        List<Integer> ans = new ArrayList<>();
+        ans.addAll(findChild(root.left, pre, k - 1));
+        ans.addAll(findChild(root.right, pre, k - 1));
+        return ans;
+    }
+
+    public void printAllNodesAtKDistanceFromGivenNodeWithoutRecursionWithQueueAndSet(BinaryTree tree, Node target,
+            int k) {
+        // Populate ParentMap for each node
+        // Level order traversl starting with target node in queue
+        // Add children and parents of popped elements to que only if they have not been
+        // visited
+        // Keep decrementing k at each level. Print elements when k = 0
+
+
+        //Sample Input
+        // BinaryTree tree = new BinaryTree(20);
+        // tree.root.left = new Node(8);
+        // tree.root.left.left = new Node(4);
+        // tree.root.left.right = new Node(12);
+        // tree.root.left.right.left = new Node(10);
+        // tree.root.left.right.right = new Node(14);
+        // tree.root.right = new Node(22);
+        printAllNodesAtKDistanceFromGivenNodeWithoutRecursionWithQueueAndSetUtil(tree.root, target, k);
+    }
+
+    private void printAllNodesAtKDistanceFromGivenNodeWithoutRecursionWithQueueAndSetUtil(Node root, Node target,
+            int k) {
+        Queue<Node> que = new LinkedList<>();
+        Set<Node> visited = new HashSet<>();
+        Map<Node, Node> parentMap = new HashMap<>();
+        populateParentMap(root, null, parentMap);
+        que.add(target);
+        visited.add(target);
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (k == 0) {
+                    System.out.print(popped.data + " ");
+                    continue;
+                }
+                if (popped.left != null && visited.add(popped.left)) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null && visited.add(popped.right)) {
+                    que.add(popped.right);
+                }
+                if (parentMap.get(popped) != null && visited.add(parentMap.get(popped))) {
+                    que.add(parentMap.get(popped));
+                }
+            }
+            k--;
+        }
+    }
+
+    private void populateParentMap(Node node, Node parent, Map<Node, Node> parentMap) {
+        if (node == null) {
+            return;
+        }
+        parentMap.put(node, parent);
+        populateParentMap(node.left, node, parentMap);
+        populateParentMap(node.right, node, parentMap);
     }
 
     public void printNodesAtOddLevelsWithRecursion(BinaryTree tree) {
@@ -1697,4 +1817,31 @@ public class CheckingAndPrinting {
         }
     }
 
+    public void printLeftmostAndRightmostNodesWithoutRecursionWithQueue(BinaryTree tree) {
+        printLeftmostAndRightmostNodesWithoutRecursionWithQueueUtil(tree.root);
+    }
+
+    private void printLeftmostAndRightmostNodesWithoutRecursionWithQueueUtil(Node root) {
+        Queue<Node> que = new LinkedList<>();
+        que.add(root);
+        while (!que.isEmpty()) {
+            int size = que.size();
+            for (int i = 0; i < size; i++) {
+                Node popped = que.poll();
+                if (i == 0 || i == size - 1) {
+                    System.out.print(popped.data + " ");
+                }
+                if (popped.left != null) {
+                    que.add(popped.left);
+                }
+                if (popped.right != null) {
+                    que.add(popped.right);
+                }
+            }
+        }
+    }
+
+    public void printAllNodesExceptLeftmostNodeInEveryLevel(BinaryTree tree){
+        printAllNodesExceptLeftmostNodeInEveryLevelUtil(tree.root);
+    }
 }
