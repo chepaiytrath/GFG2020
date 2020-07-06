@@ -1243,6 +1243,20 @@ public class CheckingAndPrinting {
                 || printPathFromRootToGivenNodeInBinaryTreeUtil(node.right, data, arr, index);
     }
 
+    public void printPathFromRootToAllNodesInCompleteBinaryTree(int n) {
+        printPathFromRootToAllNodesInCompleteBinaryTreeUtil(1, n, "");
+    }
+
+    private void printPathFromRootToAllNodesInCompleteBinaryTreeUtil(int i, int n, String last) {
+        if (i > n) {
+            return;
+        }
+        last = last + " " + i;
+        System.out.println(last.trim() + " ");
+        printPathFromRootToAllNodesInCompleteBinaryTreeUtil(2 * i, n, last);
+        printPathFromRootToAllNodesInCompleteBinaryTreeUtil(2 * i + 1, n, last);
+    }
+
     private void printArr(int[] arr, int ind) {
         for (int i = 0; i <= ind; i++) {
             System.out.print(arr[i] + " ");
@@ -2070,7 +2084,7 @@ public class CheckingAndPrinting {
                     que.add(popped.right);
                 }
             }
-            if(level % 2 == 0){
+            if (level % 2 == 0) {
                 System.out.println();
             }
             level++;
@@ -2099,7 +2113,7 @@ public class CheckingAndPrinting {
                     que.add(popped.right);
                 }
             }
-            if(level % 2 != 0){
+            if (level % 2 != 0) {
                 System.out.println();
             }
             level++;
@@ -2128,7 +2142,7 @@ public class CheckingAndPrinting {
                     que.add(popped.right);
                 }
             }
-            if(level % 2 != 0){
+            if (level % 2 != 0) {
                 System.out.println();
             }
             level++;
@@ -2157,10 +2171,42 @@ public class CheckingAndPrinting {
                     que.add(popped.right);
                 }
             }
-            if(level % 2 == 0){
+            if (level % 2 == 0) {
                 System.out.println();
             }
             level++;
+        }
+    }
+
+    public void printMiddleLevelOfPerfectBinaryTreeWithoutFindingHeight(BinaryTree tree) {
+        //Sample Input
+        /*BinaryTree tree = new BinaryTree(1);
+        tree.root.left = new Node(2);
+        tree.root.left.left = new Node(4);
+        tree.root.left.left.left = new Node(8);
+        tree.root.left.left.right = new Node(9);
+        tree.root.left.right = new Node(5);
+        tree.root.left.right.left = new Node(10);
+        tree.root.left.right.right = new Node(11);
+        tree.root.right = new Node(3);
+        tree.root.right.left = new Node(6);
+        tree.root.right.left.left = new Node(12);
+        tree.root.right.left.right = new Node(13);
+        tree.root.right.right = new Node(7);
+        tree.root.right.right.left = new Node(14);
+        tree.root.right.right.right = new Node(15);*/
+        printMiddleLevelOfPerfectBinaryTreeWithoutFindingHeightUtil(tree.root, tree.root);
+    }
+
+    private void printMiddleLevelOfPerfectBinaryTreeWithoutFindingHeightUtil(Node fast, Node slow) {
+        if (fast == null || slow == null) {
+            return;
+        }
+        if (fast.left == null && fast.right == null) {
+            System.out.print(slow.data + " ");
+        } else {
+            printMiddleLevelOfPerfectBinaryTreeWithoutFindingHeightUtil(fast.left.left, slow.left);
+            printMiddleLevelOfPerfectBinaryTreeWithoutFindingHeightUtil(fast.left.left, slow.right);
         }
     }
 }
