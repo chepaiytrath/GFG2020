@@ -630,7 +630,7 @@ public class CheckingAndPrinting {
             return false;
         }
 
-        if (isIdentical(parent, child)) {
+        if (checkIfIdenticalNodesWithRecursion(parent, child)) {
             return true;
         }
 
@@ -638,14 +638,44 @@ public class CheckingAndPrinting {
                 && checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(parent.right, child);
     }
 
-    private boolean isIdentical(Node n1, Node n2) {
+    private boolean checkIfIdenticalNodesWithRecursion(Node n1, Node n2) {
         if (n1 == null && n2 == null) {
             return true;
         }
         if (!(n1 != null && n2 != null)) {
             return false;
         }
-        return n1.data == n2.data && isIdentical(n1.left, n2.left) && isIdentical(n1.right, n2.right);
+        return n1.data == n2.data && checkIfIdenticalNodesWithRecursion(n1.left, n2.left) && checkIfIdenticalNodesWithRecursion(n1.right, n2.right);
+    }
+
+    private boolean checkIfIdenticalNodesWithoutRecursionWithStack(Node n1, Node n2) {
+        Stack<Node> st1 = new Stack<>();
+        Stack<Node> st2 = new Stack<>();
+        st1.add(n1);
+        st2.add(n2);
+
+        while (!st1.isEmpty() && !st2.isEmpty()) {
+            Node node1 = st1.pop();
+            Node node2 = st2.pop();
+            if (node1 == null && node2 == null) {
+                continue;
+            }
+            if (node1 == null || node2 == null) {
+                return false;
+            }
+            if (node1.data != node2.data) {
+                return false;
+            }
+
+            st1.add(n1.right);
+            st1.add(n1.left);
+            st2.add(n2.right);
+            st2.add(n2.left);
+        }
+        if (st1.isEmpty() && st2.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 
     public void checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionUsingPreOrderInOrder(BinaryTree parent,
@@ -676,6 +706,106 @@ public class CheckingAndPrinting {
         } else {
             return true;
         }
+    }
+
+    public void checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionWithPreOrder(BinaryTree parent,
+                                                                                 BinaryTree child) {
+        boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionWithPreOrderUtil(parent.root, child.root);
+        System.out.println(isSatisfied);
+    }
+
+    private boolean checkIfOneTreeIsSubtreeOfAnotherTreeWithoutRecursionWithPreOrderUtil(Node parent,
+                                                                                         Node child) {
+        Stack<Node> stack = new Stack<>();
+        stack.add(parent);
+        while (!stack.isEmpty()) {
+            Node popped = stack.pop();
+            if (popped.data == child.data) {
+                if (checkIfIdenticalNodesWithoutRecursionWithStack(popped, child)) {
+                    return true;
+                }
+            }
+            if (popped.right != null) {
+                stack.add(popped.right);
+            }
+            if (popped.left != null) {
+                stack.add(popped.left);
+            }
+        }
+        return false;
+    }
+
+    public void checkIfTwoNodesAreInSameSubtreeOfTheRootNodeWithRecursionAndSet(BinaryTree tree, int n1, int n2) {
+        Set<Integer> set = new HashSet<>();
+        checkIfTwoNodesAreInSameSubtreeOfTheRootNodeWithRecursionAndSetUtil(tree.root.left, n1, n2, set);
+        if (set.size() == 2) {
+            System.out.println("Yes");
+            return;
+        } else if (set.size() == 0) {
+            checkIfTwoNodesAreInSameSubtreeOfTheRootNodeWithRecursionAndSetUtil(tree.root.right, n1, n2, set);
+            if (set.size() == 2) {
+                System.out.println("Yes");
+                return;
+            }
+        } else {
+            System.out.println("No");
+        }
+    }
+
+    private void checkIfTwoNodesAreInSameSubtreeOfTheRootNodeWithRecursionAndSetUtil(Node node, int n1, int n2, Set<Integer> set) {
+        if (node == null) {
+            return;
+        }
+        if (node.data == n1 || node.data == n2) {
+            set.add(node.data);
+        }
+        checkIfTwoNodesAreInSameSubtreeOfTheRootNodeWithRecursionAndSetUtil(node.left, n1, n2, set);
+        checkIfTwoNodesAreInSameSubtreeOfTheRootNodeWithRecursionAndSetUtil(node.right, n1, n2, set);
+    }
+
+    public void checkIfBinaryTreeContainsDuplicateSubtreesOfSizeTwoOrMoreWithRecursion(BinaryTree tree) {
+        //SAMPLE INPUT
+        /*//BinaryTree tree = new BinaryTree(1);
+        tree.root.left = new Node(2);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.left.right.left = new Node(3);
+        tree.root.left.right.left.left = new Node(6);
+        tree.root.left.right.left.right = new Node(7);
+        tree.root.right = new Node(9);
+        tree.root.right.left = new Node(8);
+        tree.root.right.right = new Node(3);
+        tree.root.right.right.left = new Node(6);
+        *//*tree.root.right.right.left.left = new Node(12);
+        tree.root.right.right.left.right= new Node(13);*//*
+        tree.root.right.right.right = new Node(7);
+        *//*tree.root.right.right.right.left = new Node(10);
+        tree.root.right.right.right.right = new Node(11);*/
+        if (checkIfBinaryTreeContainsDuplicateSubtreesOfSizeTwoOrMoreWithRecursionUtil(tree.root, new HashSet<String>()) == "") {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+    }
+
+    private String checkIfBinaryTreeContainsDuplicateSubtreesOfSizeTwoOrMoreWithRecursionUtil(Node node, Set<String> set) {
+        if (node == null) {
+            return "n";
+        }
+        String left = checkIfBinaryTreeContainsDuplicateSubtreesOfSizeTwoOrMoreWithRecursionUtil(node.left, set);
+        if (left == "") {
+            return "";
+        }
+        String right = checkIfBinaryTreeContainsDuplicateSubtreesOfSizeTwoOrMoreWithRecursionUtil(node.right, set);
+        if (right == "") {
+            return "";
+        }
+        String s = node.data + left + right;
+        if (s.length() > 3 && set.contains(s)) {
+            return "";
+        }
+        set.add(s);
+        return s;
     }
 
     private void populateInorder(Node node, List<String> in) {
@@ -1220,6 +1350,39 @@ public class CheckingAndPrinting {
             System.out.print(ch + " ");
             lim--;
         }
+    }
+
+    public void printLengthOfRootToLeafPathWithMaximumDistinctNodes(BinaryTree tree) {
+        Map<Integer, Integer> map = new HashMap<>();
+        int maxSize = printLengthOfRootToLeafPathWithMaximumDistinctNodesUtil(tree.root, map);
+        System.out.println(maxSize);
+    }
+
+    private int printLengthOfRootToLeafPathWithMaximumDistinctNodesUtil(Node node, Map<Integer, Integer> map) {
+        if (node == null || map.containsKey(node.data)) {
+            return map.size();
+        }
+        map.put(node.data, 1);
+        int maxSize = Math.max(printLengthOfRootToLeafPathWithMaximumDistinctNodesUtil(node.left, map), printLengthOfRootToLeafPathWithMaximumDistinctNodesUtil(node.right, map));
+        map.remove(node.data);
+        return maxSize;
+    }
+
+    public void removeNodesOnRootToLeafPathsOfLengthLessThanK(BinaryTree tree, int k) {
+        tree.root = removeNodesOnRootToLeafPathsOfLengthLessThanKUtil(tree.root, k);
+        t.levelOrderTraversalWithoutRecursionWithQueue(tree);
+    }
+
+    private Node removeNodesOnRootToLeafPathsOfLengthLessThanKUtil(Node node, int level) {
+        if (node == null) {
+            return null;
+        }
+        node.left = removeNodesOnRootToLeafPathsOfLengthLessThanKUtil(node.left, level - 1);
+        node.right = removeNodesOnRootToLeafPathsOfLengthLessThanKUtil(node.right, level - 1);
+        if (node.isLeaf() && level > 1) {
+            return null;
+        }
+        return node;
     }
 
     public void printPathFromRootToGivenNodeInBinaryTree(BinaryTree tree, int data) {
@@ -2209,4 +2372,6 @@ public class CheckingAndPrinting {
             printMiddleLevelOfPerfectBinaryTreeWithoutFindingHeightUtil(fast.left.left, slow.right);
         }
     }
+
+
 }

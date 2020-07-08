@@ -240,6 +240,10 @@ public class TraversalAndView {
     }
 
     public void levelOrderTraversalWithoutRecursionWithQueue(BinaryTree tree) {
+        if(tree.root == null){
+            System.out.println("Empty Tree");
+            return;
+        }
         Queue<Node> q = new LinkedList<>();
         q.add(tree.root);
         while (!q.isEmpty()) {
