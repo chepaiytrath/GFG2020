@@ -5,6 +5,7 @@ public class BinaryTree {
         public int data;
         public Node left;
         public Node right;
+        public Node parent;
 
         @Override
         public String toString() {
@@ -18,6 +19,7 @@ public class BinaryTree {
             this.data = data;
             this.left = null;
             this.right = null;
+            this.parent = null;
         }
 
         public boolean isLeaf(){
