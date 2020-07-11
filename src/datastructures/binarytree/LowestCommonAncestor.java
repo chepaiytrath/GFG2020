@@ -144,7 +144,6 @@ public class LowestCommonAncestor {
             set.add(node1);
             node1 = node1.parent;
         }
-
         while (node2 != null && !set.isEmpty()) {
             if (set.contains(node2)) {
                 return node2;
@@ -175,7 +174,7 @@ public class LowestCommonAncestor {
     public void printAncestorsOfGivenNodeWithRecursionWithoutExtraArray(BinaryTree tree, int num) {
         Stack<Integer> st = new Stack<>();
         printAncestorsOfGivenNodeWithRecursionWithoutExtraArrayUtil(tree.root, num, st);
-        while(!st.isEmpty()){
+        while (!st.isEmpty()) {
             System.out.print(st.pop() + " ");
         }
     }
@@ -283,23 +282,23 @@ public class LowestCommonAncestor {
         boolean flag = false;
         while (!st.isEmpty() || curr != null) {
             while (curr != null) {
-                if(curr.data == val){
+                if (curr.data == val) {
                     flag = true;
                     break;
                 }
                 st.add(curr);
                 curr = curr.left;
             }
-            if(flag){
+            if (flag) {
                 break;
             }
             curr = st.peek();
-            if(curr.right != null){
+            if (curr.right != null) {
                 curr = curr.right;
                 continue;
-            }else{
+            } else {
                 curr = st.pop();
-                while(!st.isEmpty() && curr == st.peek().right){
+                while (!st.isEmpty() && curr == st.peek().right) {
                     curr = st.pop();
                 }
                 curr = null;
@@ -309,19 +308,148 @@ public class LowestCommonAncestor {
     }
 
     private void findKthElementInStack(Stack<Node> st, int i) {
-        while(i >= 1 && !st.isEmpty()){
+        while (i >= 1 && !st.isEmpty()) {
             Node temp = st.pop();
-            if(i == 1){
+            if (i == 1) {
                 System.out.print(temp.data);
             }
             i--;
         }
-        if(i > 0){
+        if (i > 0) {
             System.out.print(-1);
         }
     }
 
-    public void printCommonPathToTheTwoPathsFromRootToTwoGivenNodes(BinaryTree tree, int n1, int n2){
+    public void printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCA(BinaryTree tree, int n1, int n2) {
+        //Sample Input
+        /*BinaryTree tree = new BinaryTree(new Node(1));
+        tree.root.left = new Node(2);
+        tree.root.left.left = new Node(4);
+        tree.root.left.right = new Node(5);
+        tree.root.left.right.left = new Node(8);
+        tree.root.right = new Node(3);
+        tree.root.right.left = new Node(6);
+        tree.root.right.left.right = new Node(9);
+        tree.root.right.right = new Node(7);*/
 
+        BOOLEAN b1 = new BOOLEAN();
+        BOOLEAN b2 = new BOOLEAN();
+        //Find LCA
+        Node lca = printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil1(tree.root, n1, n2, b1, b2);
+        if (b1.flag && b2.flag) {
+            //Print Root To LCA Path
+            List<Integer> list = new ArrayList<>();
+            printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil2(tree.root, lca, list);
+            Collections.reverse(list);
+            System.out.println(list);
+        } else {
+            System.out.println("No common path");
+        }
+    }
+
+    private Node printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil1(Node node, int n1, int n2, BOOLEAN b1, BOOLEAN b2) {
+        if (node == null) {
+            return null;
+        }
+        Node temp = null;
+        if (node.data == n1) {
+            b1.flag = true;
+            temp = node;
+        } else if (node.data == n2) {
+            b2.flag = true;
+            temp = node;
+        }
+        Node left = printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil1(node.left, n1, n2, b1, b2);
+        Node right = printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil1(node.right, n1, n2, b1, b2);
+        if (temp != null) {
+            return temp;
+        }
+        if (left != null && right != null) {
+            return node;
+        }
+        return left != null ? left : right;
+    }
+
+    private boolean printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil2(Node node, Node lca, List<Integer> list) {
+        if (node == null) {
+            return false;
+        }
+        if (node == lca || (printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil2(node.left, lca, list) || printPathCommonToTheTwoPathsFromRootToTwoGivenNodesWithApproachRootToLCAUtil2(node.right, lca, list))) {
+            list.add(node.data);
+            return true;
+        }
+        return false;
+    }
+
+    public void printDistanceBetweenTwoNodes(BinaryTree tree, int n1, int n2) {
+        INTEGER dis1 = new INTEGER();
+        dis1.val = -1;
+        INTEGER dis2 = new INTEGER();
+        dis2.val = -1;
+        INTEGER dis3 = new INTEGER();
+        dis3.val = -1;
+        Node lca = printDistanceBetweenTwoNodesUtil(tree.root, n1, n2, 1, dis1, dis2, dis3);
+        if (dis1.val != -1 && dis2.val != -1) {
+            System.out.print(dis3.val);
+            return;
+        } else if (dis1.val != -1) {
+            findLength(lca, n2, dis2, 0);
+            System.out.println(dis2.val);
+        } else if (dis2.val != -1) {
+            findLength(lca, n1, dis1, 0);
+            System.out.println(dis1.val);
+        }
+    }
+
+    private boolean findLength(Node node, int val, INTEGER dis, int level) {
+        if (node == null) {
+            return false;
+        }
+        if (node.data == val) {
+            dis.val = level;
+            return true;
+        }
+        return findLength(node.left, val, dis, level + 1) || findLength(node.right, val, dis, level + 1);
+    }
+
+    private Node printDistanceBetweenTwoNodesUtil(Node node, int n1, int n2, int level, INTEGER dis1, INTEGER dis2, INTEGER dis3) {
+        if (node == null) {
+            return null;
+        }
+        if (node.data == n1) {
+            dis1.val = level;
+            return node;
+        }
+        if (node.data == n2) {
+            dis2.val = level;
+            return node;
+        }
+        Node left = printDistanceBetweenTwoNodesUtil(node.left, n1, n2, level + 1, dis1, dis2, dis3);
+        Node right = printDistanceBetweenTwoNodesUtil(node.right, n1, n2, level + 1, dis1, dis2, dis3);
+        if (left != null && right != null) {
+            dis3.val = dis1.val + dis2.val - (2 * level);
+            return node;
+        }
+        return left != null ? left : right;
+    }
+
+    public void findMaximumDifferenceBetweenNodeAndItsAncestorInBinaryTree(BinaryTree tree) {
+        INTEGER max = new INTEGER();
+        max.val = Integer.MIN_VALUE;
+        findMaximumDifferenceBetweenNodeAndItsAncestorInBinaryTreeUtil(tree.root, max);
+        System.out.print(max.val);
+    }
+
+    private int findMaximumDifferenceBetweenNodeAndItsAncestorInBinaryTreeUtil(Node node, INTEGER max) {
+        if (node == null) {
+            return Integer.MAX_VALUE;
+        }
+        if (node.isLeaf()) {
+            return node.data;
+        }
+        int val = Math.min(findMaximumDifferenceBetweenNodeAndItsAncestorInBinaryTreeUtil(node.left, max),
+                findMaximumDifferenceBetweenNodeAndItsAncestorInBinaryTreeUtil(node.right, max));
+        max.val = Math.max(max.val, node.data - val);
+        return Math.min(node.data, val);
     }
 }
