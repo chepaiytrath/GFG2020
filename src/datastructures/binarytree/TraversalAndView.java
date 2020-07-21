@@ -694,7 +694,7 @@ public class TraversalAndView {
     public void leftViewWithRecursion(BinaryTree tree) {
         Map<Integer, Integer> map = new TreeMap<>();
         leftViewWithRecursionUtil(tree.root, 0, map);
-        for (Map.Entry entry : map.entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
             System.out.print(entry.getValue() + " ");
         }
     }
