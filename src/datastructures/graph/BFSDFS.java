@@ -479,26 +479,23 @@ public class BFSDFS {
             if (y != other.y)
                 return false;
             return true;
-        }        
+        }
     }
-    
-    //RAKESHl: visited ka panga
-    static int moves = Integer.MAX_VALUE;
-    static int[][] nextMove = new int[][] { 
-        { 0, -1, 0, 1 }, 
-        { -1, 0, 1, 0 } 
-    };
 
-    public void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnother(int[][] mat) {
+    // RAKESHl: visited ka panga
+    static int moves = Integer.MAX_VALUE;
+    static int[][] nextMove = new int[][] { { 0, -1, 0, 1 }, { -1, 0, 1, 0 } };
+
+    public void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFS(int[][] mat) {
         Node src = new Node();
         Node dest = new Node();
         retrieveSrcDest(src, dest, mat);
         Map<Node, Boolean> visited = new HashMap<>();
-        findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUtil(src, dest, visited, 0, mat);
-        System.out.println(moves);
+        findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(src, dest, visited, 0, mat);
+        System.out.println("Minimum number of moves = " + moves);
     }
 
-    private void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUtil(Node src, Node dest,
+    private void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(Node src, Node dest,
             Map<Node, Boolean> visited, int movesTillHere, int[][] mat) {
         if (src.x == dest.x && src.y == dest.y) {
             moves = Math.min(moves, movesTillHere);
@@ -508,16 +505,16 @@ public class BFSDFS {
         List<Node> neighbours = findNeighbours(src);
         for (Node neighbour : neighbours) {
             if (isValidNeighbour(neighbour, visited, mat)) {
-                findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUtil(neighbour, dest, visited,
-                        movesTillHere + 1, mat);
+                findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(neighbour, dest,
+                        visited, movesTillHere + 1, mat);
             }
         }
     }
 
     private boolean isValidNeighbour(Node neighbour, Map<Node, Boolean> visited, int[][] mat) {
-        if ((visited.get(neighbour) != null && visited.get(neighbour) == true) 
-            || (neighbour.x < 0 || neighbour.x >= mat.length || neighbour.y < 0 || neighbour.y >= mat[0].length)    
-            || mat[neighbour.x][neighbour.y] == 0) {
+        if ((visited.get(neighbour) != null && visited.get(neighbour) == true)
+                || (neighbour.x < 0 || neighbour.x >= mat.length || neighbour.y < 0 || neighbour.y >= mat[0].length)
+                || mat[neighbour.x][neighbour.y] == 0) {
             return false;
         }
         return true;
@@ -548,4 +545,71 @@ public class BFSDFS {
         }
     }
 
+    public void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingGraphAndBFS(int[][] mat) {
+        DirectedGraphAdjacencyList graph = new DirectedGraphAdjacencyList(mat.length * mat[0].length + 1);
+        int k = 1;
+        int src = -1;
+        int dest = -1;
+        int colSize = mat[0].length;
+
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[0].length; j++) {
+                if (mat[i][j] != 0) {
+                    if (isValidNeighbour(i, j - 1, mat)) {
+                        graph.addEdge(k, k - 1);
+                    }
+                    if (isValidNeighbour(i, j + 1, mat)) {
+                        graph.addEdge(k, k + 1);
+                    }
+                    if (isValidNeighbour(i - 1, j, mat)) {
+                        graph.addEdge(k, k - colSize);
+                    }
+                    if (isValidNeighbour(i + 1, j, mat)) {
+                        graph.addEdge(k, k + colSize);
+                    }
+                }
+                if (mat[i][j] == 1) {
+                    src = k;
+                } else if (mat[i][j] == 2) {
+                    dest = k;
+                }
+                k++;
+            }
+        }
+
+        int moves = findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingGraphAndBFSUtil(graph, src,
+                dest, mat.length * mat[0].length + 1);
+        System.out.println("Minimum number of moves = " + moves);
+    }
+
+    private boolean isValidNeighbour(int i, int j, int[][] mat) {
+        if (i < 0 || i >= mat.length || j < 0 || j >= mat[0].length || mat[i][j] == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    private int findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingGraphAndBFSUtil(
+            DirectedGraphAdjacencyList graph, int src, int dest, int vertices) {
+        List<Integer>[] adj = graph.getAdj();
+        int[] level = new int[vertices];
+        Arrays.fill(level, -1);
+        Queue<Integer> que = new LinkedList<>();
+        
+        que.add(src);
+        level[src] = 0;
+
+        while (!que.isEmpty()) {
+            Integer popped = que.poll();
+            for (int child : adj[popped]) {
+                if (level[child] < 0 || level[child] > level[popped] + 1) {
+                    que.add(child);
+                    level[child] = level[popped] + 1;
+                }
+            }
+        }
+        return level[dest];
+    }
+
+    
 }

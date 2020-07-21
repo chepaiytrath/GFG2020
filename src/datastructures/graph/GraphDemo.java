@@ -29,10 +29,11 @@ public class GraphDemo {
             { 0,3,3,3 }
         }; */
 
-        int[][] mat = {{ 3 , 3 , 1 , 0 },
+        int[][] mat = {
+        { 3 , 3 , 1 , 0 },
         { 3 , 0 , 3 , 3 },
         { 2 , 3 , 0 , 3 },
         { 0 , 3 , 3 , 3 }};
-        bd.findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnother(mat);
+        bd.findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingGraphAndBFS(mat);
     }
 }
