@@ -595,7 +595,7 @@ public class BFSDFS {
         int[] level = new int[vertices];
         Arrays.fill(level, -1);
         Queue<Integer> que = new LinkedList<>();
-        
+
         que.add(src);
         level[src] = 0;
 
@@ -611,5 +611,38 @@ public class BFSDFS {
         return level[dest];
     }
 
-    
+    public void findSteppingNumbers(int start, int end) {
+        for (int i = 0; i <= 9; i++) {
+            findSteppingNumbersUtil(i, start, end);
+        }
+    }
+
+    private void findSteppingNumbersUtil(int src, int start, int end) {
+        Queue<Integer> que = new LinkedList<>();
+        que.add(src);
+        while (!que.isEmpty()) {
+            Integer popped = que.poll();
+            if(popped >= start && popped <= end){
+                System.out.print(popped + " ");
+            }
+
+            int lastDigit = popped % 10;
+            int n1 = popped * 10 + lastDigit - 1;
+            int n2 = popped * 10 + lastDigit + 1;
+
+            if(lastDigit == 0){
+                continue;
+            }
+            if(lastDigit == 9){
+                que.add(n1);
+            }else{
+                if(n1 >= start && n1 <= end ){
+                    que.add(n1);
+                }
+                if(n2 >= start && n2 <= end ){
+                    que.add(n2);
+                }
+            }
+        }
+    }
 }

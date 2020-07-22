@@ -34,6 +34,6 @@ public class GraphDemo {
         { 3 , 0 , 3 , 3 },
         { 2 , 3 , 0 , 3 },
         { 0 , 3 , 3 , 3 }};
-        bd.findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingGraphAndBFS(mat);
+        bd.findSteppingNumbers(0, 15);
     }
 }
