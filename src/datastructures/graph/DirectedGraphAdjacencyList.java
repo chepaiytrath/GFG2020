@@ -17,7 +17,7 @@ public class DirectedGraphAdjacencyList {
     public void addEdge(int x, int y) {
         adj[x].add(y);
         // VICE VERSA NOT TO BE DONE IN DIRECTED GRAPH
-        // adj[y].add(x);
+        //adj[y].add(x);
     }
 
     public int getV() {

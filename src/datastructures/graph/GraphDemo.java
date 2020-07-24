@@ -1,39 +1,34 @@
 package datastructures.graph;
 
 public class GraphDemo {
+    /*
+     * public static void main(String[] args) { BFSDFS bd = new BFSDFS(); GraphCycle
+     * gc = new GraphCycle();
+     * 
+     * DirectedGraphAdjacencyList graph = new DirectedGraphAdjacencyList(7);
+     * graph.addEdge(0, 1); graph.addEdge(0, 2); graph.addEdge(1, 2);
+     * graph.addEdge(2, 0); graph.addEdge(2, 3); graph.addEdge(3, 3);
+     * 
+     * gc.detectCycleInADirectedGraphUsingDFS(graph); }
+     */
+
     public static void main(String[] args) {
-        BFSDFS bd = new BFSDFS();
+        ShortestPath sp = new ShortestPath();
+        GraphCycle gc = new GraphCycle();
+        GraphEdgeArray gea = new GraphEdgeArray(7, 10);
+        BFSDFS bfs = new BFSDFS();
+        TopologicalSorting ts = new TopologicalSorting();
 
-        DirectedGraphAdjacencyList g = new DirectedGraphAdjacencyList(7);
-        g.addEdge(0, 1);
-        g.addEdge(0, 2);
-        g.addEdge(0, 4);
-        g.addEdge(1, 0);
-        g.addEdge(1, 2);
-        g.addEdge(2, 0);
-        g.addEdge(2, 1);
-        g.addEdge(2, 5);
-        g.addEdge(3, 4);
-        g.addEdge(4, 0);
-        g.addEdge(4, 3);
-        g.addEdge(4, 5);
-        g.addEdge(4, 6);
-        g.addEdge(5, 2);
-        g.addEdge(5, 4);
-        g.addEdge(6, 4);
-
-        /* int[][] mat = {
-            { 3,3,1,0 }, 
-            { 3,0,3,3 }, 
-            { 2,3,0,3 },
-            { 0,3,3,3 }
-        }; */
-
-        int[][] mat = {
-        { 3 , 3 , 1 , 0 },
-        { 3 , 0 , 3 , 3 },
-        { 2 , 3 , 0 , 3 },
-        { 0 , 3 , 3 , 3 }};
-        bd.findSteppingNumbers(0, 15);
+        DirectedGraphAdjacencyList graph = new DirectedGraphAdjacencyList(6);
+        graph.addEdge(5, 0);
+        graph.addEdge(5, 2);
+        graph.addEdge(4, 0);
+        graph.addEdge(4, 1);
+        graph.addEdge(2, 3);
+        graph.addEdge(3, 1);
+        
+        ts.findAllPossibleTopologicalSortingForDAG(graph);
     }
+
+    static int INF = Integer.MAX_VALUE;
 }

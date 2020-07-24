@@ -2,7 +2,6 @@ package datastructures.graph;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,13 +11,12 @@ import java.util.Stack;
 
 public class BFSDFS {
 
-    public void dfs(DirectedGraphAdjacencyList graph, int source) {
+    public void dfs(DirectedGraphAdjacencyList graph) {
         // O(V + E)
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();
-
         boolean[] vis = new boolean[v];
-        dfsUtil(source, adj, vis);
+
         for (int i = 0; i < v; i++) {
             if (!vis[i]) {
                 dfsUtil(i, adj, vis);
@@ -26,10 +24,10 @@ public class BFSDFS {
         }
     }
 
-    private void dfsUtil(int ind, List<Integer>[] adj, boolean[] vis) {
-        vis[ind] = true;
-        System.out.print(ind + " ");
-        for (int childInd : adj[ind]) {
+    private void dfsUtil(int src, List<Integer>[] adj, boolean[] vis) {
+        vis[src] = true;
+        System.out.print(src + " ");
+        for (int childInd : adj[src]) {
             if (!vis[childInd]) {
                 dfsUtil(childInd, adj, vis);
             }
@@ -39,8 +37,8 @@ public class BFSDFS {
     public void dfsIterative(DirectedGraphAdjacencyList graph) {
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();
-
         boolean[] visited = new boolean[v];
+
         for (int i = 0; i < v; i++) {
             if (!visited[i]) {
                 dfsIterativeUtil(i, adj, visited);
@@ -53,12 +51,14 @@ public class BFSDFS {
         visited[source] = true;
         st.add(source);
         while (!st.isEmpty()) {
+            // HINT: Popped element is already marked as visited
             Integer popped = st.pop();
             List<Integer> children = adj[popped];
             System.out.print(popped + " ");
             for (int i = children.size() - 1; i >= 0; i--) {
                 int child = children.get(i);
                 if (!visited[child]) {
+                    // HINT: Set visited[child] = true when adding it to the stack
                     visited[child] = true;
                     st.add(child);
                 }
@@ -95,10 +95,12 @@ public class BFSDFS {
         visited[source] = true;
         que.add(source);
         while (!que.isEmpty()) {
+            // HINT: Popped element is already marked as visited
             Integer popped = que.poll();
             System.out.print(popped + " ");
             for (int child : adj[popped]) {
                 if (!visited[child]) {
+                    // HINT: Set visited[child] = true when adding it to the stack
                     visited[child] = true;
                     que.add(child);
                 }
@@ -509,6 +511,7 @@ public class BFSDFS {
                         visited, movesTillHere + 1, mat);
             }
         }
+        visited.put(src, false);
     }
 
     private boolean isValidNeighbour(Node neighbour, Map<Node, Boolean> visited, int[][] mat) {
@@ -622,7 +625,7 @@ public class BFSDFS {
         que.add(src);
         while (!que.isEmpty()) {
             Integer popped = que.poll();
-            if(popped >= start && popped <= end){
+            if (popped >= start && popped <= end) {
                 System.out.print(popped + " ");
             }
 
@@ -630,16 +633,16 @@ public class BFSDFS {
             int n1 = popped * 10 + lastDigit - 1;
             int n2 = popped * 10 + lastDigit + 1;
 
-            if(lastDigit == 0){
+            if (lastDigit == 0) {
                 continue;
             }
-            if(lastDigit == 9){
+            if (lastDigit == 9) {
                 que.add(n1);
-            }else{
-                if(n1 >= start && n1 <= end ){
+            } else {
+                if (n1 >= start && n1 <= end) {
                     que.add(n1);
                 }
-                if(n2 >= start && n2 <= end ){
+                if (n2 >= start && n2 <= end) {
                     que.add(n2);
                 }
             }
