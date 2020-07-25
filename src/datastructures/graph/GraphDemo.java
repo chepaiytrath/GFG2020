@@ -15,7 +15,7 @@ public class GraphDemo {
     public static void main(String[] args) {
         ShortestPath sp = new ShortestPath();
         GraphCycle gc = new GraphCycle();
-        GraphEdgeArray gea = new GraphEdgeArray(7, 10);
+        // GraphEdgeArray gea = new GraphEdgeArray(8, 9);
         BFSDFS bfs = new BFSDFS();
         TopologicalSorting ts = new TopologicalSorting();
 
@@ -27,7 +27,45 @@ public class GraphDemo {
         graph.addEdge(2, 3);
         graph.addEdge(3, 1);
         
-        ts.findAllPossibleTopologicalSortingForDAG(graph);
+        GraphEdgeArray gea = new GraphEdgeArray(8, 9);
+
+        gea.edges[0].src = 0;
+        gea.edges[0].dest = 1;
+        gea.edges[0].wt = 0;
+
+        gea.edges[1].src = 2;
+        gea.edges[1].dest = 3;
+        gea.edges[1].wt = 1;
+
+        gea.edges[2].src = 4;
+        gea.edges[2].dest = 5;
+        gea.edges[2].wt = 2;
+
+        gea.edges[3].src = 6;
+        gea.edges[3].dest = 7;
+        gea.edges[3].wt = 3;
+
+        gea.edges[4].src = 1;
+        gea.edges[4].dest = 3;
+        gea.edges[4].wt = 4;
+
+        gea.edges[5].src = 1;
+        gea.edges[5].dest = 4;
+        gea.edges[5].wt = 5;
+
+        gea.edges[6].src = 0;
+        gea.edges[6].dest = 2;
+        gea.edges[6].wt = 6;
+
+        gea.edges[7].src = 5;
+        gea.edges[7].dest = 7;
+        gea.edges[7].wt = 7;
+
+        gea.edges[8].src = 4;
+        gea.edges[8].dest = 6;
+        gea.edges[8].wt = 8;
+
+        gc.detectCycleInUndirectedGraphUsingDisjointSets(gea);
     }
 
     static int INF = Integer.MAX_VALUE;

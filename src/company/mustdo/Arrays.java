@@ -79,7 +79,7 @@ public class Arrays {
 
         // https://www.youtube.com/watch?v=ZD7WxJ3O2XE
         // Uses Combinations from Math
-        // nCr = n! / ((n-r)! * r!)
+        // HINT Use Combinatorics : nCr = n! / ((n-r)! * r!)
 
         int max = -1;
         for (int i = 0; i < arr.length; i++) {

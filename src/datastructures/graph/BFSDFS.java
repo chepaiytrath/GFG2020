@@ -157,7 +157,7 @@ public class BFSDFS {
     public void findMotherVertexBetterSolution(DirectedGraphAdjacencyList graph) {
         // O(V + E)
         // Also called Kosarajus Strongly connected component algo
-        // EXPLANATION: If there exist mother vertex (or vertices),
+        // EXPLANATION: If there exists a mother vertex (or vertices),
         // then one of the mother vertices is the last finished vertex in DFS.
         // (Or a mother vertex has the maximum finish time in DFS traversal)
 
@@ -244,6 +244,7 @@ public class BFSDFS {
                 size++;
                 for (int child : adj[popped]) {
                     if (!visited[child]) {
+                        // HINT: MARK VISITED TRUE WHEN ADDING TO QUEUE
                         visited[child] = true;
                         que.add(child);
                     }
@@ -411,7 +412,6 @@ public class BFSDFS {
             if (!visited[child]) {
                 printAllPathsFromGivenSourceToDestinationUsingDFSUtil(child, dest, adj, visited, arr, index + 1);
                 visited[child] = false;
-                ;
             }
         }
     }
@@ -484,7 +484,7 @@ public class BFSDFS {
         }
     }
 
-    // RAKESHl: visited ka panga
+    // RAKESH: visited ka panga : Backtracking mein revert krna hota hai as realized
     static int moves = Integer.MAX_VALUE;
     static int[][] nextMove = new int[][] { { 0, -1, 0, 1 }, { -1, 0, 1, 0 } };
 

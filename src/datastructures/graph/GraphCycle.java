@@ -1,6 +1,9 @@
 package datastructures.graph;
 
+import java.util.Arrays;
 import java.util.List;
+
+import datastructures.graph.GraphEdgeArray.Edge;
 
 public class GraphCycle {
     public void detectCycleInDirectedGraphUsingDFS(DirectedGraphAdjacencyList graph) {
@@ -23,9 +26,15 @@ public class GraphCycle {
 
     private boolean detectCycleInDirectedGraphUsingDFSUtil(int src, List<Integer>[] adj, boolean[] visited,
             boolean[] recStack) {
+        // VERTICES ON PREVIOUSLY VISITED BRANCHES ARE ALREADY MADE FALSE
+        // THIS WILL CONTAIN THE VERTICES ONLY ON THE CURRENT SUBTREE.
+        // IF WE REVISIT A VERTEX ALREADY PRESENT ON THE CURRENT RECUSRION STACK,
+        // THERE'S A CYCLE
         if (recStack[src]) {
             return true;
         }
+
+        // SO THAT IT DOES NOT VISIT A VERTEX FROM A PREVIOUSLY VISIITED BRANCH
         if (visited[src]) {
             return false;
         }
@@ -37,6 +46,9 @@ public class GraphCycle {
                 return true;
             }
         }
+
+        // MADE FALSE SO THAT THE NEXT BRANCH DOESNT CONSIDER THIS AS A VERTEX ON ITS
+        // OWN RECSTACK
         recStack[src] = false;
         return false;
     }
@@ -49,8 +61,7 @@ public class GraphCycle {
         boolean isCyclic = false;
         int parent = -1;
         for (int i = 0; i < v; i++) {
-            // In case of a connected graph without cycle exists, visted becomes true for
-            // all vertices in one pass
+            // TO CHECK CYCLES FOR A DISONNECTED GRAPH
             if (!visited[i] && detectCycleInUndirectedGraphUsingDFSUtil(i, adj, visited, parent)) {
                 isCyclic = true;
                 break;
@@ -78,30 +89,110 @@ public class GraphCycle {
         return false;
     }
 
-    public void magicalIndices(int[] input) {
-        int n = input.length;
-        int[] arr = new int[n + 1];
-        for (int i = 0; i < n; i++) {
-            arr[i + 1] = input[i];
-        }
+    public void detectCycleInUndirectedGraphUsingDisjointSets(GraphEdgeArray gea) {
+        // GFG : https://www.geeksforgeeks.org/union-find-algorithm-set-2-union-by-rank/
+        // ABDUL BARI : https://www.youtube.com/watch?v=wU6udHRIkcc
+        // SAMPLE INPUT FOR CYCLE PRESENT
+        // GraphEdgeArray gea = new GraphEdgeArray(8, 9);
+        // gea.edges[0].src = 0;
+        // gea.edges[0].dest = 1;
+        // gea.edges[0].wt = 0;
 
-        int[] children = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            children[i] = ((i + arr[i]) % n) + 1;
-        }
-        boolean[] vis = new boolean[n + 1];
-        int end = 1;
-        int prev = 0;
-        while (end <= n) {
-            if (vis[end]) {
-                break;
+        // gea.edges[1].src = 2;
+        // gea.edges[1].dest = 3;
+        // gea.edges[1].wt = 1;
+
+        // gea.edges[2].src = 4;
+        // gea.edges[2].dest = 5;
+        // gea.edges[2].wt = 2;
+
+        // gea.edges[3].src = 6;
+        // gea.edges[3].dest = 7;
+        // gea.edges[3].wt = 3;
+
+        // gea.edges[4].src = 1;
+        // gea.edges[4].dest = 3;
+        // gea.edges[4].wt = 4;
+
+        // gea.edges[5].src = 1;
+        // gea.edges[5].dest = 4;
+        // gea.edges[5].wt = 5;
+
+        // gea.edges[6].src = 0;
+        // gea.edges[6].dest = 2;
+        // gea.edges[6].wt = 6;
+
+        // gea.edges[7].src = 5;
+        // gea.edges[7].dest = 7;
+        // gea.edges[7].wt = 7;
+
+        // gea.edges[8].src = 4;
+        // gea.edges[8].dest = 6;
+        // gea.edges[8].wt = 8;
+
+        // SAMPLE INPUT FOR CYCLE ABSENT
+        // GraphEdgeArray gea = new GraphEdgeArray(8, 7);
+        // gea.edges[0].src = 0;
+        // gea.edges[0].dest = 1;
+        // gea.edges[0].wt = 0;
+
+        // gea.edges[1].src = 2;
+        // gea.edges[1].dest = 3;
+        // gea.edges[1].wt = 1;
+
+        // gea.edges[2].src = 4;
+        // gea.edges[2].dest = 5;
+        // gea.edges[2].wt = 2;
+
+        // gea.edges[3].src = 6;
+        // gea.edges[3].dest = 7;
+        // gea.edges[3].wt = 3;
+
+        // gea.edges[4].src = 1;
+        // gea.edges[4].dest = 4;
+        // gea.edges[4].wt = 4;
+
+        // gea.edges[5].src = 0;
+        // gea.edges[5].dest = 2;
+        // gea.edges[5].wt = 5;
+
+        // gea.edges[6].src = 5;
+        // gea.edges[6].dest = 7;
+        // gea.edges[6].wt = 6;
+
+        int V = gea.V;
+        Edge[] edges = gea.edges;
+
+        int[] parent = new int[V];
+        Arrays.fill(parent, -1);
+        for (Edge e : edges) {
+            int u = find(parent, e.src);
+            int v = find(parent, e.dest);
+            if (u == v) {
+                System.out.println("CYCLE DETECTED");
+                return;
             }
-            vis[end] = true;
-            prev = end;
-            end = children[end];
+            union(parent, u, v);
         }
-        for (int i = end; i <= prev; i++) {
-            System.out.print(i + " ");
+        System.out.println("NO CYCLE DETECTED");
+    }
+
+    private int find(int parent[], int ind) {
+        if (parent[ind] >= 0) {
+            return parent[ind] = find(parent, parent[ind]);
+        }
+        return ind;
+    }
+
+    private void union(int[] parent, int u, int v) {
+        if(parent[u] <= parent[v]){
+            int temp = parent[v];
+            parent[v] = u;
+            parent[u] += temp;
+        }else{
+            int temp = parent[u];
+            parent[u] = v;
+            parent[v] += temp;
         }
     }
 }
