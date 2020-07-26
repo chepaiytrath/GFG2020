@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
+import datastructures.graph.types.DirectedGraphAdjacencyList;
+
 public class BFSDFS {
 
     public void dfs(DirectedGraphAdjacencyList graph) {

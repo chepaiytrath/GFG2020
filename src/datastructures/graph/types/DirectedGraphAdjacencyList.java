@@ -1,4 +1,4 @@
-package datastructures.graph;
+package datastructures.graph.types;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ public class DirectedGraphAdjacencyList {
     private int v;
     private ArrayList<Integer>[] adj;
 
-    DirectedGraphAdjacencyList(int v) {
+    public DirectedGraphAdjacencyList(int v) {
         this.v = v;
         adj = new ArrayList[v];
         for (int i = 0; i < v; i++) {

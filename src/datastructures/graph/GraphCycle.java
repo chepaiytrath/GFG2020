@@ -3,7 +3,9 @@ package datastructures.graph;
 import java.util.Arrays;
 import java.util.List;
 
-import datastructures.graph.GraphEdgeArray.Edge;
+import datastructures.graph.types.DirectedGraphAdjacencyList;
+import datastructures.graph.types.GraphEdgeArray;
+import datastructures.graph.types.GraphEdgeArray.Edge;
 
 public class GraphCycle {
     public void detectCycleInDirectedGraphUsingDFS(DirectedGraphAdjacencyList graph) {
@@ -161,7 +163,7 @@ public class GraphCycle {
         // gea.edges[6].wt = 6;
 
         int V = gea.V;
-        Edge[] edges = gea.edges;
+        GraphEdgeArray.Edge[] edges = gea.edges;
 
         int[] parent = new int[V];
         Arrays.fill(parent, -1);

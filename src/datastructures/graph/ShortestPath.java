@@ -2,7 +2,9 @@ package datastructures.graph;
 
 import java.util.Arrays;
 
-import datastructures.graph.GraphEdgeArray.Edge;
+import datastructures.graph.types.GraphEdgeArray;
+import datastructures.graph.types.GraphEdgeArray.Edge;
+
 
 public class ShortestPath {
     public void bellmanFord(GraphEdgeArray gea) {
