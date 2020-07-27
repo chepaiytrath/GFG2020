@@ -22,12 +22,12 @@ public class GraphDemo {
         TopologicalSorting ts = new TopologicalSorting();
         MinimumSpanningTree mst = new MinimumSpanningTree();
         Backtracking bc = new Backtracking();
-        Problems pr = new Problems();
+        MiscProblems pr = new MiscProblems();
 
         // int[][] mat = { { 2, 1, 0, 2, 1 }, { 1, 0, 1, 2, 1 }, { 1, 0, 0, 2, 1 } };
         int[][] mat = { { 2, 1, 0, 2, 1 }, { 0, 0, 1, 2, 1 }, { 1, 0, 0, 2, 1 } };
         // pr.rottenOranges(mat);
-        pr.snakesAndLadders();
+        bc.tugOfWar();
 
     }
 
