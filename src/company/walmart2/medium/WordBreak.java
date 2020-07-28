@@ -1,4 +1,4 @@
-package company.walmart2;
+package company.walmart2.medium;
 
 import java.util.HashSet;
 import java.util.Set;

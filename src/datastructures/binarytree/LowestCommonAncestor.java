@@ -5,7 +5,6 @@ import datastructures.binarytree.BinaryTree.Node;
 import java.util.*;
 
 public class LowestCommonAncestor {
-    TraversalAndView t = new TraversalAndView();
 
     static class BOOLEAN {
         boolean flag = false;

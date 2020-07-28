@@ -1,4 +1,4 @@
-package company.walmart2;
+package company.walmart2.medium;
 
 public class LargestNumberInKSwaps {
     public static void main(String[] args) {

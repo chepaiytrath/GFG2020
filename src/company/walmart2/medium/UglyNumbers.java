@@ -1,4 +1,4 @@
-package company.walmart2;
+package company.walmart2.medium;
 
 public class UglyNumbers {
     // https://www.geeksforgeeks.org/ugly-numbers/
