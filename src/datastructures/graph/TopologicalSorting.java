@@ -69,6 +69,7 @@ public class TopologicalSorting {
                 flag = true;
             }            
         }
+        // For last element flag = false
         if (!flag) {
             System.out.println(list);
         }
