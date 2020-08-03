@@ -72,7 +72,6 @@ public class MiscProblems {
                     mat[pi][pj + 1] = 2;
                 }
             }
-
         }
 
         return checkAnyFresh(mat) ? -1 : ans;

@@ -1,9 +1,8 @@
 package datastructures.graph;
 
-import java.util.Arrays;
-import java.util.List;
-
 import datastructures.graph.types.DirectedGraphAdjacencyList;
+
+import java.util.*;
 
 public class Backtracking {
     // FOLLOW THE SEQUENCE TO LEARN
@@ -29,7 +28,7 @@ public class Backtracking {
     // APPROACH1
     public void ratInMazeApproach1() {
         // N x N maze
-        int[][] maze = { { 1, 0, 0, 0 }, { 1, 1, 0, 1 }, { 0, 1, 0, 0 }, { 1, 1, 1, 1 } };
+        int[][] maze = {{1, 0, 0, 0}, {1, 1, 0, 1}, {0, 1, 0, 0}, {1, 1, 1, 1}};
         int N = maze.length;
         Integer[][] sol = new Integer[N][N];
         for (int i = 0; i < N; i++) {
@@ -68,7 +67,7 @@ public class Backtracking {
     // APPROACH2
     public void ratInMazeApproach2() {
         // N x N maze
-        int[][] maze = { { 1, 0, 0, 0 }, { 1, 1, 0, 1 }, { 0, 1, 0, 0 }, { 1, 1, 1, 1 } };
+        int[][] maze = {{1, 0, 0, 0}, {1, 1, 0, 1}, {0, 1, 0, 0}, {1, 1, 1, 1}};
         int N = maze.length;
         Integer[][] sol = new Integer[N][N];
         for (int i = 0; i < N; i++) {
@@ -114,7 +113,7 @@ public class Backtracking {
     }
 
     public void knightsTour(int N) {
-        int arr[][] = new int[][] { { 2, 1, -1, -2, -2, -1, 1, 2 }, { 1, 2, 2, 1, -1, -2, -2, -1 } };
+        int arr[][] = new int[][]{{2, 1, -1, -2, -2, -1, 1, 2}, {1, 2, 2, 1, -1, -2, -2, -1}};
         Integer[][] sol = new Integer[N][N];
         for (int x = 0; x < N; x++) {
             Arrays.fill(sol[x], -1);
@@ -373,7 +372,7 @@ public class Backtracking {
     }
 
     private void tugOfWarUtil(int index, int totalSum, int n, Integer[] sol, Integer[] finalSol, int[] arr,
-            int selectedCount, int sumSelected) {
+                              int selectedCount, int sumSelected) {
         if (index >= n) {
             return;
         }
@@ -395,5 +394,43 @@ public class Backtracking {
             sol[index] = 0;
         }
     }
+
+    public void printOneHamiltonianCycle(DirectedGraphAdjacencyList graph) {
+        int v = graph.getV();
+        List<Integer>[] adj = graph.getAdj();
+        boolean[] visited = new boolean[v];
+        int start = 0;
+        List<Integer> list = new ArrayList<>();
+        if(!printOneHamiltonianCycleUtil(start, start, visited, adj, list, 0)){
+            System.out.println("NO HAMILTONIAN CYCLE FOUND");
+        }
+    }
+
+    private boolean printOneHamiltonianCycleUtil(int start, int src, boolean[] visited, List<Integer>[] adj, List<Integer> list, int visitedVerticesCount) {
+        visited[src] = true;
+        list.add(src);
+        visitedVerticesCount++;
+        boolean flag = false;
+        Set<Integer> children = new HashSet<>();
+        for (int c : adj[src]) {
+            children.add(c);
+            if (!visited[c]) {
+                flag = true;
+                if (printOneHamiltonianCycleUtil(start, c, visited, adj, list, visitedVerticesCount)) {
+                    return true;
+                } else {
+                    visited[c] = false;
+                    list.remove(list.size() - 1);
+                }
+            }
+        }
+        if(!flag && children.contains(start) && visitedVerticesCount == adj.length){
+            list.add(start);
+            System.out.println(list);
+            return true;
+        }
+        return false;
+    }
+
 
 }
