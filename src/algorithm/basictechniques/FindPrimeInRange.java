@@ -1,4 +1,4 @@
-package algorithm.puzzles;
+package algorithm.basictechniques;
 
 import java.util.Arrays;
 

@@ -2,7 +2,7 @@ package company.walmart;
 
 public class FindFirstNonRepeatingCharacter {
     public static void main(String[] args) {
-        String str = "geeksforgeeks";
+        String str = "geeksfdorgeeks";
         System.out.println(findFirstNonRepeatingCharacter(str));
     }
 

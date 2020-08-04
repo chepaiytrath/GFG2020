@@ -1,6 +1,6 @@
-package algorithm.puzzles;
+package algorithm.basictechniques;
 
-public class PowerOfNumberToItsReverse {
+public class LargeNumberMultiplicationPowerOfNumberToItsReverse {
     public static void main(String[] args) {
         int x = 12;
         int rev = reverse(x);
