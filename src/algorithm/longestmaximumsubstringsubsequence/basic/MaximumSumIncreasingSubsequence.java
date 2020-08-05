@@ -1,4 +1,4 @@
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.basic;
 
 public class MaximumSumIncreasingSubsequence {
     public static void main(String[] args) {

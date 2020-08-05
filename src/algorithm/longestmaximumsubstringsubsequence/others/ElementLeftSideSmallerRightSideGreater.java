@@ -1,5 +1,5 @@
 //https://www.geeksforgeeks.org/find-the-element-before-which-all-the-elements-are-smaller-than-it-and-after-which-all-are-greater-than-it/
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.others;
 
 public class ElementLeftSideSmallerRightSideGreater {
     public static void main(String[] args) {

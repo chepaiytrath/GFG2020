@@ -1,4 +1,4 @@
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.basic;
 
 import java.util.Stack;
 

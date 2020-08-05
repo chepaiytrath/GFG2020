@@ -1,6 +1,6 @@
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.others;
 
-public class CheckIfStringIsInterleavingOfTwoOtherStrings {
+public class CheckIfStringIsInterleavingOfTwoOtherStringsWithCommonCharacters {
     public static void main(String[] args) {
         String parent = "abcdef";
         String child1 = "ace";

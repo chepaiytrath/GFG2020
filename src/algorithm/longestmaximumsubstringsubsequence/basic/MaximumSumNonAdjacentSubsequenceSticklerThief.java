@@ -1,4 +1,4 @@
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.basic;
 
 public class MaximumSumNonAdjacentSubsequenceSticklerThief {
         //aximum sum without adjacents

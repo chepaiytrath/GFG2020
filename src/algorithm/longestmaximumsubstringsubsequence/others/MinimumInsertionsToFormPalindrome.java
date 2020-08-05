@@ -1,4 +1,4 @@
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.others;
 
 public class MinimumInsertionsToFormPalindrome {
     public static void main(String[] args) {

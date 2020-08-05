@@ -1,5 +1,5 @@
 //https://www.geeksforgeeks.org/maximum-size-rectangle-binary-sub-matrix-1s/
-package algorithm.longestmaximumsubstringsubsequence;
+package algorithm.longestmaximumsubstringsubsequence.others;
 
 import java.util.Stack;
 

@@ -1,6 +1,7 @@
-package algorithm.longestmaximumsubstringsubsequence;
+//https://www.geeksforgeeks.org/given-two-strings-find-first-string-subsequence-second/
+package algorithm.longestmaximumsubstringsubsequence.others;
 
-public class CheckIfStringIsSubsequenceOfOtherString {
+public class CheckIfSubsequenceOfOtherString {
     public static void main(String[] args) {
         String word = "abcde";
         String pat = "ace";

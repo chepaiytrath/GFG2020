@@ -24,9 +24,14 @@ public class FloodFillAlgorithm {
     }
 
     private static void fill(int[][] screen, int x, int y, int prevColor, int newColor) {
-        if (x < 0 || y < 0 || x >= screen.length || y >= screen[0].length || screen[x][y] == newColor || screen[x][y] != prevColor) {
+        if (x < 0 || y < 0 || x >= screen.length || y >= screen[0].length) {
             return;
         }
+
+        if (screen[x][y] == newColor || screen[x][y] != prevColor) {
+            return;
+        }
+
         screen[x][y] = newColor;
 
         fill(screen, x, y - 1, prevColor, newColor);
