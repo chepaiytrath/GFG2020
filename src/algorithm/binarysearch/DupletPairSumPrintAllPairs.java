@@ -1,6 +1,6 @@
-package algorithm.arraysum;
+package algorithm.binarysearch;
 
-public class PairSumPrintAllPairs {
+public class DupletPairSumPrintAllPairs {
     public static void main(String[] args) {
         int arr[] = {2, 3, 4, -2, 6, 8, 9, 11};
         java.util.Arrays.sort(arr);
@@ -13,8 +13,7 @@ public class PairSumPrintAllPairs {
 
         while (low < high) {
             if (arr[low] + arr[high] == sum) {
-                System.out.println("The pair is : ("
-                        + arr[low] + ", " + arr[high] + ")");
+                System.out.println("The pair is : (" + arr[low] + ", " + arr[high] + ")");
             }
             if (arr[low] + arr[high] > sum) {
                 high--;

@@ -1,4 +1,4 @@
-package algorithm;
+package algorithm.repetionduplicates;
 
 public class FindFirstNonRepeatingCharacter {
     public static void main(String[] args) {

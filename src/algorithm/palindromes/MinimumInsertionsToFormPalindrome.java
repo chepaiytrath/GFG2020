@@ -1,4 +1,4 @@
-package algorithm.puzzles;
+package algorithm.palindromes;
 
 public class MinimumInsertionsToFormPalindrome {
     public static void main(String[] args) {

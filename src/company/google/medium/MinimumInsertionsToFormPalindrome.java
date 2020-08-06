@@ -31,7 +31,7 @@ public class MinimumInsertionsToFormPalindrome {
         return true;
     }
 
-    //EASY TO UNDERSTAND
+    //EASY TO UNDERSTAND  : DESCRIPTION IN ONE NOTE
     private static int findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(String str, int lo, int hi) {
         if (str == null || str.isEmpty()) {
             return 0;
@@ -46,10 +46,12 @@ public class MinimumInsertionsToFormPalindrome {
         if (hi - lo == 1) {
             return sameChars ? 0 : 1;
         }
-
-        return sameChars ? findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo, hi - 1) :
-                    1 + Math.min(findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo + 1, hi),
-                        findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo + 1, hi - 1));
+        if (sameChars) {
+            return findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo, hi - 1);
+        }
+        int min = Math.min(findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo + 1, hi),
+                findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo + 1, hi - 1));
+        return 1 + min;
     }
 }
 

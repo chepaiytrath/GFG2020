@@ -1,4 +1,4 @@
-package algorithm.puzzles;
+package company.google.easy;
 
 public class KnapsackUnbounded {
     public static void main(String[] args) {

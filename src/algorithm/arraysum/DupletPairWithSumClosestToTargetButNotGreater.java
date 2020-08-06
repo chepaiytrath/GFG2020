@@ -1,6 +1,6 @@
 package algorithm.arraysum;
 
-public class PairWithSumClosestToTargetButNotGreater {
+public class DupletPairWithSumClosestToTargetButNotGreater {
     public static void main(String[] args) {
         int[] arr = new int[]{1, 10, 12, 27, 32, 39, 50, 67, 86};
         int k = 77;

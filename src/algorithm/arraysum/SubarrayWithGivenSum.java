@@ -3,7 +3,7 @@ package algorithm.arraysum;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubarayWithGivenSum {
+public class SubarrayWithGivenSum {
     public static void main(String[] args) {
         int[] arr = { 10, 2, -2, -20, 10 };
         //findSubarrayWithGivenSumAllIntegers
