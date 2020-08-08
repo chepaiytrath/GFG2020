@@ -1,4 +1,4 @@
-package algorithm.basictechniques;
+package algorithm.basictechniques.reverserotate;
 
 public class ReverseArray {
     public static void main(String[] args) {

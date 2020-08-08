@@ -1,4 +1,4 @@
-package algorithm.basictechniques;
+package algorithm.basictechniques.mathematical;
 
 public class ConvertBinaryToDecimal {
     public static void main(String[] args) {

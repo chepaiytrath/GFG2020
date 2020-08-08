@@ -1,9 +1,9 @@
-package algorithm.basictechniques;
+package algorithm.basictechniques.slidingwindow;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SlidingWindowSubarayWithGivenSum {
+public class SubarayWithGivenSum {
     public static void main(String[] args) {
 //        int[] arr = { 10, 2, -2, -20, 10 };
         int[] arr = {4,5,-2,6,-10};

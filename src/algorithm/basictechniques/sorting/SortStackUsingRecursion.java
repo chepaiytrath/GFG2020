@@ -1,5 +1,5 @@
 //https://www.geeksforgeeks.org/sort-a-stack-using-recursion/
-package algorithm.basictechniques;
+package algorithm.basictechniques.sorting;
 
 import java.util.ListIterator;
 import java.util.Stack;

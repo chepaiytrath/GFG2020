@@ -1,5 +1,5 @@
 //https://www.geeksforgeeks.org/a-product-array-puzzle/
-package algorithm.basictechniques;
+package algorithm.basictechniques.mathematical;
 
 public class ProductArray {
     public static void main(String[] args) {

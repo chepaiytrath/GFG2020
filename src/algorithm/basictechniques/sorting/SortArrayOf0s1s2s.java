@@ -1,4 +1,4 @@
-package algorithm.basictechniques;
+package algorithm.basictechniques.sorting;
 
 public class SortArrayOf0s1s2s {
     // DUTCH NATIONAL FLAG PROBLEM

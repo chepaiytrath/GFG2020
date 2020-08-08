@@ -1,9 +1,9 @@
-package algorithm.basictechniques;
+package algorithm.basictechniques.slidingwindow;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class SlidingWindowMinimumWindowSubstring {
+public class MinimumWindowSubstring {
     public static void main(String[] args) {
         String input = "donutsandwafflemakemehungry";
         String pattern = "flea";
