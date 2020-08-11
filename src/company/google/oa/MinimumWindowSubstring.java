@@ -1,9 +1,9 @@
-package algorithm.basictechniques.slidingwindow;
+package company.google.oa;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MinimumWindowSubstring {
+class MinimumWindowSubstring {
     public static void main(String[] args) {
         String input = "donutsandwafflemakemehungry";
         String pattern = "flea";
@@ -27,7 +27,7 @@ public class MinimumWindowSubstring {
             char charAtEnd = input.charAt(end);
             if (patternFrequencyMap.containsKey(charAtEnd)) {
                 windowFrequencyMap.put(charAtEnd, windowFrequencyMap.getOrDefault(charAtEnd, 0) + 1);
-                if (windowFrequencyMap.get(charAtEnd).intValue() == patternFrequencyMap.get(charAtEnd).intValue()) {
+                if (windowFrequencyMap.get(charAtEnd) == patternFrequencyMap.get(charAtEnd)) {
                     matchedCharacterCount++;
                 }
             }
@@ -41,7 +41,7 @@ public class MinimumWindowSubstring {
                 char charAtStart = input.charAt(start);
                 if (patternFrequencyMap.containsKey(charAtStart)) {
                     windowFrequencyMap.put(charAtStart, windowFrequencyMap.get(charAtStart) - 1);
-                    if (windowFrequencyMap.get(charAtStart).intValue() < patternFrequencyMap.get(charAtStart).intValue()) {
+                    if (windowFrequencyMap.get(charAtStart) < patternFrequencyMap.get(charAtStart)) {
                         matchedCharacterCount--;
                     }
                 }

@@ -3,7 +3,7 @@ package leetcode.allproblems;
 import java.util.HashSet;
 import java.util.Set;
 
-public class A00002LongestUniqueSubstring {
+public class A0002LongestUniqueSubstring {
     public static void main(String[] args) {
         System.out.println(lengthOfLongestSubstring("abcabcbb"));
 //        System.out.println(lengthOfLongestSubstring("abba"));

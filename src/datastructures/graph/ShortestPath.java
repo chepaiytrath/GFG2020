@@ -1,12 +1,18 @@
 package datastructures.graph;
 
-import java.util.Arrays;
-
 import datastructures.graph.types.GraphEdgeArray;
 import datastructures.graph.types.GraphEdgeArray.Edge;
 
+import java.util.Arrays;
+
 
 public class ShortestPath {
+
+    // DIJKSTRA's ALGO : SINGLE SOURCE SHORTEST PATH
+    // Works on both Directed and non directed graphs
+    // For working on undirected graphs: convert it into a digraph by inserting parallel edges
+    // MAY OR MAY NOT WORK FOR GRAPH WITH NEGATIVE WEIGHTED EDGE : DUE TO ITS GREEDY NATURE
+
     public void bellmanFord(GraphEdgeArray gea) {
         // SAMPLE INPUT
         // GraphEdgeArray gea = new GraphEdgeArray(7, 10);
@@ -55,7 +61,9 @@ public class ShortestPath {
         System.out.println(bellmanFordUtil(gea, source));
     }
 
+    // SINGLE SOURCE SHORTEST PATH : SAME AS DIJKSTRA'S ALGO
     private int bellmanFordUtil(GraphEdgeArray gea, int source) {
+        // Relaxation : Updation of distances to other nodes on finding a shorter path
         int relaxationCount = gea.V - 1;
         Edge[] edges = gea.edges;
 
@@ -106,7 +114,7 @@ public class ShortestPath {
         for (int k = 0; k < V; k++) {
             for (int i = 0; i < V; i++) {
                 for (int j = 0; j < V; j++) {
-                    if(graph[i][k] != INF && graph[k][j] != INF){
+                    if (graph[i][k] != INF && graph[k][j] != INF) {
                         int sum = 0;
                         sum += graph[i][k] + graph[k][j];
                         graph[i][j] = Math.min(graph[i][j], sum);
@@ -115,13 +123,13 @@ public class ShortestPath {
             }
         }
 
-        for(int i = 0; i < V; i++){
-            if(graph[i][i] < 0){
+        for (int i = 0; i < V; i++) {
+            if (graph[i][i] < 0) {
                 System.out.println("NEGATIVE WEIGHT CYCLE DETECTED");
                 return;
             }
         }
-        for(int i = 0; i < V; i++){
+        for (int i = 0; i < V; i++) {
             System.out.println(Arrays.asList(graph[i]).toString());
         }
     }

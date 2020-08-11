@@ -7,60 +7,57 @@ public class MinimumWindowSubstring {
     public static void main(String[] args) {
         String input = "donutsandwafflemakemehungry";
         String pattern = "flea";
-        System.out.println(findMinimumWindowSubstring(input, pattern));
+        System.out.println(minWindow(input, pattern));
     }
 
-    private static String findMinimumWindowSubstring(String input, String pattern) {
-        int length = input.length();
-        String minLengthSubstring = "";
+    public static String minWindow(String input, String pattern) {
+        Map<Character, Integer> patternFrequencyMap = populateFrequency(pattern);
+        Map<Character, Integer> windowFrequencyMap = new HashMap<>();
+        int matchedCharacterCount = 0;
+        int totalCharacterCount = patternFrequencyMap.size();
+
+        int n = input.length();
+        int start = 0;
+        int end = 0;
+
+        String res = "";
         int minLength = Integer.MAX_VALUE;
 
-        Map<Character, Integer> windowFreqMap = new HashMap<>();
-        Map<Character, Integer> patternFreqMap = new HashMap<>();
-        populateCharacterFrequencies(patternFreqMap, pattern);
-
-        int totalCharactersInPattern = patternFreqMap.size();
-        int totalCharactersMatchedInWindow = 0; //i.e. Frequencies of characters are equal in both maps
-
-        int left = 0;
-        int right = 0;
-
-        while (left < length && right < length) {
-            char charAtRight = input.charAt(right);
-            putCharIntoFrequencyMap(windowFreqMap, charAtRight);
-
-            if (patternFreqMap.containsKey(charAtRight)
-                    && patternFreqMap.get(charAtRight).intValue() == windowFreqMap.get(charAtRight).intValue()) {
-                totalCharactersMatchedInWindow++;
+        while (start < n && end < n) {
+            char charAtEnd = input.charAt(end);
+            if (patternFrequencyMap.containsKey(charAtEnd)) {
+                windowFrequencyMap.put(charAtEnd, windowFrequencyMap.getOrDefault(charAtEnd, 0) + 1);
+                if (windowFrequencyMap.get(charAtEnd).intValue() == patternFrequencyMap.get(charAtEnd).intValue()) {
+                    matchedCharacterCount++;
+                }
             }
-            while (totalCharactersMatchedInWindow == totalCharactersInPattern && left <= right) {
-                int currLen = right - left + 1;
-                if (currLen < minLength) {
-                    minLengthSubstring = input.substring(left, right + 1);
-                    minLength = currLen;
+            while (matchedCharacterCount == totalCharacterCount && start <= end) {
+                int currentWindowSize = end - start + 1;
+                if (currentWindowSize < minLength) {
+                    res = input.substring(start, end + 1);
+                    minLength = currentWindowSize;
                 }
 
-                char charAtLeft = input.charAt(left);
-                windowFreqMap.put(charAtLeft, windowFreqMap.get(charAtLeft) - 1);
-                if(patternFreqMap.containsKey(charAtLeft) && windowFreqMap.get(charAtLeft).intValue() < patternFreqMap.get(charAtLeft).intValue()){
-                    totalCharactersMatchedInWindow--;
+                char charAtStart = input.charAt(start);
+                if (patternFrequencyMap.containsKey(charAtStart)) {
+                    windowFrequencyMap.put(charAtStart, windowFrequencyMap.get(charAtStart) - 1);
+                    if (windowFrequencyMap.get(charAtStart).intValue() < patternFrequencyMap.get(charAtStart).intValue()) {
+                        matchedCharacterCount--;
+                    }
                 }
-                left++;
+                start++;
             }
-            right++;
+            end++;
         }
-        return minLengthSubstring;
+
+        return res;
     }
 
-    private static void populateCharacterFrequencies(Map<Character, Integer> map, String pattern) {
-        for (char c : pattern.toCharArray()) {
-            int count = map.getOrDefault(c, 0);
-            map.put(c, count + 1);
+    public static Map<Character, Integer> populateFrequency(String pattern) {
+        Map<Character, Integer> map = new HashMap<>();
+        for (Character c : pattern.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0) + 1);
         }
-    }
-
-    private static void putCharIntoFrequencyMap(Map<Character, Integer> map, char charAtRight) {
-        int count = map.getOrDefault(charAtRight, 0);
-        map.put(charAtRight, count + 1);
+        return map;
     }
 }

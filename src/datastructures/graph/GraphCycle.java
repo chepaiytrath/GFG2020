@@ -180,12 +180,18 @@ public class GraphCycle {
     }
 
     private int find(int parent[], int ind) {
-        if (parent[ind] >= 0) {
+        if(parent[ind] == -1){
+            return ind;
+        }
+        return parent[ind] = find(parent, parent[ind]);
+
+        /*if (parent[ind] >= 0) {
             return parent[ind] = find(parent, parent[ind]);
         }
-        return ind;
+        return ind;*/
     }
 
+    // Union by weight
     private void union(int[] parent, int u, int v) {
         if(parent[u] <= parent[v]){
             int temp = parent[v];

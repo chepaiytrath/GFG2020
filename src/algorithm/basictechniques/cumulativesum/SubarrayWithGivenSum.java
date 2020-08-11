@@ -1,4 +1,4 @@
-package algorithm.arraysum;
+package algorithm.basictechniques.cumulativesum;
 
 import java.util.HashMap;
 import java.util.Map;
