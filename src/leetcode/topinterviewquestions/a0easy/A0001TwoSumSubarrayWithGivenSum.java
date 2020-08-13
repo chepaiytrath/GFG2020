@@ -3,7 +3,7 @@ package leetcode.topinterviewquestions.a0easy;
 import java.util.HashMap;
 import java.util.Map;
 
-public class A00001TwoSum {
+public class A0001TwoSumSubarrayWithGivenSum {
     // Assume one such pair exists
     public static void main(String[] args) {
         int[] nums = new int[]{2, 7, 11, 15};

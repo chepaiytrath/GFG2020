@@ -1,9 +1,9 @@
-package leetcode.allproblems;
+package algorithm.arraysum;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class A0001TwoSum {
+public class TwoSumSubarrayWithGivenSum {
     // Assume one such pair exists
     public static void main(String[] args) {
         int[] nums = new int[]{2, 7, 11, 15};

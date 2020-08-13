@@ -98,4 +98,17 @@ public class SubarrayWithGivenSum {
             System.out.print("No subarray found");
         }
     }
+
+    public static int[] findSubarrayWithGivenSumAllIntegersWithCumulativeSumComplement(int[] arr, int target) {
+        Map<Integer, Integer> indexMap = new HashMap<>();
+        for (int i = 0; i < arr.length; i++) {
+            int complement = target - arr[i];
+            if (!indexMap.containsKey(complement) && indexMap.get(complement) != i) {
+                indexMap.put(arr[i], i);
+            } else {
+                return new int[]{indexMap.get(complement), i};
+            }
+        }
+        return null;
+    }
 }

@@ -1,10 +1,16 @@
 //https://www.geeksforgeeks.org/maximum-size-rectangle-binary-sub-matrix-1s/
-package company.intuit;
+package algorithm.longestmaximumsubstringsubsequence.rectangle;
 
 import java.util.Stack;
 
-public class MaximumRectangleBinarySubMatrix {
+class MaximumAreaRectangleInMatrix {
     static final int ROW = 4, COL = 4;
+
+    public static void main(String[] args) {
+        int[][] mat = {{0, 1, 1, 0}, {1, 1, 1, 1}, {1, 1, 1, 1}, {1, 1, 0, 0}};
+        MaximumAreaRectangleInMatrix obj = new MaximumAreaRectangleInMatrix();
+        System.out.println("Maximum rectangle is " + obj.getMaxRectangle(mat));
+    }
 
     int getMaxRectangle(int[][] mat) {
         countMat(mat);
@@ -15,6 +21,17 @@ public class MaximumRectangleBinarySubMatrix {
         return maxRectArea;
     }
 
+    private void countMat(int[][] mat) {
+        for (int i = 1; i < ROW; i++) {
+            for (int j = 0; j < COL; j++) {
+                if (mat[i][j] == 1) {
+                    mat[i][j] += mat[i - 1][j];
+                }
+            }
+        }
+    }
+
+    // SIMILAR TO MAX HISTOGRAM
     private int calculateMaxAreaPerRow(int[] row) {
         int maxArea = 0;
         Stack<Integer> stack = new Stack<>();
@@ -36,22 +53,5 @@ public class MaximumRectangleBinarySubMatrix {
             maxArea = Math.max(area, maxArea);
         }
         return maxArea;
-    }
-
-    private void countMat(int[][] mat) {
-        for (int i = 1; i < ROW; i++) {
-            for (int j = 0; j < COL; j++) {
-                if (mat[i][j] == 1) {
-                    mat[i][j] += mat[i - 1][j];
-                }
-            }
-        }
-    }
-
-
-    public static void main(String[] args) {
-        int[][] mat = {{0, 1, 1, 0}, {1, 1, 1, 1}, {1, 1, 1, 1}, {1, 1, 0, 0}};
-        MaximumRectangleBinarySubMatrix obj = new MaximumRectangleBinarySubMatrix();
-        System.out.println("Maximum rectangle is " + obj.getMaxRectangle(mat));
     }
 }

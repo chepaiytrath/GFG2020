@@ -1,6 +1,6 @@
 //https://www.geeksforgeeks.ohorg/largest-rectangle-under-histogram/
 
-package company.intuit;
+package algorithm.longestmaximumsubstringsubsequence.rectangle;
 
 import java.util.Stack;
 
