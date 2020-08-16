@@ -3,71 +3,31 @@ package company.walmart2;
 import java.util.*;
 
 public class Rough {
+
     public static void main(String[] args) {
-        PairItem pi1 = new PairItem("Item1", "Item2");
-        PairItem pi2 = new PairItem("Item3", "Item4");
-        PairItem pi3 = new PairItem("Item4", "Item5");
-        List<PairItem> input = new ArrayList<>();
-        input.add(pi1);
-        input.add(pi2);
-        input.add(pi3);
-        List<String> res = findItemAssociationGroup(input);
-        System.out.println(res);
-
-        Set<String> set = new HashSet<>();
-        Queue<String> que = new LinkedList<>();
-        que.addAll(set);
-
+        int[][] arr = new int[][]{
+                {1, 2, 3, 5}, {4, 2, 1, 5, 3, 2}, {7, 5, 7, 3}
+        };
+        printOccurrences(arr);
     }
 
-    static class PairItem {
-        String first;
-        String second;
 
-        PairItem(String first, String second) {
-            this.first = first;
-            this.second = second;
-        }
-    }
-
-    private static List<String> findItemAssociationGroup(List<PairItem> input) {
-        Map<Integer, Set<Integer>> adj = new HashMap<>();
-        for (PairItem pi : input) {
-            int first = Integer.valueOf(pi.first.substring(4));
-            int second = Integer.valueOf(pi.second.substring(4));
-            if (adj.get(first) == null) {
-                adj.put(first, new HashSet<>());
-            }
-            if (adj.get(second) == null) {
-                adj.put(second, new HashSet<>());
-            }
-
-            adj.get(first).add(second);
-            adj.get(second).add(first);
-        }
-
-        int V = adj.keySet().size();
-        boolean[] visited = new boolean[V + 1];
-        List<String> res = new ArrayList<>();
-        for (int src : adj.keySet()) {
-            if (!visited[src]) {
-                Set<String> connected = new HashSet<>();
-                dfs(src, visited, adj, connected);
-                if (connected.size() > res.size()) {
-                    res = new ArrayList(connected);
-                }
+    private static void printOccurrences(int[][] arr) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] row : arr) {
+            for (int i = 0; i < row.length; i++) {
+                int num = row[i];
+                map.put(num, map.getOrDefault(num, 0) + 1);
             }
         }
-        return res;
-    }
 
-    private static void dfs(int src, boolean[] visited, Map<Integer, Set<Integer>> adj, Set<String> connected) {
-        visited[src] = true;
-        connected.add("Item" + src);
-        for (int c : adj.get(src)) {
-            if (!visited[c]) {
-                dfs(c, visited, adj, connected);
-            }
-        }
+        Set<Map.Entry<Integer, Integer>> set = map.entrySet();
+        Comparator<Map.Entry<Integer, Integer>> compareById = (Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) -> o2.getValue() - o1.getValue();
+        List<Map.Entry<Integer, Integer>> list = new ArrayList<>(set);
+        Collections.sort(list, compareById);
+
+        System.out.println(list.get(0).getKey());
+
+
     }
 }

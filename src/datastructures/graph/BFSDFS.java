@@ -156,6 +156,7 @@ public class BFSDFS {
 
     List<Integer> finished = new ArrayList<>();
 
+    // Kosarajus Strongly connected component algo
     public void findMotherVertexBetterSolution(DirectedGraphAdjacencyList graph) {
         // O(V + E)
         // Also called Kosarajus Strongly connected component algo

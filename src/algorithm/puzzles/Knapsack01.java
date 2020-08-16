@@ -11,6 +11,7 @@ public class Knapsack01 {
 //        int sack = 50;
 
 //        int maxWtPossible = findMaxWeightPossibleWithRecursion(weights, prices, sack, 0);
+//        int maxWtPossible = findMaxWeightPossibleWithDynamicProgramming(weights, prices, sack);
         int maxWtPossible = findMaxWeightPossibleWithDynamicProgramming(weights, prices, sack);
         System.out.println(maxWtPossible);
     }
@@ -38,6 +39,7 @@ public class Knapsack01 {
 
         for (int i = 0; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
+
                 if (i == 0) {
                     if (j >= weights[i]) {
                         dp[i][j] = prices[i];
@@ -46,11 +48,11 @@ public class Knapsack01 {
                 }
                 if (j >= weights[i]) {
                     dp[i][j] = Math.max(dp[i - 1][j], prices[i] + dp[i - 1][j - weights[i]]);
-                }else{
+                } else {
                     dp[i][j] = dp[i - 1][j];
                 }
             }
         }
-        return dp[n-1][sack];
+        return dp[n - 1][sack];
     }
 }

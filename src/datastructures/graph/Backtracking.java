@@ -8,7 +8,7 @@ public class Backtracking {
     // FOLLOW THE SEQUENCE TO LEARN
     // Two Backtracking approaches can be used here for
     // 1. https://www.geeksforgeeks.org/rat-in-a-maze-backtracking-2/
-    // PRESNT SIGHTED
+    // PRESENT SIGHTED
     // Updates for current element if valid index i, j.
     // Calls method recursively for both children hoping one of them gives true.
     // If both calls give false, then backtracks its own updation
@@ -401,7 +401,7 @@ public class Backtracking {
         boolean[] visited = new boolean[v];
         int start = 0;
         List<Integer> list = new ArrayList<>();
-        if(!printOneHamiltonianCycleUtil(start, start, visited, adj, list, 0)){
+        if (!printOneHamiltonianCycleUtil(start, start, visited, adj, list, 0)) {
             System.out.println("NO HAMILTONIAN CYCLE FOUND");
         }
     }
@@ -424,13 +424,11 @@ public class Backtracking {
                 }
             }
         }
-        if(!flag && children.contains(start) && visitedVerticesCount == adj.length){
+        if (!flag && children.contains(start) && visitedVerticesCount == adj.length) {
             list.add(start);
             System.out.println(list);
             return true;
         }
         return false;
     }
-
-
 }

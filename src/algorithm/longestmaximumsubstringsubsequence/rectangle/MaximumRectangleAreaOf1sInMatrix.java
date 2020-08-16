@@ -3,12 +3,12 @@ package algorithm.longestmaximumsubstringsubsequence.rectangle;
 
 import java.util.Stack;
 
-class MaximumAreaRectangleInMatrix {
+class MaximumRectangleAreaOf1sInMatrix {
     static final int ROW = 4, COL = 4;
 
     public static void main(String[] args) {
         int[][] mat = {{0, 1, 1, 0}, {1, 1, 1, 1}, {1, 1, 1, 1}, {1, 1, 0, 0}};
-        MaximumAreaRectangleInMatrix obj = new MaximumAreaRectangleInMatrix();
+        MaximumRectangleAreaOf1sInMatrix obj = new MaximumRectangleAreaOf1sInMatrix();
         System.out.println("Maximum rectangle is " + obj.getMaxRectangle(mat));
     }
 
