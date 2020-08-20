@@ -1,5 +1,6 @@
 package algorithm.puzzles;
 
+// Find isSubsequence for each word in dictionary
 public class LargestWordInDictionaryByDeletingCharacaters {
     public static void main(String[] args) {
         String[] dict = {"ale", "apple", "monkey", "plea"};

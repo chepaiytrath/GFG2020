@@ -10,30 +10,37 @@ public class MinimumPlatforms {
     // If a train arrives before departure of another train, that means conflict, increment platform count, move i = i+1 
     // If a train departs the arrival of another train, that means previous train left, decrement platform count, move j = j + 1 
     // Maintain max platform count which is result 
-    
+
     public static void main(String[] args) {
-        int arr[] = { 900, 940, 950, 1100, 1500, 1800 };
-        int dep[] = { 910, 1200, 1120, 1130, 1900, 2000 };
+        int arr[] = {900, 940, 950, 1100, 1500, 1800};
+        int dep[] = {910, 1200, 1120, 1130, 1900, 2000};
 
         System.out.println(finMinimumPlatforms(arr, dep));
     }
 
+    //Minimum Platforms needed on railway station = Maximum platforms needed at any time
     private static int finMinimumPlatforms(int[] arr, int[] dep) {
         int n = arr.length;
 
         int platforms = 1;
         int maxPlatforms = 1;
 
+        // SORT THE ARRAYS
         Arrays.sort(arr);
         Arrays.sort(dep);
+
 
         int i = 1;
         int j = 0;
         while (i < n && j < n) {
+            // WHICHEVER IS HAPPENING FIRST :: ARRIVAL OR DEPARTURE
+
+            // ARRIVAL HAPPENS FIRST : INCREASE PLATFORM COUNT
             if (arr[i] <= dep[j]) {
                 platforms++;
                 i++;
             } else {
+                // DEPARTURE HAPPENS FIRST : DECREASE PLATFORM COUNT
                 platforms--;
                 j++;
             }

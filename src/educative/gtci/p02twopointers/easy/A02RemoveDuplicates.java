@@ -7,7 +7,7 @@ public class A02RemoveDuplicates {
         removeAllOccurrencesOfAKey();
     }
 
-    //#REVISIT
+    // #REVISIT
     // SORTED ARRAY
     private static void removeDupes() {
         int[] arr = new int[]{2, 3, 3, 3, 6, 9, 9};

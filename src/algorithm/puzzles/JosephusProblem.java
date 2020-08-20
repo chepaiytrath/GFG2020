@@ -1,5 +1,6 @@
 package algorithm.puzzles;
 
+// #REVISIT
 public class JosephusProblem {
     public static void main(String[] args) {
         int n = 5, k = 2;

@@ -17,14 +17,19 @@ public class ValidSudoku {
                 {'.', '.', '.', '.', '8', '.', '.', '7', '9'}
         };
 
-        System.out.println(isValidSudokuWithStringSet(arr));
+        System.out.println(isValidSudoku(arr));
     }
 
     private static boolean isValidSudokuWithStringSet(char[][] board) {
-        Set seen = new HashSet();
+        Set<String> seen = new HashSet<>();
         for (int i = 0; i < 9; ++i) {
             for (int j = 0; j < 9; ++j) {
                 char number = board[i][j];
+                // IMAGINE DIVIDING BOARD INTO BLOCKS OF:
+                // 0,0    0,1     0,2
+                // 1,0    1,1     1,2
+                // 2,0    2,1     2,2
+                // HOW TO GET THE BLOCK INDICES: i/3, j/3
                 if (number != '.')
                     if (!seen.add(number + " in row " + i) ||
                             !seen.add(number + " in column " + j) ||

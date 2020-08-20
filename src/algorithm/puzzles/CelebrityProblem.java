@@ -33,6 +33,7 @@ public class CelebrityProblem {
         return celeb;
     }
 
+    // PUSH ALL TO STACK AND SHRINK STACK IN PAIRS
     private static int findCelebWithStack(int n) {
         Stack<Integer> st = new Stack<>();
         for(int i = 0; i < n; i++){

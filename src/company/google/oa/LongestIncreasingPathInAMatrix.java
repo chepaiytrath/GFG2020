@@ -1,6 +1,6 @@
 package company.google.oa;
 
-class Solution {
+class LongestIncreasingPathInAMatrix {
     public static void main(String[] args) {
         int[][] arr = new int[][]{{9, 9, 4}, {6, 6, 8}, {2, 1, 1}};
         System.out.println(longestIncreasingPath(arr));

@@ -5,12 +5,13 @@ import java.util.List;
 
 public class HCFGCD {
     public static void main(String[] args) {
-        hcfListOfNumbers();
+        hcfTwoNumbers();
+//        hcfListOfNumbers();
     }
 
     public static void hcfTwoNumbers() {
         int a = 4;
-        int b = 8;
+        int b = 6;
         System.out.println(hcf(a, b));
     }
 

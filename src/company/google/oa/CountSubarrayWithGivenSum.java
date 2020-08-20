@@ -61,15 +61,16 @@ public class CountSubarrayWithGivenSum {
         return count;
     }
 
+    // #REVISIT
     public static int subarraySumForAllIntegers(int[] arr, int k) {
         int count = 0;
         // Value in this map is the number of times it has satisfied the sum = k requirement
         Map<Integer, Integer> map = new HashMap<>();
-        map.put(0,1);
+        map.put(0, 1);
         int cumSum = 0;
-        for(int i = 0; i < arr.length; i++){
+        for (int i = 0; i < arr.length; i++) {
             cumSum += arr[i];
-            if(map.containsKey(cumSum - k)){
+            if (map.containsKey(cumSum - k)) {
                 count += map.get(cumSum - k);
             }
             map.put(cumSum, map.getOrDefault(cumSum, 0) + 1);

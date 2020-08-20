@@ -18,10 +18,19 @@ public class OptimalStrategyForGame {
         if (right == left + 1) {
             return Math.max(arr[left], arr[right]);
         }
+        // EITHER CHOOSE LEFT AND FIND BEST IN REMAINING ARRAY
+        // FINDING BEST: PLAYER 2 ALSO PLAYS OPTIMALLY: SO PLAYER 1 IS FORCED TO SELECT THE MINIMUM OF THE TWO OPTIONS
         int choiceLeft = arr[left] + Math.min(findBestSolution(arr, left + 2, right, dp), findBestSolution(arr, left + 1, right - 1, dp));
+
+        // OR CHOOSE RIGHT AND FIND BEST IN REMAINING ARRAY
+        // FINDING BEST: PLAYER 2 ALSO PLAYS OPTIMALLY: SO PLAYER 1 IS FORCED TO SELECT THE MINIMUM OF THE TWO OPTIONS
         int choiceRight = arr[right] + Math.min(findBestSolution(arr, left, right - 2, dp), findBestSolution(arr, left + 1, right - 1, dp));
+
+        // ANSWER = MAXIMUM OF THE TWO CHOICES: LEFT OR RIGHT
         int ans = Math.max(choiceLeft, choiceRight);
-        dp.put(left+"|"+right, ans);
+
+        // SAVE INDICES OF LEFT RIGHT IN DP FOR FUTURE USE IN CASE SOME OTHER RECURSIVE CALL NEEDS SAME VALUES
+        dp.put(left + "|" + right, ans);
         return ans;
     }
 }

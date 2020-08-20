@@ -26,6 +26,8 @@ public class LongestIncreasingSubsequence {
         return dp[0];
     }
 
+    // #REVISIT
+    // #NOTTRUEFORALLITERATIONS
     private static int lengthOfLISDPWithBinarySearch(int[] nums) {
         if (nums == null || nums.length == 0) {
             return 0;

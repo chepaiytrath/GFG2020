@@ -1,4 +1,4 @@
-package algorithm.puzzles;
+package algorithm.mathematical;
 
 public class PowerOfNumberToItsReverseLargeNumberMultiplication {
     public static void main(String[] args) {

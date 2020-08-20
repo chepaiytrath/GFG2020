@@ -1,5 +1,6 @@
 package algorithm.puzzles;
 
+// #REVISIT
 public class CombineTheStringsRB {
     public static void main(String[] args) {
         String[] arr = new String[]{"RBR", "BBR", "RRR"};

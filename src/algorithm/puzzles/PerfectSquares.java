@@ -1,6 +1,7 @@
 package algorithm.puzzles;
 
 //https://leetcode.com/problems/perfect-squares/
+// SIMILAR TO COIN CHANGE
 public class PerfectSquares {
     public static void main(String[] args) {
         int num = 16;

@@ -6,7 +6,8 @@ import java.util.Stack;
 public class AlienDictionary {
     public static void main(String[] args) {
 //        String[] str = new String[]{"baa", "abcd", "abca", "cab", "cad" };
-        String[] str = new String[]{"caa", "aaa", "aab" };
+        String[] str = new String[]{"caa", "aaa", "aab"};
+
         int k = 3;
 
         findOutput(str, k);
@@ -20,6 +21,7 @@ public class AlienDictionary {
             String second = str[i + 1];
             int limit = Math.min(first.length(), second.length());
             for (int j = 0; j < limit; j++) {
+                // #REVISIT
                 if (first.charAt(j) != second.charAt(j)) {
                     g.addEdge(first.charAt(j) - 'a', second.charAt(j) - 'a');
                     break;

@@ -1,5 +1,8 @@
 package algorithm.puzzles;
 
+// #REVISIT
+// COMPLICATED
+//https://www.geeksforgeeks.org/how-to-print-maximum-number-of-a-using-given-four-keys/
 public class SpecialKeyboard {
     public static void main(String[] args) {
         System.out.println(findMaximumAsInSpecialKeyboard(7));

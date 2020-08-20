@@ -3,6 +3,8 @@ package algorithm.puzzles;
 import java.util.HashSet;
 import java.util.Set;
 
+// #REVISIT
+// #CODE AGAIN
 public class WordBoggle {
     public static void main(String[] args) {
         boggle();
@@ -41,6 +43,6 @@ public class WordBoggle {
             }
         }
         visited[i][j] = false;
-        str = str.substring(0, str.length() - 1);
+//        str = str.substring(0, str.length() - 1);
     }
 }

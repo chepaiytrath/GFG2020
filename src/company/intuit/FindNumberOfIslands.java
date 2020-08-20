@@ -21,7 +21,7 @@ public class FindNumberOfIslands {
         boolean visited[][] = new boolean[ROW][COL];
 
         for (int i = 0; i < ROW; i++) {
-            for (int j = 0; j < ROW; j++) {
+            for (int j = 0; j < COL; j++) {
                 if (mat[i][j] == 1 && !visited[i][j]) {
                     DFS(mat, visited, i, j);
                     count++;

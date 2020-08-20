@@ -1,5 +1,6 @@
 package algorithm.puzzles;
 
+//https://www.geeksforgeeks.org/given-matrix-o-x-replace-o-x-surrounded-x/
 public class XTotalShapes {
     public static void main(String[] args) {
         char[][] arr = new char[][]{
@@ -19,9 +20,12 @@ public class XTotalShapes {
         }
     }
 
+    // BASED ON FLOOD FILL ALGO
     private static void fill(char[][] arr) {
         int n = arr.length;
         replaceCharactersWithEachOther(arr, 'O', '-');
+
+        // FOUR EDGE BOUNDARIES
         for (int i = 0; i < n; i++) {
             if (arr[0][i] == '-') {
                 floodFillUtil(arr, 0, i, 'O');
@@ -54,12 +58,15 @@ public class XTotalShapes {
             return;
         }
         arr[row][col] = newCh;
+
+        // FOUR NEIGHBORS
         floodFillUtil(arr, row, col - 1, newCh);
         floodFillUtil(arr, row, col + 1, newCh);
         floodFillUtil(arr, row - 1, col, newCh);
         floodFillUtil(arr, row + 1, col, newCh);
     }
 
+    // FIRST SWAP O WITH - AND THEN - WITH X
     private static void replaceCharactersWithEachOther(char[][] arr, char a, char b) {
         for (int i = 0; i < arr.length; i++) {
             for (int j = 0; j < arr[0].length; j++) {

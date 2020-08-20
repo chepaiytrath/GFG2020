@@ -17,7 +17,7 @@ class PaperCutProblem {
         if (m == n) {
             return 1;
         }
-        if(dp[m][n] != 0){
+        if (dp[m][n] != 0) {
             return dp[m][n];
         }
 
@@ -27,7 +27,8 @@ class PaperCutProblem {
         for (int j = 1; j <= n / 2; j++) {
             verticalMin = Math.min(findMinimumNumberOfSquares(m, j) + findMinimumNumberOfSquares(m, n - j), verticalMin);
         }
-        dp[m][n] = Math.min(horizontalMin, verticalMin);;
+        dp[m][n] = Math.min(horizontalMin, verticalMin);
+        ;
         return dp[m][n];
     }
 }

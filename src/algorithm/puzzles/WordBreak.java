@@ -3,6 +3,8 @@ package algorithm.puzzles;
 import java.util.HashSet;
 import java.util.Set;
 
+// #REVISIT
+// DP IS COMPLICATED
 public class WordBreak {
     public static void main(String[] args) {
         String input = "iace";
@@ -13,6 +15,7 @@ public class WordBreak {
         dict.add("a");
 
         System.out.println(isWordPossibleDynamicProgramming(input, dict));
+//        System.out.println(isWordPossibleRecursion(input, dict));
     }
 
     // Recursive Solution
@@ -26,6 +29,7 @@ public class WordBreak {
                 if (i == input.length() - 1) {
                     return true;
                 } else if (i < input.length() - 1 && isWordPossibleRecursion(input.substring(i + 1), dictionary)) {
+                    // CAN'T PUT isWordPossibleRecursion HERE BECAUSE NEED TO CHECK FOR OTHER i COMBINATIONS AS WELL
                     return true;
                 }
             }
@@ -34,6 +38,7 @@ public class WordBreak {
         return false;
     }
 
+    // #REVISIT
     private static boolean isWordPossibleDynamicProgramming(String input, Set<String> dictionary) {
         int n = input.length();
         boolean[][] dp = new boolean[n][n];

@@ -1,5 +1,6 @@
 package company.walmart2.easy;
 
+// https://www.careercup.com/question?id=5131737510182912
 public class CombineTheStringsRB {
     public static void main(String[] args) {
         String[] arr = new String[]{"RBR", "BBR", "RRR"};

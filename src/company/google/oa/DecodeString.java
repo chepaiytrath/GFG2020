@@ -5,8 +5,8 @@ import java.util.Stack;
 public class DecodeString {
     public static void main(String[] args) {
 //        String s = "abc3[a2[c]]xyz";
-        String s = "100[leetcode]";
-//        String s = "2[abc]3[cd]ef";
+//        String s = "100[leetcode]";
+        String s = "2[abc]3[cd]ef";
         System.out.println(decodeString(s));
     }
     public static String decodeString(String s) {
