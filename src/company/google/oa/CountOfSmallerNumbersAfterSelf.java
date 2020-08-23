@@ -11,7 +11,7 @@ public class CountOfSmallerNumbersAfterSelf {
     }
 
 
-    //    Explanation with an example:
+//    Explanation with an example:
 //    arr[] = {7,4,5,2,6,1}
 //    sol[] = {5,2,2,1,1,0}
 //
@@ -24,7 +24,7 @@ public class CountOfSmallerNumbersAfterSelf {
 //
 //    Each insertion gives you the count of numbers(TreeNode vals) that the current num is greater than. Save this count in the res list.
 //
-//            Visualize this in form of a BST. If your number is greater than the current treenode val, then go right. This would also mean that your number is greater than all the numbers which the treenode was greater than. Keep summing up these counts and when you reach a null, just insert the new node and return the count you maintained. The node you insert however stores count = 1 by default.
+//    Visualize this in form of a BST. If your number is greater than the current treenode val, then go right. This would also mean that your number is greater than all the numbers which the treenode was greater than. Keep summing up these counts and when you reach a null, just insert the new node and return the count you maintained. The node you insert however stores count = 1 by default.
 //
 //    For 6 you get back the count as 1 and you store treenode with val = 6, count = 1
 //    For 2, you get back count as 1 because it was greater than 1 but less than 6 so one right one left. In the same insertion, you update the count of 6 to 2.

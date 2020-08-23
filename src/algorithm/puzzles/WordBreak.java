@@ -6,6 +6,8 @@ import java.util.Set;
 // #REVISIT
 // DP IS COMPLICATED
 public class WordBreak {
+    // Given an input string and a dictionary of words,
+    // find out if the input string can be segmented into a space-separated sequence of dictionary words.
     public static void main(String[] args) {
         String input = "iace";
         Set<String> dict = new HashSet<>();
@@ -39,6 +41,7 @@ public class WordBreak {
     }
 
     // #REVISIT
+    // DIAGONALLY AND UP FILL DP
     private static boolean isWordPossibleDynamicProgramming(String input, Set<String> dictionary) {
         int n = input.length();
         boolean[][] dp = new boolean[n][n];

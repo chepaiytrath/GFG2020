@@ -9,8 +9,9 @@ public class WordBoggle {
     public static void main(String[] args) {
         boggle();
     }
+
     private static void boggle() {
-        char[][] boggle = new char[][] { { 'G', 'I', 'Z' }, { 'U', 'E', 'K' }, { 'Q', 'S', 'E' } };
+        char[][] boggle = new char[][]{{'G', 'I', 'Z'}, {'U', 'E', 'K'}, {'Q', 'S', 'E'}};
         Set<String> dictionary = new HashSet<>();
         dictionary.add("GEEKS");
         dictionary.add("FOR");
@@ -27,7 +28,7 @@ public class WordBoggle {
     }
 
     private static void boogleUtil(char[][] boggle, int i, int j, String str, boolean[][] visited, Set<String> dictionary,
-                            Set<String> found) {
+                                   Set<String> found) {
         visited[i][j] = true;
         str = str + boggle[i][j];
         if (dictionary.contains(str)) {
@@ -35,6 +36,8 @@ public class WordBoggle {
         }
         int M = boggle.length;
         int N = boggle[0].length;
+
+        // NESTED FOR LOOP TO GET ALL 8 POSSIBLE NEIGHBOURS OF [i, j]
         for (int row = i - 1; row <= i + 1 && row < M; row++) {
             for (int col = j - 1; col <= j + 1 && col < N; col++) {
                 if (row >= 0 && col >= 0 && !visited[row][col]) {
@@ -42,7 +45,11 @@ public class WordBoggle {
                 }
             }
         }
+        // BACKTRACKING
+        // AT LAST STAGE OF DFS : ALL VISITED ARE TRUE : THEN IT BACKTRACKS AND MAKES EACH VISITED FALSE FOR THE NEXT DFS TO USE
         visited[i][j] = false;
-//        str = str.substring(0, str.length() - 1);
+
+        // NO NEED FOR BELOW LINE
+        // str = str.substring(0, str.length() - 1);
     }
 }

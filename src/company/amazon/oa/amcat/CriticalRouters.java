@@ -2,7 +2,7 @@ package company.amazon.oa.amcat;
 
 import java.util.*;
 
-public class CriticalRoutersBruteForce {
+public class CriticalRouters {
     public static void main(String[] args) {
         /*List<List<Integer>> connections = new ArrayList<>();
         connections.add(Arrays.asList(0,1));
@@ -13,16 +13,15 @@ public class CriticalRoutersBruteForce {
         int n = 4;*/
 
 
-
         int n = 5;
         List<List<Integer>> connections = new ArrayList<>();
-        connections.add(Arrays.asList(1,0));
-        connections.add(Arrays.asList(2,0));
-        connections.add(Arrays.asList(3,2));
-        connections.add(Arrays.asList(4,2));
-        connections.add(Arrays.asList(4,3));
-        connections.add(Arrays.asList(3,0));
-        connections.add(Arrays.asList(4,0));
+        connections.add(Arrays.asList(1, 0));
+        connections.add(Arrays.asList(2, 0));
+        connections.add(Arrays.asList(3, 2));
+        connections.add(Arrays.asList(4, 2));
+        connections.add(Arrays.asList(4, 3));
+        connections.add(Arrays.asList(3, 0));
+        connections.add(Arrays.asList(4, 0));
         System.out.println(criticalConnectionsWithTarjan(n, connections));
     }
 
@@ -104,9 +103,9 @@ public class CriticalRoutersBruteForce {
 
         // Do a DFS for non-visited ones
         // Each DFS adds the bridges into the resultant list
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++) {
             // Use id == -1 to check if not visited
-            if(id[i] == -1){
+            if (id[i] == -1) {
                 tarjanDfs(i, id, lo, res, adj, i);
             }
         }
@@ -116,45 +115,49 @@ public class CriticalRoutersBruteForce {
     // Keep this ctr to populate id[] values when each node is discovered for the first time.
     // Keep incrementing the ctr at each DFS.
     static int ctr = 0;
-    private static void tarjanDfs(int src, int[] id, int[] lo, List<List<Integer>> res, Map<Integer, List<Integer>> adj, int parent){
+
+    private static void tarjanDfs(int src, int[] id, int[] lo, List<List<Integer>> res, Map<Integer, List<Integer>> adj, int parent) {
         // Initialize with ctr and increment ctr
         // This ensures the discovery order is maintained by id[]
         id[src] = ctr;
 
-        //Initiliaze lo[] with same value of ctr because this is the lowest id that the current node has encountered
+        //Initialize lo[] with same value of ctr because this is the lowest id that the current node has encountered
         lo[src] = ctr;
         ctr++;
 
-        for(int child : adj.get(src)){
-            // You have to look ahead to see if you find a visited node so dont go back to parent
-            if(child == parent){
+        // THREE CHECKS FOR EACH CHILD
+        //1. PARENT CHECK
+        //2. CHILD NOT VISITED CHECK : DFS INTO CHILD AND UPDATE LO SRC WHEN BACKTRACKING
+        //3. CHILD ALREADY VISITED CHECK : CYCLE FOUND : UPDATE LO[SRC]
+        for (int child : adj.get(src)) {
+            // CAN'T LOOK BACK IN THE DFS. ONLY OPTION TO MOVE AHEAD AND TRY FINDING A VISITED NODE WHICH CREATES A CYCLE.
+            if (child == parent) {
                 continue;
             }
 
-            // If not visited, then DFS to its children.
-            // Once it comes back from DFS of each child, check if the child has found a cycle with some other SCC.
-            // That would mean lo[child] > id[src]
-            if(id[child] == -1){
+            // If not visited, then DFS into child.
+            // Once it comes back from DFS of child, check if the child has found a cycle with some other SCC, i.e. lo[child] > id[src]
+            if (id[child] == -1) {
                 tarjanDfs(child, id, lo, res, adj, src);
-                // NOTE: MIN BETWEEN LO AND LO
+                // PROPAGATE THE LO OF CHILD : LO[CHILD]
                 lo[src] = Math.min(lo[src], lo[child]);
-                if(lo[child] > id[src]){
+                if (lo[child] > id[src]) {
                     res.add(Arrays.asList(src, child));
                 }
             }
-            // If visited
+            // If child is already visited : child's ID id[child] would be lower than id[src] and lo[src]
             // Update only the lo[src] : This means loop found with a visited node other than parent.
             // That node Id will surely be lesser than the src
-            else{
+            else {
                 // NOTE: MIN BETWEEN LO AND ID
                 lo[src] = Math.min(lo[src], id[child]);
             }
         }
     }
 
-    private static Map<Integer, List<Integer>> populateAdjacencyList(List<List<Integer>> edges){
+    private static Map<Integer, List<Integer>> populateAdjacencyList(List<List<Integer>> edges) {
         Map<Integer, List<Integer>> adj = new HashMap<>();
-        for(List<Integer> edge : edges){
+        for (List<Integer> edge : edges) {
             int u = edge.get(0);
             int v = edge.get(1);
 

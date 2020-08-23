@@ -13,7 +13,7 @@ public class A02CeilingOfANumber {
         System.out.println(res);
     }
 
-    // RULE: AFTER BINARY SEARCH, SMALLEST ELEMENT GREATER OR EQUAL TO TARGET IS AT START
+    // RULE: AFTER BINARY SEARCH WHILE LOOP COMPLETES, SMALLEST ELEMENT GREATER OR EQUAL TO TARGET IS AT START
     private static int binarySearchUtil(int[] arr, int ceilOf) {
         if(ceilOf > arr[arr.length - 1]){
             // CANT FIND AN ELEMENT >= TARGET IF LAST ELEMENT(HIGHEST) IS LESS THAN TARGET

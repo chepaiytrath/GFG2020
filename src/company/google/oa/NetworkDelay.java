@@ -1,6 +1,6 @@
 package company.google.oa;
 
-import java.util.Arrays;
+import java.util.*;
 
 class NetworkDelay {
     // LOGIC: FIND THE MAXIMUM VALUE FROM ALL THE SHORTEST PATHS FROM SOURCE TO ALL OTHER NODES
@@ -37,5 +37,68 @@ class NetworkDelay {
             max = Math.max(max, dist[i]);
         }
         return max == Integer.MAX_VALUE ? -1 : max;
+    }
+
+    public int networkDelayTimeDijkstrasAlgo(int[][] times, int N, int K) {
+        Map<Integer, Map<Integer, Integer>> map = new HashMap<>();
+        populateAdjList(times, map, N);
+
+        //max of dist
+        int src = K - 1;
+        int[] dist = new int[N];
+        Set<Integer> visited = new HashSet<>();
+
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[src] = 0;
+
+        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((a,b) -> a.dis - b.dis);
+        Pair source = new Pair(src, 0);
+        pq.add(source);
+
+        while(!pq.isEmpty()){
+            Pair popped = pq.poll();
+            visited.add(popped.index);
+
+            if(dist[popped.index] < popped.dis){
+                continue;
+            }
+
+            for(Map.Entry<Integer, Integer> edge : map.get(popped.index).entrySet()){
+                if(!visited.contains(edge.getKey())){
+                    int to = edge.getKey();
+                    int wt = edge.getValue();
+
+                    Pair newPair = new Pair(to, dist[popped.index] + wt);
+                    pq.add(newPair);
+                    dist[to] = Math.min(dist[to], newPair.dis);
+                }
+            }
+        }
+
+        int max = -1;
+        for(int num : dist){
+            max = Math.max(max, num);
+        }
+
+        return max == Integer.MAX_VALUE ? -1 : max;
+    }
+
+    private void populateAdjList(int[][] times, Map<Integer, Map<Integer, Integer>> map, int N){
+        for(int i = 0; i < N; i++){
+            map.put(i, new HashMap<Integer, Integer>());
+        }
+
+        for(int[] time : times){
+            map.get(time[0] - 1).put(time[1] - 1, time[2]);
+        }
+    }
+
+    static class Pair{
+        int index;
+        int dis;
+        Pair(int index, int dis){
+            this.index = index;
+            this.dis = dis;
+        }
     }
 }

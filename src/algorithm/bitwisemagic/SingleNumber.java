@@ -12,7 +12,7 @@ public class SingleNumber {
     }
 
 
-    //O(n) with extra space
+    // O(n) with extra space
     private static int singleNumberExtraSpace(int[] nums) {
         Set<Integer> set = new HashSet<>();
         for (int val : nums) {

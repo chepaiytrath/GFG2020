@@ -2,10 +2,10 @@ package algorithm.basictechniques.mathematical;
 
 public class ConvertBinaryToDecimal {
     public static void main(String[] args) {
-        System.out.println(convertBinaryToString("11100"));
+        System.out.println(convertBinaryToDecimal("11100"));
     }
 
-    private static int convertBinaryToString(String num) {
+    private static int convertBinaryToDecimal(String num) {
         char[] arr = num.toCharArray();
         int ans = 0;
         int n = num.length();

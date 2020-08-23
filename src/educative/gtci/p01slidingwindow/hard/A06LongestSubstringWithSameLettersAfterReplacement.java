@@ -30,6 +30,7 @@ public class A06LongestSubstringWithSameLettersAfterReplacement {
             int currFreq = map.get(charAtEnd);
             maxDuplicatesSoFar = Math.max(maxDuplicatesSoFar, currFreq);
 
+            // #NOT WHAT IT SEEMS
             int windowSize = end + 1 - start;
             // Increment start only by one step. This will break the condition
             // Not concerned with invalid values in window in some iterations.

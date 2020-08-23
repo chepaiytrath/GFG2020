@@ -1,5 +1,6 @@
 package algorithm.binarysearch;
 
+//Bitonic
 public class PeakElement {
     public static void main(String[] args) {
 //        int[] arr = new int[]{1, 3, 20, 4, 1, 0};

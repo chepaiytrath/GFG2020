@@ -9,6 +9,7 @@ public class HardProblems {
 
     // INSPIRED BY : https://www.geeksforgeeks.org/travelling-salesman-problem-implementation-using-backtracking/
     int startTSP = 2;
+
     public void travellingSalesmanProblemMinCostWithBacktracking() {
         /*int[][] adj = new int[][]{
                 {0, 20, 42, 25},
@@ -17,7 +18,8 @@ public class HardProblems {
                 {25, 34, 10, 0}
         };*/
 
-        int[][] adj = {{0, 3, 30, 2},
+        int[][] adj = {
+                {0, 3, 30, 2},
                 {3, 0, 4, 20},
                 {30, 4, 0, 1},
                 {2, 20, 1, 0}};

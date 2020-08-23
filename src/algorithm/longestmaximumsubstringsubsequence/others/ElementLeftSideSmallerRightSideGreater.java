@@ -1,6 +1,6 @@
-//https://www.geeksforgeeks.org/find-the-element-before-which-all-the-elements-are-smaller-than-it-and-after-which-all-are-greater-than-it/
 package algorithm.longestmaximumsubstringsubsequence.others;
 
+//https://www.geeksforgeeks.org/find-the-element-before-which-all-the-elements-are-smaller-than-it-and-after-which-all-are-greater-than-it/
 public class ElementLeftSideSmallerRightSideGreater {
     public static void main(String[] args) {
         int arr[] = {5, 1, 4, 3, 6, 8, 10, 7, 9};
@@ -13,7 +13,7 @@ public class ElementLeftSideSmallerRightSideGreater {
         int rightMinArr[] = getRightMinArr(arr);
 
         for (int i = 0; i < arr.length; i++) {
-            if(leftMaxArr[i] < arr[i] && rightMinArr[i] > arr[i]){
+            if (leftMaxArr[i] < arr[i] && rightMinArr[i] > arr[i]) {
                 return i;
             }
         }
