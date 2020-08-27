@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
+// #REVISIT
 public class StronglyConnectedComponents {
     public static void main(String[] args) {
         findSCCWithTarjan();

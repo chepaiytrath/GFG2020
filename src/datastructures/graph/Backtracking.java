@@ -310,8 +310,8 @@ public class Backtracking {
         return isSafe;
     }
 
-    // IF IT IS POSSIBLE TO COLOR A GRAPH WITH SOME NUMBER OF COLORS
-    //VERY SIMILAR TO N QUEENS PROBLEM: EASIER VERSION OF N QUEENS
+    // Q: IF IT IS POSSIBLE TO COLOR A GRAPH WITH A LIMITED NUMBER OF COLORS
+    // VERY SIMILAR TO N QUEENS PROBLEM: EASIER VERSION OF N QUEENS
     public void mColoringDecisionProblem(DirectedGraphAdjacencyList graph, int numberOfColors) {
         // DirectedGraphAdjacencyList graph = new DirectedGraphAdjacencyList(4);
         // graph.addEdge(0, 1);
@@ -328,6 +328,7 @@ public class Backtracking {
 
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();
+
         // colorVertex TRACKS WHICH COLOUR ASSIGNED TO WHICH VERTEX
         int[] colorVertex = new int[v];
         int src = 0;
@@ -355,8 +356,11 @@ public class Backtracking {
         for (int colorId = 1; colorId <= numberOfColors; colorId++) {
             // SAFETY : ANY CHILD OF THE CURRENT VERTEX SHOULD NOT HAVE THE SAME COLOR
             if (isSafeToPutColor(adj, colorVertex, src, colorId)) {
+
                 // ACTION WHICH MIGHT NEED BACKTRACKING
                 colorVertex[src] = colorId;
+
+                // NOT CHECKING FOR SRC'S CHILDREN. JUST CHECKING FOR SRC + 1.
                 if (mColoringDecisionProblemUtil(numberOfColors, colorVertex, src + 1, V, adj)) {
                     return true;
                 } else {
@@ -398,6 +402,9 @@ public class Backtracking {
 
         // colorVertex TRACKS WHICH COLOUR ASSIGNED TO WHICH VERTEX
         int[] colorVertex = new int[V];
+
+        // DIFFERENCE BETWEEN DECISION AND OPTIMIZATION
+        // IN OPTIMIZATION THE LIMIT IS V FOR WORST CASE ALL VERTICES HAVING DIFFERENT COLOR
         int colorLimit = V;
         int src = 0;
 
@@ -418,10 +425,12 @@ public class Backtracking {
         }
 
         for (int color = 1; color <= numberOfColors; color++) {
+            // SAFETY : ANY CHILD OF THE CURRENT VERTEX SHOULD NOT HAVE THE SAME COLOR
             if (isSafeToPutColor(adj, colorVertex, src, color)) {
+
                 // ACTION WHICH MIGHT NEED BACKTRACKING
                 colorVertex[src] = color;
-                // SAFETY : ANY CHILD OF THE CURRENT VERTEX SHOULD NOT HAVE THE SAME COLOR
+
                 if (mColoringOptimizationProblemUtil(numberOfColors, colorVertex, src + 1, V, adj)) {
                     return true;
                 } else {

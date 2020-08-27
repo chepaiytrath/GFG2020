@@ -5,9 +5,11 @@ import java.util.Arrays;
 public class TripletSumClosestToAGivenSum {
     public static void main(String[] args) {
 //        int[] arr = new int[]{-1, 2, 1, -4};
-        int[] arr = new int[]{1, 2, 3, 4, -5};
+//        int[] arr = new int[]{1, 2, 3, 4, -5};
+//        int[] arr = new int[]{-7, 9, 8, 3, 1, 1};
+        int[] arr = new int[]{-7, 9, 8, 3, 1, 1};
         Arrays.sort(arr);
-        System.out.println(findSumOfTripletWithSumClosestTo(arr, 10));
+        System.out.println(threeSumClosest(arr, 2));
     }
 
     private static int findSumOfTripletWithSumClosestTo(int[] arr, int tripletTarget) {
@@ -38,5 +40,30 @@ public class TripletSumClosestToAGivenSum {
             }
         }
         return bestTripletSum;
+    }
+
+
+    private static int threeSumClosest(int[] arr, int target) {
+        int n = arr.length;
+        int bestsum = Integer.MAX_VALUE;
+        for (int i = 0; i < arr.length - 2; i++) {
+            int curr = arr[i];
+            int start = i + 1;
+            int end = n - 1;
+
+            while (start < end) {
+                int tripletsum = curr + arr[start] + arr[end];
+                if (Math.abs(tripletsum - target) < Math.abs(bestsum - target)) {
+                    bestsum = tripletsum;
+                }
+
+                if (tripletsum > target) {
+                    end--;
+                } else {
+                    start++;
+                }
+            }
+        }
+        return bestsum;
     }
 }

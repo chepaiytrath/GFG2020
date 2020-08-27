@@ -29,6 +29,8 @@ public class SubarrayWithGivenSum {
         int n = arr.length;
         int sum = 0;
 
+
+        // #REVISIT
         // Used Less than equals '<=' (Not Less Than '<') to handle edge case of subarray being present at last index
         // Have AIOOB check separately
         while (j <= n) {
@@ -77,6 +79,7 @@ public class SubarrayWithGivenSum {
         for (int i = 0; i < arr.length; i++) {
             sum += arr[i];
             // To handle the case when elements from 0 to i sum up to target
+            // #REVISIT
             if (sum - target == 0) {
                 start = 0;
                 end = i;

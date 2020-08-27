@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+// #REVISIT
 public class CountOfSmallerNumbersAfterSelf {
     public static void main(String[] args) {
         int[] nums = new int[]{7, 4, 5, 2, 6, 1};

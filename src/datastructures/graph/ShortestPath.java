@@ -69,6 +69,7 @@ public class ShortestPath {
             // MARK IT AS VISITED: DISTANCE CANNOT BE IMPROVED FURTHER
             visited.add(popped.index);
 
+            // OPTIMIZATION STEP
             // IN CASE DUPLICATES ARE PRESENT, IGNORE THE DUPLICATE IF DISTANCE IS ALREADY BETTER IN DIST ARRAY
             if (popped.dis > dist[popped.index]) {
                 continue;

@@ -347,6 +347,8 @@ public class BFSDFS {
         }
     }
 
+    // THIS IS BFS TECHNIQUE TO CHECK 2-COLORING
+    // ALSO CHECK mColoringDecisionProblem FOR DFS TECHNIQUE
     public void checkWhetherGraphIsBipartite(DirectedGraphAdjacencyList graph) {
         // SAMPLE INPUT
         /*
