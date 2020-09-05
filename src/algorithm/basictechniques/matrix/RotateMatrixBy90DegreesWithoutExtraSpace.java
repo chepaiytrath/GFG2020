@@ -1,4 +1,4 @@
-package algorithm.basictechniques.reverserotate;
+package algorithm.basictechniques.matrix;
 
 public class RotateMatrixBy90DegreesWithoutExtraSpace {
     public static void main(String[] args) {

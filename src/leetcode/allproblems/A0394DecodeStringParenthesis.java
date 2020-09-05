@@ -2,7 +2,7 @@ package leetcode.allproblems;
 
 import java.util.Stack;
 
-public class A0394DecodeString {
+public class A0394DecodeStringParenthesis {
     public static void main(String[] args) {
 //        String s = "abc3[a2[c]]xyz";
         String s = "100[leetcode]";

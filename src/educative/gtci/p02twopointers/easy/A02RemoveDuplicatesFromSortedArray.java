@@ -2,7 +2,7 @@ package educative.gtci.p02twopointers.easy;
 
 // #REVISIT
 // #DIFFERENTPATTERN
-public class A02RemoveDuplicates {
+public class A02RemoveDuplicatesFromSortedArray {
     public static void main(String[] args) {
         removeAllOccurrencesOfAKey();
     }
@@ -26,6 +26,7 @@ public class A02RemoveDuplicates {
         System.out.println(left + 1);
     }
 
+    // UNSORTED ARRAY
     private static void removeAllOccurrencesOfAKey() {
 //        int[] arr = new int[]{3, 2, 3, 6, 3, 10, 9, 3};
 //        int key = 3;

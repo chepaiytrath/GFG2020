@@ -47,7 +47,7 @@ public class MountainSubarrayProblem {
         // THUMB RULE:
         // PREPROCESS THE TWO ARRAYS : LEFT AND RIGHT
         // BOTH LEFT AND RIGHT PEAKS SHOULD MATCH FOR A RANGE I-J LIKE THIS:
-        // LEFT[J] == RIGHT[I] : THEN IT IS A MOUNTAIN
+        // LEFT[J] <= RIGHT[I] : THEN IT IS A MOUNTAIN
         left[0] = 0;
         int lastinc = 0;
         for (int i = 1; i < n; i++) {

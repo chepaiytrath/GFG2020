@@ -2,7 +2,7 @@ package company.google.oa;
 
 import java.util.Stack;
 
-public class DecodeString {
+public class DecodeStringParenthesis {
     public static void main(String[] args) {
 //        String s = "abc3[a2[c]]xyz";
 //        String s = "100[leetcode]";
