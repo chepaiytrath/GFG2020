@@ -338,6 +338,7 @@ public class MyLinkedList {
         }
     }
 
+    // SWAPPING DATA
     public void pairwiseSwapElements(Node node) {
         if (node == null || node.next == null) {
             return;
@@ -350,6 +351,28 @@ public class MyLinkedList {
         int temp = node.data;
         node.data = next.data;
         next.data = temp;
+    }
+
+    // CHANGE NEXT POINTER
+    public void pairwiseSwapElements() {
+        Node curr = head;
+        head = pairwiseSwapElementsUtil(curr, 2);
+    }
+
+    private Node pairwiseSwapElementsUtil(Node node, int k) {
+        Node prev = null;
+        Node curr = node;
+        Node next = null;
+        for (int i = 0; i < k && curr != null; i++) {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        if (curr != null) {
+            node.next = pairwiseSwapElementsUtil(curr, k);
+        }
+        return prev;
     }
 
     public void moveLastElementToFront() {
@@ -502,8 +525,9 @@ public class MyLinkedList {
     }
 
     private void reverseUtil(Node node) {
-        //Recursively move till last node. Mark it head and tail both.
-        //In each rollback, point tail.next to node and tail = tail.next, so that last rollback makes first node as tail
+        // Recursively move till last node. Mark it head and tail both.
+        // In each rollback, point tail.next to node and tail = tail.next,
+        // so that last rollback makes first node as tail
         tail = node;
         if (node.next == null) {
             head = node;
@@ -513,6 +537,27 @@ public class MyLinkedList {
         node.next = null;
         tail.next = node;
         tail = tail.next;
+    }
+
+    // DIFFERENT APPROACH
+    static Node res = null;
+
+    public Node reverseList(Node head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        reverse(null, head);
+        return res;
+    }
+
+    private static void reverse(Node prev, Node curr) {
+        if (curr.next == null) {
+            res = curr;
+            res.next = prev;
+            return;
+        }
+        reverse(curr, curr.next);
+        curr.next = prev;
     }
 
     //20200227
@@ -730,28 +775,32 @@ public class MyLinkedList {
         return false;
     }
 
+    // REVERSE LIST
+    // SKIP LESSER ELEMENTS
+    // REVERSE LIST AGAIN
+
+    // DONT FOLLOW INTUITIVE APPROACH
+    // OF REMOVING THE INITIAL ONES AND THEN ONLY THE ONES WHICH ARE LESSER THAN NEXT
+    // THAT WONT WORK FOR 12->15->10->16->5->6->2->3 WHERE ANSWER SHOULD BE 16 6 3
+    // THAT GIVES 15 16 6 3
     public void deleteNodesWithGreaterValueOnRightSide() {
-        if (head == null || head.next == null) {
-            return;
-        }
+        head = reverse(head);
+
         Node curr = head;
-        Node prev = null;
-        while (curr.next != null && curr.next.data > curr.data) {
-            prev = curr;
-            curr = curr.next;
-        }
-        prev = null;
-        this.head = curr;
-        while (curr.next != null) {
-            Node nextNode = curr.next;
-            if (curr.next.data > curr.data) {
-                prev.next = nextNode;
-                curr = nextNode;
-                continue;
+        Node max = curr;
+        // DONT GO BEYOND LAST NODE
+        while (curr != null && curr.next != null) {
+            // FIRST NODE IN REVERSE ORDER WILL NEVER HAVE TO BE CHECKED
+            // BECAUSE IT CANT HAVE ANY LESSER NODE TO ITS LEFT
+            if(curr.next.data < max.data){
+                curr.next = curr.next.next;
+            }else{
+                curr = curr.next;
+                max = curr;
             }
-            prev = curr;
-            curr = nextNode;
         }
+
+        head = reverse(head);
     }
 
     public MyLinkedList addTwoNumbersRepresentedByLinkedLists(MyLinkedList other) {
@@ -849,8 +898,9 @@ public class MyLinkedList {
             }
             curr = next;
         }
+
+        one.next = twoDup.next; // Keep this before next for edge case where 1's are missing
         zero.next = oneDup.next;
-        one.next = twoDup.next;
         return new MyLinkedList(zeroDup.next);
     }
 
@@ -875,48 +925,32 @@ public class MyLinkedList {
         return node;
     }
 
-    public void pairwiseSwapElements() {
-        Node curr = head;
-        head = pairwiseSwapElementsUtil(curr, 2);
-    }
 
-    private Node pairwiseSwapElementsUtil(Node node, int k) {
-        Node prev = null;
-        Node curr = node;
-        Node next = null;
-        for (int i = 0; i < k && curr != null; i++) {
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-        if (curr != null) {
-            node.next = pairwiseSwapElementsUtil(curr, k);
-        }
-        return prev;
-    }
-
+    //#AMAZON
+    //https://www.geeksforgeeks.org/rearrange-a-given-linked-list-in-place/
     public void rearrangeInPlaceRecursively() {
-        Node curr = head;
-        rearrangeInPlaceRecursivelyUtil(curr);
+        left = head;
+        rearrangeInPlaceRecursivelyUtil(null, head);
     }
 
-    private void rearrangeInPlaceRecursivelyUtil(Node right) {
-        left = head;
-        if (right == null && right.next == null) {
+    private void rearrangeInPlaceRecursivelyUtil(Node prev, Node curr) {
+        if (curr == null) {
             return;
         }
-        rearrangeInPlaceRecursivelyUtil(left.next);
-        if (left.next != null) {
-            Node nextNode = left.next;
-            left.next = right;
-            right.next = nextNode;
-        }
-        left = left.next.next;
-        rearrangeInPlaceRecursivelyUtil(left.next);
-        return;
-    }
+        rearrangeInPlaceRecursivelyUtil(curr, curr.next);
 
+        // left.next == null IN CASE OF ODD NUMBER OF ELEMENTS
+        // left.next != null && left.next.next == null IN CASE OF EVEN NUMBER OF ELEMENTS
+        // PERFORM REORDERING IF BOTH THE CASES ARE FALSE i.e. THE LEFT HAS NOT YET REACHED ITS FINAL POSITION
+        // AND CAN STILL ACCOMMODATE REORERING
+        if (left != null && !(left.next == null || left.next.next == null)) {
+            Node next = left.next;
+            left.next = curr;
+            curr.next = next;
+            prev.next = null;
+            left = left.next.next;
+        }
+    }
 
     public void rearrangeInPlaceByReversingSecondHalfAndMerging() {
         Node curr = head;
@@ -965,6 +999,7 @@ public class MyLinkedList {
         return prev;
     }
 
+    // BETTER SOLUTION BELOW THIS
     public MyLinkedList sortListWhichIsSortedAlternatingAscendingAndDescending() {
         if (head == null) {
             return null;
@@ -1018,6 +1053,44 @@ public class MyLinkedList {
         }
         return new MyLinkedList(curr.next);
     }
+
+    // BETTER THAN ABOVE SOLUTION
+    public static Node sortListWhichIsSortedAlternatingAscendingAndDescending2(Node head) {
+        Node curr = head;
+        Node half = null;
+
+        while (curr != null && curr.next != null) {
+            Node next = curr.next;
+            Node nextnext = curr.next.next;
+
+            next.next = half;
+            half = next;
+
+            curr.next = nextnext;
+            curr = nextnext;
+        }
+
+        head = merge(head, half);
+        return head;
+    }
+
+    private static Node merge(Node first, Node second) {
+        if (first == null) {
+            return second;
+        }
+        if (second == null) {
+            return first;
+        }
+
+        if (first.data < second.data) {
+            first.next = merge(first.next, second);
+            return first;
+        } else {
+            second.next = merge(first, second.next);
+            return second;
+        }
+    }
+
 
     public void sortLinkedListWhichIsAlreadySortedByAbsoluteValues() {
         Node curr = head;
@@ -1245,7 +1318,7 @@ public class MyLinkedList {
     }
 
     private void removeLoop(Node head, Node loopNode) {
-        Node headNode = this.head;
+        Node headNode = head;
         while (true) {
             Node curr = loopNode;
             while (curr.next != loopNode && curr.next != headNode) {
@@ -1394,9 +1467,9 @@ public class MyLinkedList {
         int k = lol.size();
         MyLinkedList response = null;
         for (int i = 0; i < k; i++) {
-            if(response == null){
+            if (response == null) {
                 response = lol.get(i);
-            }else{
+            } else {
                 response = response.mergeTwoSortedLinkedListRecursively(lol.get(i));
             }
         }

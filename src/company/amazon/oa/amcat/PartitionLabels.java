@@ -68,6 +68,8 @@ public class PartitionLabels {
             maxUpperLimit = Math.max(maxUpperLimit, lastIndexOfCharAtI);
             //Current index is same as the last updated upper limit
             //Any characters encountered before this, if repeated, have all been processed
+
+            // DO THIS AFTER CALCULATING MAXUPPERLIMIT
             if (i == maxUpperLimit) {
                 res.add(maxUpperLimit - lowerLimit + 1);
                 lowerLimit = i + 1;

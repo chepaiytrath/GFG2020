@@ -210,7 +210,11 @@ public class Backtracking {
         return (x >= 0 && x < N && y >= 0 && y < N && sol[x][y] == -1);
     }
 
-    public void nQueensProblem() {
+    public static void main(String[] args) {
+        nQueensProblem();
+    }
+
+    public static void nQueensProblem() {
         // Place n queens in non offensive positions in n x n chess board
         // VIDEO EXPLANATION @
         // https://www.geeksforgeeks.org/n-queen-problem-backtracking-3/
@@ -241,7 +245,7 @@ public class Backtracking {
     // queenRows : array to save row val allotted to each queen, obviously in
     // different columns because of col
     // queenRows[0]=2 : means Q0 is allotted col0 and row2
-    private boolean nQueensProblemUtil(int col, Integer[][] sol, int n, int[] queenRows) {
+    private static boolean nQueensProblemUtil(int col, Integer[][] sol, int n, int[] queenRows) {
         // LAST QUEEN WAS PLACED AND NOW COL = N (QUEENS PLACED FROM 0 TO 3)
         if (col == n) {
             return true;
@@ -268,7 +272,7 @@ public class Backtracking {
     }
 
     // CHECKING POSITION IS SAFE AND NOT OFFENSIVE TO ANOTHER QUEEN ALREADY PLACED BEFORE THE CURRENT QUEEN
-    private boolean isSafeMove(int row, int col, int n, Integer[][] sol, int[] queenRows) {
+    private static boolean isSafeMove(int row, int col, int n, Integer[][] sol, int[] queenRows) {
         // QUEEN MOVES HORIZONTALLY, VERTICALLY AND DIAGONALLY
         // STEP 0: VERTICAL CHECK: ALREADY TAKEN CARE BECAUSE EACH COLUMN IS BEING PROCESSED SEPARATELY
 

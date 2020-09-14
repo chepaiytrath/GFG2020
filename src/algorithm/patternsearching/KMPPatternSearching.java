@@ -7,6 +7,7 @@ public class KMPPatternSearching {
         patternSearch();
     }
 
+
     public static void patternSearch() {
         String s1 = "lrbbmqbhcdarzowkkyhiddqscdxrjmowfrxsjybldbefsarcbynecdyggxxpklorellnmpapqfwkhopkmcoq";
         String s2 = "hnwnkuewhsqmgbbuqcljjivswmdkqtbxixmvtrrbljptnsn";

@@ -1,4 +1,4 @@
-package algorithm.basictechniques;
+package algorithm.basictechniques.mathematical;
 
 import java.util.ArrayList;
 import java.util.List;
