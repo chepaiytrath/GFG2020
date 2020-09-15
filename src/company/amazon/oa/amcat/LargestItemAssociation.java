@@ -139,77 +139,104 @@ public class LargestItemAssociation {
         }
     }
 
-    private static List<String> largestItemAssociationDisjointSetsUnionFind(final List<PairString> itemAssociation) {
-        final UnionFind uf = new UnionFind();
+
+
+
+
+    private static List<String> largestItemAssociationDisjointSetsUnionFind(List<PairString> itemAssociation) {
+        // INITIALIZE UNION FIND MAP
+        UnionFind uf = new UnionFind();
         uf.initialize(itemAssociation);
 
-        for (PairString pair : itemAssociation) {
-            uf.union(pair.first, pair.second);
+        // EXECUTE UNION FOR ALL PAIRS
+        for (PairString p : itemAssociation) {
+            uf.union(p.first, p.second);
         }
 
-        String largest = "";
-        int max = Integer.MIN_VALUE;
-        for (Map.Entry<String, Group> entry : uf.map.entrySet()) {
-            if (entry.getValue().items.size() > max) {
-                max = entry.getValue().items.size();
-                largest = entry.getKey();
-            } else if (entry.getValue().items.size() == max) {
-                final String key = String.join("", uf.map.get(largest).items);
-                if (String.join("", uf.map.get(entry.getKey()).items).compareTo(key) < 0) {
-                    largest = entry.getKey();
+        // TRAVERSE UNION FIND MAP TO FIND KEY WITH LARGEST CHILDREN SET
+        int largestGroupSize = 0;
+        String largestItemKey = "";
+        for (Map.Entry<String, Group> entry : uf.relationMap.entrySet()) {
+            String item = entry.getKey();
+            int size = entry.getValue().children.size();
+            if (size > largestGroupSize) {
+                largestGroupSize = size;
+                largestItemKey = item;
+            } else if (size == largestGroupSize) {
+                String currEntryChildren = String.join("", entry.getValue().children);
+                String largestGroupSoFar = String.join("", uf.relationMap.get(largestItemKey).children);
+                if(currEntryChildren.compareTo(largestGroupSoFar) < 0){
+                    largestItemKey = item;
                 }
             }
         }
 
-        return new ArrayList(uf.map.get(largest).items);
+        // RETURN LARGEST GROUP SIZE AS LIST
+        return new ArrayList(uf.relationMap.get(largestItemKey).children);
     }
 
     static class UnionFind {
-        final Map<String, Group> map = new HashMap<>();
+        // relationMap stores mapping of
+        // item1 -> Parent of item1, Children of item1
+        // Parent of item1, Children of item1 <-> Group
+        Map<String, Group> relationMap = new HashMap<>();
 
-        private void initialize(final List<PairString> pairs) {
-            for (final PairString pair : pairs) {
-                final Group first = new Group(pair.first);
-                final Group second = new Group(pair.second);
+        // INITIALIZE MAP
+        // 1 -> 1, blank children set
+        // 2 -> 2, blank children set
+        // 3 -> 3, blank children set ....
+        void initialize(List<PairString> pairs) {
+            for (PairString p : pairs) {
+                String first = p.first;
+                String second = p.second;
 
-                first.items.add(pair.first);
-                second.items.add(pair.second);
+                Group g1 = new Group(first);
+                g1.children.add(first);
 
-                map.put(pair.first, first);
-                map.put(pair.second, second);
+                Group g2 = new Group(second);
+                g2.children.add(second);
+
+                relationMap.put(first, g1);
+                relationMap.put(second, g2);
             }
         }
 
-        private void union(final String a, final String b) {
-            final String parentA = find(a);
-            final String parentB = find(b);
+        // UNION OF TWO ITEMS
+        // Find parent of each item and
+        // 1. Update parents in relationMap
+        // 2. Add all children of parent2 to parent1
+        void union(String first, String second) {
+            String parent1 = find(first);
+            String parent2 = find(second);
+            if (!parent1.equals(parent2)) {
+                // 1. Update parents in relationMap
+                relationMap.get(parent2).parent = parent1;
 
-            if (!parentA.equals(parentB)) {
-                // UPDATE PARENT IN GROUP OBJECT
-                map.get(parentB).parent = parentA;
-
-                // COPY ALL CHILDREN FROM PARENT B TO PARENT A
-                for (String childOfB : map.get(parentB).items) {
-                    map.get(parentA).items.add(childOfB);
+                // 2. Add all children of parent2 to parent1
+                for (String child : relationMap.get(parent2).children) {
+                    relationMap.get(parent1).children.add(child);
                 }
             }
         }
 
-        private String find(final String a) {
-            if (map.get(a).parent.equals(a)) {
-                return a;
+        // FIND PARENT OF AN ITEM
+        // Recursively find parent
+        // Root is the item with same parent a itself (Similar to -1 in Abdul Bari Example)
+        private String find(String item) {
+            if (relationMap.get(item).parent.equals(item)) {
+                return item;
             }
-            return find(map.get(a).parent);
+            return find(relationMap.get(item).parent);
         }
     }
 
     static class Group {
         String parent;
-        TreeSet<String> items;
+        TreeSet<String> children;
 
-        Group(final String parent) {
+        Group(String parent) {
             this.parent = parent;
-            this.items = new TreeSet<>();
+            this.children = new TreeSet<>();
         }
     }
 }

@@ -1,4 +1,4 @@
-package datastructures.graph;
+package company.paypal;
 
 // https://stackoverflow.com/questions/63871852/optimization-of-index-coloring-problem-with-one-color-adjacent-allowed?noredirect=1#comment112946651_63871852
 public class ButterflyEffectPaypal {

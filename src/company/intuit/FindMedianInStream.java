@@ -1,6 +1,9 @@
 //https://leetcode.com/problems/find-median-from-data-stream/discuss/506772/Java-solution-using-2-heaps.
 package company.intuit;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 class FindMedianInStream {
@@ -41,6 +44,21 @@ class FindMedianInStream {
             return descending.peek();
         else
             return (double) (descending.peek() + ascending.peek()) / 2;
+    }
+
+    public int findShortestSubArray(List<Integer> A) {
+        Map<Integer, Integer> count = new HashMap<>(), first = new HashMap<>();
+        int res = 0, degree = 0;
+        for (int i = 0; i < A.size(); ++i) {
+            first.putIfAbsent(A.get(i), i);
+            count.put(A.get(i), count.getOrDefault(A.get(i), 0) + 1);
+            if (count.get(A.get(i)) > degree) {
+                degree = count.get(A.get(i));
+                res = i - first.get(A.get(i)) + 1;
+            } else if (count.get(A.get(i)) == degree)
+                res = Math.min(res, i - first.get(A.get(i)) + 1);
+        }
+        return res;
     }
 
     public static void main(String[] args) {
