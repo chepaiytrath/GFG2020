@@ -12,8 +12,29 @@ public class PartitionLabels {
         System.out.println(partitionLabelsOptimizedSolution(str));
     }
 
+    public List<Integer> partitionLabels(String str) {
+        Map<Character, Integer> lastIndexOfCharacter = new HashMap<>();
+
+        for(int i = 0; i < str.length(); i++){
+            lastIndexOfCharacter.put(str.charAt(i), i);
+        }
+        List<Integer> res = new ArrayList<>();
+        int prev = -1;
+        int maxIndex = lastIndexOfCharacter.get(str.charAt(0));
+        for(int i = 0; i < str.length(); i++){
+            // DO THIS BEFORE THE NEXT STEP
+            maxIndex = Math.max(maxIndex, lastIndexOfCharacter.get(str.charAt(i)));
+
+            if(i == maxIndex){
+                res.add(maxIndex - prev);
+                prev = maxIndex;
+            }
+        }
+        return res;
+    }
+
     //SELF MADE SOLUTION
-    public static List<Integer> partitionLabels(String S) {
+    public static List<Integer> partitionLabels2(String S) {
         if (S == null || S.isEmpty()) {
             return new ArrayList<>() {{
                 add(0);

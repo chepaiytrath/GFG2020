@@ -1,7 +1,9 @@
 package company.amazon.oa.amcat;
 
 import java.util.LinkedList;
+import java.util.Queue;
 
+// TESTED AT : https://aonecode.com/amazon-online-assessment-turnstile
 public class Turnstile {
 
     //TEST CASES
@@ -9,20 +11,20 @@ public class Turnstile {
 //    int[] direction = new int[]{0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0};
 
     public static void main(String[] args) {
-        /*int[] arrTime = new int[]{0, 1, 1, 3, 3};
+        int[] arrTime = new int[]{0, 1, 1, 3, 3};
         int[] direction = new int[]{0, 1, 0, 0, 1};
-        int numCustomers = 5;*/
+        int numCustomers = 5;
 
 
         /*int[] arrTime = new int[]{0, 0, 1,5};
         int[] direction = new int[]{0, 1, 1, 0};
         int numCustomers = 4;*/
 
-        int[] arrTime = new int[]{0, 0, 0, 1, 1, 2, 3, 3, 3};
+        /*int[] arrTime = new int[]{0, 0, 0, 1, 1, 2, 3, 3, 3};
         int[] direction = new int[]{0, 0, 1, 0, 1, 0, 1, 0, 1};
-        int numCustomers = 9;
+        int numCustomers = 9;*/
 
-        int[] res = amazonTurnstile2(numCustomers, arrTime, direction);
+        int[] res = amazonTurnstile(numCustomers, arrTime, direction);
         for (int r : res) {
             System.out.print(r + " ");
         }
@@ -33,115 +35,65 @@ public class Turnstile {
         }*/
     }
 
-    private static int[] amazonTurnstile(int numCustomers, int[] arrTime, int[] direction) {
-        int[] res = new int[numCustomers];
-        int prevdir = 1;
-        int time = 0;
+    // PASSES ALL TEST CASES
+    public static int[] amazonTurnstile(int numCustomers, int[] arrTime, int[] direction) {
+        int[] result = new int[numCustomers];
 
+        boolean turnstileUsedEvenOnce = false;
+        boolean prevDirWasExit = true;
+
+        int globalTimer = 0;
         int i = 0;
-        int j = 1;
-        while (j < numCustomers) {
-            if (arrTime[i] == arrTime[j]) {
-                //CONFLICT
-                if (direction[i] == prevdir) {
-                    res[i] = time;
-                    arrTime[j]++;
-                    time++;
-                    i++;
-                    j++;
-                } else if (direction[j] == prevdir) {
-                    res[j] = time;
-                    arrTime[i]++;
-                    time++;
-                    j++;
-                }
-            } else {
-                // NO CONFLICT
-                res[i] = time;
-                time = arrTime[j];
-                prevdir = direction[i];
-                i = j;
-                j++;
-            }
-        }
-        res[i] = time;
-        return res;
-    }
 
-    // VERY CLOSE
-    public static int[] amazonTurnstile2(int numCustomers, int[] arrTime, int[] direction) {
-        int n = arrTime.length;
-        int[] res = new int[n];
+        Queue<Integer> entryQue = new LinkedList();
+        Queue<Integer> exitQue = new LinkedList();
 
-        LinkedList<Integer> entry = new LinkedList();
-        LinkedList<Integer> exit = new LinkedList();
-        for (int i = 0; i < n; i++) {
-            if (direction[i] == 0) {
-                entry.add(i);
-            } else {
-                exit.add(i);
-            }
-        }
-        int prev = -1;
-        int currTime = 0;
-        int idx = 0;
-
-        while (!entry.isEmpty() && !exit.isEmpty()) {
-            int currEntry = entry.peek();
-            int currExit = exit.peek();
-            int timeEntry = Math.max(arrTime[currEntry], currTime);
-            int timeExit = Math.max(arrTime[currExit], currTime);
-
-            if (timeEntry < timeExit) {
-                entry.remove();
-                res[currEntry] = timeEntry;
-                prev = setPrevious(true, currTime, timeEntry, prev);
-                currTime = timeEntry;
-            } else if (timeEntry > timeExit) {
-                exit.remove();
-                currTime = timeExit;
-                res[currExit] = timeExit;
-                prev = setPrevious(false, currTime, timeExit, prev);
-                currTime = timeExit;
-            } else if (timeEntry == timeExit) {
-                if (prev == -1 || prev == 1) {
-                    exit.remove();
-                    res[currExit] = timeExit;
-                    prev = setPrevious(false, currTime, timeExit, prev);
-                    currTime = timeExit;
+        while (i < arrTime.length || !entryQue.isEmpty() || !exitQue.isEmpty()) {
+            // COLLECT PEOPLE WHO REACH TURNSTILE AT SAME TIME INTO TWO QUEUES DEPENDING ON THEIR DIRECTION.
+            // DIR = 0 : ENTER, DIR = 1 : EXIT
+            while (i < arrTime.length && globalTimer == arrTime[i]) { //globalTimer == arrTime[i] : SAME TIME FOR CONSECUTIVE PEOPLE
+                if (direction[i] == 0) {
+                    entryQue.offer(i);
                 } else {
-                    entry.remove();
-                    res[currEntry] = timeEntry;
-                    prev = setPrevious(true, currTime, timeEntry, prev);
-                    currTime = timeEntry;
+                    exitQue.offer(i);
                 }
+                i++;
             }
-            currTime = currTime + 1;
-        }
 
-        while (!entry.isEmpty()) {
-            int currEntry = entry.remove();
-            currTime = Math.max(currTime, arrTime[currEntry]);
-            res[currEntry] = currTime;
-            currTime += 1;
+            // DONT USE WHILE HERE
+            // IF ANY ONE OF THE QUEUES HAS PEOPLE INSIDE IT, THEN POP THEM AND FILL THE RESULT ARRAY
+            if (!entryQue.isEmpty() || !exitQue.isEmpty()) {
+                if (!turnstileUsedEvenOnce) {
+                    // IF TURNSTILE NOT EVEN USED ONCE, THEN PREFERENCE GIVEN TO PERSON TRYING TO EXIT
+                    if (!exitQue.isEmpty() || entryQue.isEmpty()) {
+                        int exitPerson = exitQue.poll();
+                        result[exitPerson] = globalTimer;
+                        prevDirWasExit = true;
+                    } else {
+                        // IF THERE IS NOBODY IN THE EXIT QUEUE, THEN LET THE PEOPLE WAITING IN ENTRYQUEUE COME IN
+                        int entryPerson = entryQue.poll();
+                        result[entryPerson] = globalTimer;
+                        prevDirWasExit = false;
+                    }
+                    turnstileUsedEvenOnce = true;
+                } else {
+                    // IF TURNSTILE HAS ALREADY BEEN USED ONCE, DETERMINE WHICH PERSON TO ALLOT TURNSTILE ACCESS BASED ON PREVIOUS USED DIRECTION : prevDirWasExit FLAG
+                    if ((prevDirWasExit && !exitQue.isEmpty()) || entryQue.isEmpty()) {
+                        int exitPerson = exitQue.poll();
+                        result[exitPerson] = globalTimer;
+                        prevDirWasExit = true;
+                    } else {
+                        int entryPerson = entryQue.poll();
+                        result[entryPerson] = globalTimer;
+                        prevDirWasExit = false;
+                    }
+                }
+            } else {
+                // IF BOTH QUEUES ARE EMPTY, RESET USED FLAG
+                turnstileUsedEvenOnce = false;
+            }
+            globalTimer++;
         }
-
-        while (!exit.isEmpty()) {
-            int currExit = exit.remove();
-            currTime = Math.max(currTime, arrTime[currExit]);
-            res[currExit] = currTime;
-            currTime += 1;
-        }
-
-        return res;
-    }
-
-    public static int setPrevious(boolean entry, int currTime, int time, int prev) {
-        if (time > currTime) {
-            prev = -1;
-        } else {
-            prev = entry ? 0 : 1;
-        }
-        return prev;
+        return result;
     }
 }
