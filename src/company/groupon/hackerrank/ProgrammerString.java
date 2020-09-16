@@ -1,8 +1,8 @@
-package company.walmart2;
+package company.groupon.hackerrank;
 
 import java.util.*;
 
-public class Rough {
+public class ProgrammerString {
 
     public static void main(String[] args) {
         System.out.println(programmer());

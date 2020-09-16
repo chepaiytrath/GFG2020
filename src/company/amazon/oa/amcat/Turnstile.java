@@ -39,7 +39,7 @@ public class Turnstile {
     public static int[] amazonTurnstile(int numCustomers, int[] arrTime, int[] direction) {
         int[] result = new int[numCustomers];
 
-        boolean turnstileUsedEvenOnce = false;
+        boolean turnstileUsedInPreviousSecond = false;
         boolean prevDirWasExit = true;
 
         int globalTimer = 0;
@@ -63,7 +63,7 @@ public class Turnstile {
             // DONT USE WHILE HERE
             // IF ANY ONE OF THE QUEUES HAS PEOPLE INSIDE IT, THEN POP THEM AND FILL THE RESULT ARRAY
             if (!entryQue.isEmpty() || !exitQue.isEmpty()) {
-                if (!turnstileUsedEvenOnce) {
+                if (!turnstileUsedInPreviousSecond) {
                     // IF TURNSTILE NOT EVEN USED ONCE, THEN PREFERENCE GIVEN TO PERSON TRYING TO EXIT
                     if (!exitQue.isEmpty() || entryQue.isEmpty()) {
                         int exitPerson = exitQue.poll();
@@ -75,7 +75,7 @@ public class Turnstile {
                         result[entryPerson] = globalTimer;
                         prevDirWasExit = false;
                     }
-                    turnstileUsedEvenOnce = true;
+                    turnstileUsedInPreviousSecond = true;
                 } else {
                     // IF TURNSTILE HAS ALREADY BEEN USED ONCE, DETERMINE WHICH PERSON TO ALLOT TURNSTILE ACCESS BASED ON PREVIOUS USED DIRECTION : prevDirWasExit FLAG
                     if ((prevDirWasExit && !exitQue.isEmpty()) || entryQue.isEmpty()) {
@@ -90,7 +90,7 @@ public class Turnstile {
                 }
             } else {
                 // IF BOTH QUEUES ARE EMPTY, RESET USED FLAG
-                turnstileUsedEvenOnce = false;
+                turnstileUsedInPreviousSecond = false;
             }
             globalTimer++;
         }
