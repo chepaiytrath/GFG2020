@@ -21,12 +21,14 @@ public class FindFirstNonRepeatingCharacter {
             count[1][ch] = i;
         }
 
-        int max = Integer.MAX_VALUE;
+        // GO THROUGH THE ARRAY AND SEARCH FOR ELEMENTS WITH COUNT = 1 (NON REPEATING)
+        // AND THEIR INDEX < MININDEX FOUND SO FAR
+        int minIndex = Integer.MAX_VALUE; // ISKA COUNT 1 HAI AUR INDEX BHI MINIMUM : WHICH I NEED FOR THE ANSWER
         for (int i = 0; i < 256; i++) {
-            if (count[0][i] == 1 && count[1][i] < max) {
-                max = count[1][i];
+            if (count[0][i] == 1 && count[1][i] < minIndex) {
+                minIndex = count[1][i];
             }
         }
-        return arr[max];
+        return arr[minIndex];
     }
 }
