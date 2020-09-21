@@ -1,4 +1,4 @@
-package company.groupon.hackerrank;
+package company.groupon.hackerrank.rakesh;
 
 import java.util.*;
 

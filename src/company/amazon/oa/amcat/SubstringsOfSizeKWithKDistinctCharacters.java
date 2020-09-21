@@ -11,6 +11,7 @@ public class SubstringsOfSizeKWithKDistinctCharacters {
         System.out.println(uniqueSubstringSizeKWithArr("awaglknagawunagwkwagl", 4));
     }
 
+    //SLIDING WINDOW
     private static List<String> uniqueSubstringSizeKWithHashSet(String str, int k) {
         Set<String> res = new HashSet<>();
         Set<Character> window = new HashSet<>();
