@@ -5,6 +5,7 @@ import java.util.Map;
 
 public class LongestCommonSubsequence {
     public static void main(String[] args) {
+        lcsRecursiveMemoization();
         lcsDP();
     }
 
@@ -18,6 +19,7 @@ public class LongestCommonSubsequence {
 
     private static int lcsRecursiveMemoizationUtil(String s1, String s2, int i, int j, Map<String, Integer> map) {
         if (i == s1.length() || j == s2.length()) {
+            map.put(i + "|" + j, 0);
             return 0;
         }
 
@@ -28,7 +30,9 @@ public class LongestCommonSubsequence {
         // ex. A BCD
         //     A CBDE
         if (s1.charAt(i) == s2.charAt(j)) {
-            return 1 + lcsRecursiveMemoizationUtil(s1, s2, i + 1, j + 1, map);
+            int res = lcsRecursiveMemoizationUtil(s1, s2, i + 1, j + 1, map);
+            map.put(i + "|" + j, 1 + res);
+            return 1 + res;
         } else {
             //ex.  B CD
             //     C BDE
@@ -37,7 +41,11 @@ public class LongestCommonSubsequence {
             //    BDE
             // 2. CD
             //    CBDE
-            return Math.max(lcsRecursiveMemoizationUtil(s1, s2, i + 1, j, map), lcsRecursiveMemoizationUtil(s1, s2, i, j + 1, map));
+            int res1 = lcsRecursiveMemoizationUtil(s1, s2, i + 1, j, map);
+            int res2 = lcsRecursiveMemoizationUtil(s1, s2, i, j + 1, map);
+            map.put((i + 1) + "|" + j, res1);
+            map.put(i + "|" + (j + 1), res2);
+            return Math.max(res1, res2);
         }
     }
 

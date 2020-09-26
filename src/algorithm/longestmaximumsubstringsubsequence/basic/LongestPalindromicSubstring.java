@@ -1,7 +1,12 @@
 package algorithm.longestmaximumsubstringsubsequence.basic;
 
 class LongestPalindromicSubstring {
-    public String longestPalindrome(String s) {
+    public static void main(String[] args) {
+        String str = "";
+        longestPalindrome(str);
+    }
+
+    public static String longestPalindrome(String s) {
         if(s == null || s.length() == 0){
             return "";
         }
@@ -25,7 +30,7 @@ class LongestPalindromicSubstring {
         return s.substring(start, end + 1);
     }
 
-    private int findPalindromicLength(char[] arr, int i, int j){
+    private static int findPalindromicLength(char[] arr, int i, int j){
         while(i >= 0 && j <= arr.length - 1 && arr[i] == arr[j] ){
             i--;
             j++;

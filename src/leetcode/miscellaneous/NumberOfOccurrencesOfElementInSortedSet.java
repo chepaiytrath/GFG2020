@@ -1,5 +1,7 @@
 package leetcode.miscellaneous;
 
+// #REVISIT
+// BOILS DOWN TO FINDING FIRST AND LAST OCCURRENCE OF A NUMBER IN A SORTED ARRAY WITH DUPLICATES ALLOWED
 public class NumberOfOccurrencesOfElementInSortedSet {
     public static void main(String[] args) {
         int[] arr = {3, 5, 5, 5, 5, 7, 8, 8};
@@ -17,7 +19,7 @@ public class NumberOfOccurrencesOfElementInSortedSet {
             return 0;
         }
         int left = binarySearch(arr, target, false);
-        if(left < 0){
+        if (left < 0) {
             return 0;
         }
         int right = binarySearch(arr, target, true);

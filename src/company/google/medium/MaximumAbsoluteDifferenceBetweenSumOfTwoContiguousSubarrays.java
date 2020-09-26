@@ -1,6 +1,6 @@
 package company.google.medium;
 
-
+//#REVISIT
 class MaximumAbsoluteDifferenceBetweenSumOfTwoContiguousSubarrays {
     public static void main(String[] args) {
         int a[] = {-2, -3, 4, -1, -2, 1, 5, -3};
@@ -8,7 +8,12 @@ class MaximumAbsoluteDifferenceBetweenSumOfTwoContiguousSubarrays {
         System.out.print(findMaxAbsDiff(a, n));
     }
 
-    static int findMaxAbsDiff(int arr[], int n) {
+    // Find leftMax, leftMin, rightMax, rightMin by Kadane Algo
+    // For each index : check max of abs diff between leftMax(i) and rightMin(i + 1) , leftMin(i) and rightMax(i + 1)
+    public static int findMaxAbsDiff(int arr[], int n) {
+        // ARRAYS OF MAXSOFARS NOT CURRMAXS IN KADANE : leftMax[] rightMax[] leftMin[] rightMin[]
+        // INVERTARR : REPLACE + WITH - : THEN GET MAX_SO_FAR_ARR FROM KADANE AND AGAIN APPLY INVERSION TO MAX_SO_FAR_ARR TO GET MIN_SO_FAR_ARR
+        // CAVEAT IS DONG THE SAME FOR NEGATIVE SCENARIOS AS WELL : Math.abs(leftMin[i] - rightMax[i + 1]));
         int leftMax[] = new int[n];
         maxLeftSubArraySum(arr, n, leftMax);
 
@@ -31,7 +36,7 @@ class MaximumAbsoluteDifferenceBetweenSumOfTwoContiguousSubarrays {
 
         int result = -2147483648;
         for (int i = 0; i < n - 1; i++) {
-
+            //Find maximum Difference between leftMin and rightMax OR between leftMax and rightMin
             int absValue = Math.max(Math.abs(leftMax[i] - rightMin[i + 1]),
                     Math.abs(leftMin[i] - rightMax[i + 1]));
             if (absValue > result)

@@ -72,22 +72,22 @@ public class SubarrayWithGivenSum {
 
         int start = -1;
         int end = -1;
-        int sum = 0;
+        int cumSum = 0;
         Map<Integer, Integer> sumIndexMap = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
-            sum += arr[i];
+            cumSum += arr[i];
             // To handle the case when elements from 0 to i sum up to target
-            if (sum - target == 0) {
+            if (cumSum - target == 0) {
                 start = 0;
                 end = i;
                 break;
             }
-            if (sumIndexMap.containsKey(sum - target)) {
-                start = sumIndexMap.get(sum - target) + 1;
+            if (sumIndexMap.containsKey(cumSum - target)) {
+                start = sumIndexMap.get(cumSum - target) + 1;
                 end = i;
                 break;
             }
-            sumIndexMap.put(sum, i);
+            sumIndexMap.put(cumSum, i);
         }
         if (end != -1) {
             System.out.println("Subarray found between index " + start + " and " + end);

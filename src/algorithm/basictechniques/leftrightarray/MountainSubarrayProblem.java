@@ -37,39 +37,39 @@ public class MountainSubarrayProblem {
 
         // Stores last increasing till each index form left to right
         // LEFT[I] : PEAK TILL THAT INDEX FROM LEFT TO RIGHT
-        int[] left = new int[n];
+        int[] lastIncIndex = new int[n];
 
 
         // Stores first decreasing till each index form right to left
         // RIGHT[I] : PEAK TILL THAT INDEX FROM RIGHT TO LEFT
-        int[] right = new int[n];
+        int[] firstDecIndex = new int[n];
 
         // THUMB RULE:
         // PREPROCESS THE TWO ARRAYS : LEFT AND RIGHT
         // BOTH LEFT AND RIGHT PEAKS SHOULD MATCH FOR A RANGE I-J LIKE THIS:
         // LEFT[J] <= RIGHT[I] : THEN IT IS A MOUNTAIN
-        left[0] = 0;
+        lastIncIndex[0] = 0;
         int lastinc = 0;
         for (int i = 1; i < n; i++) {
             if (arr[i] > arr[i - 1]) {
                 lastinc = i;
             }
-            left[i] = lastinc;
+            lastIncIndex[i] = lastinc;
         }
 
-        right[n - 1] = n - 1;
+        firstDecIndex[n - 1] = n - 1;
         int firstdec = n - 1;
         for (int i = n - 2; i >= 0; i--) {
             if (arr[i] > arr[i + 1]) {
                 firstdec = i;
             }
-            right[i] = firstdec;
+            firstDecIndex[i] = firstdec;
         }
 
         ArrayList<Boolean> res = new ArrayList<>();
         for (int i = 0; i < queries.size(); i++) {
             Pair p = queries.get(i);
-            res.add(right[p.l] >= left[p.r]);
+            res.add(firstDecIndex[p.l] >= lastIncIndex[p.r]);
         }
 
         return res;

@@ -31,21 +31,29 @@ public class MinimumInsertionsToFormPalindrome {
         return true;
     }
 
+    // #REVISIT
     // EASY TO UNDERSTAND  : DESCRIPTION IN ONE NOTE
     private static int findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(String str, int lo, int hi) {
         if (str == null || str.isEmpty()) {
             return 0;
         }
         if (lo > hi) {
+            // Return max_value to help later in min : invalid case
             return Integer.MAX_VALUE;
         }
         if (lo == hi) {
+            // Same character : it is palindrome
             return 0;
         }
         boolean sameChars = str.charAt(lo) == str.charAt(hi);
         if (hi - lo == 1) {
+            // hi - lo == 1 : 2 characters to check : aa, ab, etc
+            // Ex. aa : Palindrome : return 0
+            // Ex. ab : Not palindrome : needs one more character to form aba OR bab : return 1
             return sameChars ? 0 : 1;
         }
+
+        // Base cases end
         if (sameChars) {
             return findMinimumInsertionsToFormPalindromeWithMinimumOfThreeApproach(str, lo + 1, hi - 1);
         }

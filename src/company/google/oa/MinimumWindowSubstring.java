@@ -3,7 +3,7 @@ package company.google.oa;
 import java.util.HashMap;
 import java.util.Map;
 
-class MinimumWindowSubstring {
+public class MinimumWindowSubstring {
     public static void main(String[] args) {
         String input = "donutsandwafflemakemehungry";
         String pattern = "flea";

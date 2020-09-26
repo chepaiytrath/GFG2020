@@ -11,7 +11,6 @@ public class A0136SingleNumber {
 
     }
 
-
     //O(n) with extra space
     private static int singleNumberExtraSpace(int[] nums) {
         Set<Integer> set = new HashSet<>();

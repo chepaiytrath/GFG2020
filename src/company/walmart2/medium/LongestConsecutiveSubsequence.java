@@ -1,6 +1,7 @@
 package company.walmart2.medium;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class LongestConsecutiveSubsequence {
     public static void main(String[] args) {
@@ -10,21 +11,20 @@ public class LongestConsecutiveSubsequence {
     }
 
     private static int findLongestConsecutiveSubsequenceUsingHashing(int[] arr) {
-        int n = arr.length;
-        HashSet<Integer> set = new HashSet<>();
-        for (int i = 0; i < n; i++) {
-            set.add(arr[i]);
+        Set<Integer> set = new HashSet<>();
+        for (int num : arr) {
+            set.add(num);
         }
 
-        int longestPath = -1;
-        for (int i = 0; i < n; i++) {
-            if (!set.contains(arr[i] - 1)) {
-                int j = arr[i];
-                while (set.contains(j)) {
-                    j++;
+        int longestPath = 0;
+        for (int num : arr) {
+            if (!set.contains(num - 1)) {
+                int curr = num;
+                while (set.contains(curr)) {
+                    curr++;
                 }
-                int diff = j - arr[i];
-                longestPath = Math.max(longestPath, diff);
+                int currConsecutiveSubsequenceLength = curr - num;
+                longestPath = Math.max(longestPath, currConsecutiveSubsequenceLength);
             }
         }
 

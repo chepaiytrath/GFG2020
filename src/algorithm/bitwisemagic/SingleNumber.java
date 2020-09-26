@@ -1,5 +1,6 @@
 package algorithm.bitwisemagic;
 //https://www.geeksforgeeks.org/find-element-appears-array-every-element-appears-twice/
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,7 +11,6 @@ public class SingleNumber {
         System.out.println(singleNumberBitwise(arr));
 
     }
-
 
     // O(n) with extra space
     private static int singleNumberExtraSpace(int[] nums) {

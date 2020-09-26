@@ -11,7 +11,7 @@ class CombinationNCR {
     //   C(n, k) = C(n-1, k-1) + C(n-1, k)
     //   C(n, 0) = C(n, n) = 1
     public static void main(String[] args) {
-        System.out.println(nCrModpDP(100, 30));
+        System.out.println(nCrModpRecursive(100, 30));
     }
 
     // function to find nC

@@ -5,35 +5,35 @@ import java.util.Set;
 
 public class A00002LongestUniqueSubstring {
     public static void main(String[] args) {
-        System.out.println(lengthOfLongestSubstring("abcabcbb"));
-//        System.out.println(lengthOfLongestSubstring("abba"));
+        /*String s = "abcabcbb";
+        String s = "abba";*/
+        String s = "abbacadsg";
+        System.out.println(lengthOfLongestUniqueSubstring(s));
 
     }
 
-    public static int lengthOfLongestSubstring(String s) {
+    public static int lengthOfLongestUniqueSubstring(String s) {
         if (s == null || s.length() == 0) {
             return 0;
         }
-        // Sliding window
+
+        char[] arr = s.toCharArray();
+        int n = arr.length;
         int start = 0;
         int end = 0;
-        int n = s.length();
-        int maxLength = Integer.MIN_VALUE;
-        char[] arr = s.toCharArray();
+        int maxLen = 1;
         Set<Character> set = new HashSet<>();
-        while (end < n){
+        while (end < n) {
             char charAtEnd = arr[end];
-            if(!set.contains(charAtEnd)){
-                set.add(charAtEnd);
-                maxLength = Math.max(maxLength, end - start + 1);
-                end++;
-            }else{
+            while (set.contains(charAtEnd)) {
                 char charAtStart = arr[start];
                 set.remove(charAtStart);
                 start++;
             }
+            set.add(charAtEnd);
+            maxLen = Math.max(maxLen, end - start + 1);
+            end++;
         }
-
-        return maxLength;
+        return maxLen;
     }
 }
