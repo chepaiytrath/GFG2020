@@ -75,6 +75,7 @@ public class ShortestPath {
                 continue;
             }
 
+            // Add all children of popped node
             for (Map.Entry<Integer, Integer> edge : adj.get(popped.index).entrySet()) {
                 if (!visited.contains(edge.getKey())) {
                     int to = edge.getKey();

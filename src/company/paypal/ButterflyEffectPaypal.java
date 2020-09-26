@@ -61,6 +61,4 @@ public class ButterflyEffectPaypal {
         }
         return true;
     }
-
-
 }
