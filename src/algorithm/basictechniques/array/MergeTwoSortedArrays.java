@@ -1,23 +1,6 @@
-package algorithm.basictechniques.arraysumcumulativesum;
+package algorithm.basictechniques.array;
 
-public class Arrays {
-    public static void main(String[] args) {
-        int[] arr = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 10};
-        findTheMissingNumber(arr);
-    }
-
-    // #REVISIT
-    public static void findTheMissingNumber(int[] arr) {
-        // TRICKY SOLUTION TO HANDLE OVERFLOW OF INTEGER
-        // CONDITION : PROVIDED THAT THE NUMBERS ARE FROM 1 TO N
-        int ans = 1;
-        for (int i = 2; i < arr.length; i++) {
-            ans += i;
-            ans -= arr[i - 2];
-        }
-        System.out.println("Missing Number is : " + ans);
-    }
-
+public class MergeTwoSortedArrays {
     public void mergeTwoSortedArrays(int[] arr1, int[] arr2) {
         // MOVE INDEX OF ARRAY WITH SMALLER ELEMENT
         // IF BOTH EQUAL THEN MOVE BOTH INDEXES

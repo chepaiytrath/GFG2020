@@ -2,7 +2,7 @@ package algorithm.basictechniques.leftrightarray;
 
 // #REVISIT
 // https://www.geeksforgeeks.org/given-an-array-arr-find-the-maximum-j-i-such-that-arrj-arri/
-public class MaxDifferenceOfIndexMinimumIndex {
+public class MaxDifferenceOfJIIndexMaximumIndex {
 
     public static void main(String[] args) {
         int n = 9;

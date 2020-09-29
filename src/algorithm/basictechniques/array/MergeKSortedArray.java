@@ -1,4 +1,4 @@
-package algorithm.sorting;
+package algorithm.basictechniques.array;
 
 import java.util.LinkedList;
 import java.util.List;

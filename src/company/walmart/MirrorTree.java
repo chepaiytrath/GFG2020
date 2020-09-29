@@ -21,8 +21,8 @@ public class MirrorTree {
         //tree.printInorder();
     }
 
-    public void mirrorTree(BinaryTree tree){
-        if(tree == null && tree.root == null){
+    public void mirrorTree(BinaryTree tree) {
+        if (tree == null && tree.root == null) {
             return;
         }
 
@@ -30,7 +30,7 @@ public class MirrorTree {
     }
 
     private void mirrorTreeUtil(BinaryTree.Node node) {
-        if(node == null){
+        if (node == null) {
             return;
         }
         mirrorTreeUtil(node.left);

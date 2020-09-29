@@ -4,7 +4,7 @@ import datastructures.binarytree.BinaryTree.Node;
 
 import java.util.*;
 
-public class ConstructionAndConversion {
+public class A02ConstructionAndConversion {
     static class ListNode {
         int data;
         ListNode next;
@@ -15,7 +15,7 @@ public class ConstructionAndConversion {
         }
     }
 
-    TraversalAndView t = new TraversalAndView();
+    A01TraversalAndView t = new A01TraversalAndView();
 
     public void constructBinaryTreeFromInOrderAndPreOrder(String in, String pre) {
         BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndPreOrderUtil(in, pre));

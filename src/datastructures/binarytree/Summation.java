@@ -9,7 +9,7 @@ import java.util.Stack;
 import datastructures.binarytree.BinaryTree.Node;
 
 public class Summation {
-    TraversalAndView t = new TraversalAndView();
+    A01TraversalAndView t = new A01TraversalAndView();
 
     static class INTEGER {
         int val;

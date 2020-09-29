@@ -5,7 +5,7 @@ import datastructures.binarytree.BinaryTree.Node;
 import java.util.*;
 
 public class CheckingAndPrinting {
-    TraversalAndView t = new TraversalAndView();
+    A01TraversalAndView t = new A01TraversalAndView();
 
     public void checkForChildrenSumProperty(BinaryTree tree) {
         boolean isSatisfied = checkForChildrenSumPropertyUtil(tree.root);

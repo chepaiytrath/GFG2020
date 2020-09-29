@@ -21,6 +21,7 @@ public class FindPrimeInRange {
         }
         for (int i = lo; i <= hi; i++) {
             if(!prime[i]){
+                //prime[i] FALSE is prime
                 System.out.println(i + " " + !prime[i]);
             }
         }
