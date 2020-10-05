@@ -30,13 +30,13 @@ public class GraphCycle {
                                                            boolean[] recStack) {
         // VERTICES ON PREVIOUSLY VISITED BRANCHES ARE ALREADY MADE FALSE
         // THIS WILL CONTAIN THE VERTICES ONLY ON THE CURRENT SUBTREE.
-        // IF WE REVISIT A VERTEX ALREADY PRESENT ON THE CURRENT RECUSRION STACK,
+        // IF WE REVISIT A VERTEX ALREADY PRESENT ON THE CURRENT RECURSION STACK,
         // THERE'S A CYCLE
         if (recStack[src]) {
             return true;
         }
 
-        // SO THAT IT DOES NOT VISIT A VERTEX FROM A PREVIOUSLY VISIITED BRANCH
+        // SO THAT IT DOES NOT VISIT A VERTEX FROM A PREVIOUSLY VISITED BRANCH
         if (visited[src]) {
             return false;
         }
@@ -55,6 +55,7 @@ public class GraphCycle {
         return false;
     }
 
+    // Use this to check if a Graph is tree or not : No cycles and connected (all visited)
     public void detectCycleInUndirectedGraphUsingDFS(DirectedGraphAdjacencyList graph) {
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();

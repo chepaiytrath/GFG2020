@@ -15,8 +15,9 @@ public class A02ConstructionAndConversion {
         }
     }
 
-    A01TraversalAndView t = new A01TraversalAndView();
+    static A01TraversalAndView t = new A01TraversalAndView();
 
+    // From Inorder and Preorder
     public void constructBinaryTreeFromInOrderAndPreOrder(String in, String pre) {
         BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndPreOrderUtil(in, pre));
         t.printInOrder(tree);
@@ -26,7 +27,10 @@ public class A02ConstructionAndConversion {
         if (pre.isEmpty()) {
             return null;
         }
+
+        // First character in Preorder is root
         char preFirstChar = pre.charAt(0);
+
         int inorderIndexOfPreFirstChar = in.indexOf(preFirstChar);
         Node node = new Node(Character.getNumericValue(preFirstChar));
         node.left = constructBinaryTreeFromInOrderAndPreOrderUtil(in.substring(0, inorderIndexOfPreFirstChar), pre.substring(1, 1 + inorderIndexOfPreFirstChar));
@@ -34,6 +38,7 @@ public class A02ConstructionAndConversion {
         return node;
     }
 
+    // From Inorder and Postorder
     public void constructBinaryTreeFromInOrderAndPostOrder(String in, String post) {
         BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndPostOrderUtil(in, post));
         t.printInOrder(tree);
@@ -44,7 +49,9 @@ public class A02ConstructionAndConversion {
             return null;
         }
         int postLastIndex = post.length() - 1;
+        // Last character in Postorder is root
         char postLastChar = post.charAt(postLastIndex);
+
         int inorderIndexOfPostLastChar = in.indexOf(postLastChar);
         Node node = new Node(Character.getNumericValue(post.charAt(post.length() - 1)));
         node.left = constructBinaryTreeFromInOrderAndPostOrderUtil(in.substring(0, inorderIndexOfPostLastChar), post.substring(0, inorderIndexOfPostLastChar));
@@ -52,12 +59,15 @@ public class A02ConstructionAndConversion {
         return node;
     }
 
-    public void constructBinaryTreeFromInOrderAndLevelOrder(int[] in, int[] level) {
+    // From Inorder and Level Order
+    public static void constructBinaryTreeFromInOrderAndLevelOrder() {
+        int[] in = new int[]{4, 2, 5, 1, 6, 3, 7};
+        int[] level = new int[]{1, 2, 3, 4, 5, 6, 7};
         BinaryTree tree = new BinaryTree(constructBinaryTreeFromInOrderAndLevelOrderUtil(in, level));
         t.printInOrder(tree);
     }
 
-    private Node constructBinaryTreeFromInOrderAndLevelOrderUtil(int[] in, int[] level) {
+    private static Node constructBinaryTreeFromInOrderAndLevelOrderUtil(int[] in, int[] level) {
         if (in.length == 0) {
             return null;
         }
@@ -66,6 +76,8 @@ public class A02ConstructionAndConversion {
         }
         int inorderIndexOfFirstFoundLevelChar = -1;
         int i = 0;
+        // Traverse the level order array to find first level order element present in the current inorder array
+        // That element is the root and all elements left to it in inorder are its left subtree and to its right in inorder are its right subtree
         while (inorderIndexOfFirstFoundLevelChar == -1 && i < level.length) {
             inorderIndexOfFirstFoundLevelChar = findIndexInIntArray(in, level[i]);
             i++;
@@ -76,7 +88,7 @@ public class A02ConstructionAndConversion {
         return node;
     }
 
-    private int findIndexInIntArray(int[] arr, int tar) {
+    private static int findIndexInIntArray(int[] arr, int tar) {
         for (int i = 0; i < arr.length; i++) {
             if (arr[i] == tar) {
                 return i;
@@ -84,10 +96,13 @@ public class A02ConstructionAndConversion {
         }
         return -1;
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Special Trees
 
+    // From Preorder and LN array
+    // https://www.geeksforgeeks.org/construct-a-special-tree-from-given-preorder-traversal/
+    // Special Tree where each node has either 0 or 2 nodes
     public void constructSpecialTreeFromPreOrder(int[] pre, char[] ln) {
-        //Special Tree where each node has either 0 or 2 nodes
-
         //SAMPLE INPUT
         /*int[] pre = {1, 2, 4, 5, 6, 7, 12, 13, 3, 8, 14, 9, 11, 15, 10};
         char[] ln = {'N', 'N', 'L', 'N', 'N', 'L', 'L', 'L', 'N', 'N', 'L', 'N', 'L', 'L', 'L'};*/
@@ -102,19 +117,27 @@ public class A02ConstructionAndConversion {
             return new Node(pre[0]);
         }
         Node node = new Node(pre[0]);
-        int n = calculateLeftSubtreeLength(Arrays.copyOfRange(ln, 1, ln.length));
+        int leftSubtreeLength = calculateLeftSubtreeLength(Arrays.copyOfRange(ln, 1, ln.length));
         node.left = constructSpecialTreeFromPreOrderUtil(Arrays.copyOfRange(pre, 1, pre.length), Arrays.copyOfRange(ln, 1, ln.length));
-        node.right = constructSpecialTreeFromPreOrderUtil(Arrays.copyOfRange(pre, 1 + n, pre.length), Arrays.copyOfRange(ln, 1 + n, ln.length));
+        node.right = constructSpecialTreeFromPreOrderUtil(Arrays.copyOfRange(pre, 1 + leftSubtreeLength, pre.length), Arrays.copyOfRange(ln, 1 + leftSubtreeLength, ln.length));
         return node;
     }
 
     private int calculateLeftSubtreeLength(char[] ln) {
+        // If first element is L : return its index
         if (ln[0] == 'L') {
             return 1;
         } else {
-            int nCount = 1;
-            int lCount = 0;
+            // Start from i = 1
+            // Here i = 0 will have N, thus the below node counts
             int i = 1;
+            int nCount = 1; //non leaf node count
+            int lCount = 0; //leaf node count
+
+
+            // RULE: In special tree where each node has either 0 or 2 nodes
+            // LEAF NODE COUNT = NON LEAF NODE COUNT + 1
+            // Find the first such index in ln[] where this rule is satisfied
             for (; (lCount != nCount + 1) && (i < ln.length); i++) {
                 if (ln[i] == 'N') {
                     nCount++;
@@ -126,9 +149,11 @@ public class A02ConstructionAndConversion {
         }
     }
 
+    // From Inorder
+    // https://www.geeksforgeeks.org/construct-binary-tree-from-inorder-traversal/
+    // Special Binary Tree in which key of every node is greater than keys in left and right children
     public void constructSpecialTreeFromInOrder(int[] in) {
-        //Special Binary Tree: Each node is bigger than either of its children
-
+        // Special Binary Tree: Each node is bigger than either of its children
         BinaryTree tree = new BinaryTree(constructSpecialTreeFromInOrderUtil(in));
         t.printInOrder(tree);
     }
@@ -139,6 +164,10 @@ public class A02ConstructionAndConversion {
         }
         int ind = 0;
         int max = Integer.MIN_VALUE;
+
+        // Maximum element in the current inorder array will be the root
+        // Find that root and its index
+        // Elements to its left form its left subtree and to its right form its right subtree
         for (int i = 0; i < in.length; i++) {
             if (in[i] == Math.max(max, in[i])) {
                 ind = i;
@@ -150,7 +179,12 @@ public class A02ConstructionAndConversion {
         node.right = constructSpecialTreeFromInOrderUtil(Arrays.copyOfRange(in, 1 + ind, in.length));
         return node;
     }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Full Binary Tree : Each Node has either 0 or 2 children
 
+    // From Preorder and Postorder
+    // https://www.geeksforgeeks.org/full-and-complete-binary-tree-from-given-preorder-and-postorder-traversals/
+    // Full Binary Tree is a binary tree where every node has either 0 or 2 children
     public void constructFullBinaryTreeFromPreOrderAndPostOrder(int[] pre, int[] post) {
         //FBT : Either 0 OR 2 children
         //Sample Input
@@ -177,6 +211,7 @@ public class A02ConstructionAndConversion {
         return node;
     }
 
+    // From Preorder and Mirror Preorder
     public void constructFullBinaryTreeFromPreOrderAndMirrorPreOrder(int[] pre, int[] preme) {
         BinaryTree tree = new BinaryTree(constructFullBinaryTreeFromPreOrderAndMirrorPreOrderUtil(pre, preme, pre.length));
         t.printPreOrder(tree);
@@ -196,6 +231,19 @@ public class A02ConstructionAndConversion {
         return node;
     }
 
+    private int findIndex(int[] pre, int x) {
+        for (int i = 0; i < pre.length; i++) {
+            if (pre[i] == x) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Complete Binary Tree = All levels are filled up(Not by 0 or 2 rule/ could be one child at the last level too) except the last and elements are as far left as possible
+
+    // From Level order
     public void constructCompleteBinaryTreeFromLevelOrderArray(int[] arr) {
         //SAMPLE INPUT
         /*int[] arr = {1, 2, 3, 4, 5, 6, 6, 6, 6, 6};*/
@@ -208,20 +256,15 @@ public class A02ConstructionAndConversion {
             return null;
         }
         Node node = new Node(arr[index]);
+
+        // (2*index) + 1 OR (2*index) + 2
         node.left = constructCompleteBinaryTreeFromLevelOrderArrayUtil(arr, (2 * index) + 1);
         node.right = constructCompleteBinaryTreeFromLevelOrderArrayUtil(arr, (2 * index) + 2);
         return node;
     }
 
-    private int findIndex(int[] pre, int x) {
-        for (int i = 0; i < pre.length; i++) {
-            if (pre[i] == x) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
+    // #REVISIT
+    // From Linked List : Level order
     public void constructCompleteBinaryTreeFromLinkedList(ListNode list) {
         //Sample Input
         /*ListNode list = new ListNode(10);
@@ -239,11 +282,18 @@ public class A02ConstructionAndConversion {
         ListNode curr = node;
         Queue<Node> que = new LinkedList<>();
 
+        //Push root into queue
         Node root = new Node(node.data);
         que.add(root);
+
+        // Always keep current on the next left
         curr = curr.next;
         while (curr != null && !que.isEmpty()) {
+            // Pop it so as to set its left and right pointer at the end
             Node nod = que.poll();
+
+            // Take the next two elements from linked list into left and right. Also add them to queue for setting their own pointers later.
+            // Assign them to left and right pointer of the popped nod at the end.
             Node left = new Node(curr.data);
             que.add(left);
             curr = curr.next;
@@ -259,9 +309,15 @@ public class A02ConstructionAndConversion {
         return root;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static Node head = null;
     static Node prev = null;
 
+    // DOUBLY LINKED LIST
+
+    // DLL
+    // Inorder Circular DLL
+    // #REVISIT
     public void convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticField(Node node) {
         convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node);
         head.left = prev;
@@ -288,6 +344,8 @@ public class A02ConstructionAndConversion {
         convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node.right);
     }
 
+    // DLL
+    // Inorder DLL (Not circular)
     public void convertBinaryTreeToInOrderDoublyLinkedListWithRecursionAndStaticField(Node node) {
         convertBinaryTreeToInOrderCircularDoublyLinkedListWithRecursionAndStaticFieldUtil(node);
         while (head != null) {
@@ -296,6 +354,8 @@ public class A02ConstructionAndConversion {
         }
     }
 
+    // DLL
+    // Inorder DLL (Not circular)
     public void convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticField(Node node) {
         Node n = convertBinaryTreeToInOrderDoublyLinkedListWithRecursionWithoutStaticFieldUtil(node);
         while (n.left != null) {
@@ -334,6 +394,9 @@ public class A02ConstructionAndConversion {
         return left;
     }
 
+    // DLL
+    // Level Order Spiral Fashion DLL
+    // #REVISIT
     public void convertBinaryTreeToLevelOrderSpiralFashionDoublyLinkedListWithoutRecursionWithQueueAndStack(BinaryTree tree) {
         Deque<Node> queue = new LinkedList<>();
         queue.add(tree.root);
@@ -395,49 +458,94 @@ public class A02ConstructionAndConversion {
         return Math.max(1 + findHeight(node.left), 1 + findHeight(node.right));
     }
 
-    public void constructBinaryTreeFromAncestorMatrix(int[][] mat) {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    public static void main(String[] args) {
+        constructBinaryTreeFromAncestorMatrix();
+    }
+
+
+    // Ancestor Matrix to Binary Tree
+    public static void constructBinaryTreeFromAncestorMatrix() {
         //https://www.techiedelight.com/construct-binary-tree-ancestor-matrix/
 
+        // Given an ancestor matrix, whose cell (i, j) has value 1 if i is ancestor of j in a binary tree,
+        // construct a binary tree from it where binary tree nodes are labelled from 0 to n-1 where n is the size of the ancestor matrix.
+
         //SAMPLE INPUT
-        //int[][] mat = {{0, 1, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 0, 0, 0}, {1, 1, 0, 0, 0, 0, 0}, {1, 1, 1, 0, 1, 1, 1}, {0, 0, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 0, 0}, {0, 0, 0, 0, 1, 1, 0}};
+        int[][] mat = {
+                {0, 1, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {1, 1, 0, 0, 0, 0, 0},
+                {1, 1, 1, 0, 1, 1, 1},
+                {0, 0, 0, 0, 0, 1, 0},
+                {0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 1, 1, 0}
+        };
+
         int N = mat.length;
-        Map<Integer, List<Integer>> parentOfHowManyMap = new TreeMap<>();
-        //1 is parent of 2 elements and 6 is a parent of 2 elements: parentOfHowManyMap will have an entry of 2->1,6
+
+        // Step 1: Populate descendantCountToAncestorMap
+
+        // Last entry will always be an entry with key = n - 1 and value as list with only root
+        // because it is a TreeMap (and root has maximum descendant count = total indices - 1) and there is only one root so one element in list.
+        Map<Integer, List<Integer>> descendantCountToAncestorMap = new TreeMap<>();
+        // If 1 is ancestor of 2 elements and 6 is ancestor of 2 elements: descendantCountToAncestorMap will have an entry of 2->1,6
+        // i.e. The descendant count of both 1 and 6 = 2
+
         for (int i = 0; i < N; i++) {
             int sum = Arrays.stream(mat[i]).sum();
-            /*List<Integer> list = parentOfHowManyMap.computeIfAbsent(sum, k -> new ArrayList<>());
+
+            /*if(!descendantCountToAncestorMap.containsKey(sum) || descendantCountToAncestorMap.get(sum) == null){
+                descendantCountToAncestorMap.put(sum, new ArrayList<>());
+            }
+            List<Integer> list = descendantCountToAncestorMap.get(sum);
             list.add(i);*/
-            parentOfHowManyMap.computeIfAbsent(sum, k -> new ArrayList<>()).add(i);
+
+            // Replace above with this
+            List<Integer> list = descendantCountToAncestorMap.computeIfAbsent(sum, k -> new ArrayList<>());
+            list.add(i);
         }
 
-        boolean[] parentFlagSet = new boolean[N];
-        Node[] nodeStorageArr = new Node[N];
-        int last = 0;
-        for (Map.Entry<Integer, List<Integer>> entry : parentOfHowManyMap.entrySet()) {
-            for (int val : entry.getValue()) { //val corresponds to row index in matrix : Each such index corresponds to an actual node in the tree
-                last = val;
-                Node node = new Node(val);
-                nodeStorageArr[val] = node;
+        // Step 2: Allot parents to each node
+        boolean[] parentAllotted = new boolean[N];
+        Node[] nodeForIndex = new Node[N]; // Node for i = 1 with data = 1 stored at nodeForIndex[1]
+        int last = 0; // Used to keep a track of last node picked from the TreeMap : i.e. root (with max descendant count)
 
-                if (entry.getKey() == 0) {
+        // descendantCountToAncestorMap is TreeMap : So ascending order of count of descendants
+        for (Map.Entry<Integer, List<Integer>> entry : descendantCountToAncestorMap.entrySet()) {
+            // Key is count of descendants for a node
+            // Value corresponds to list of row indices whose descendant count = key : Each such index corresponds to an actual node in the tree
+            for (Integer currVal : entry.getValue()) {
+                last = currVal; // Keep updating its value
+                Node currNode = new Node(currVal); // Create node from val and store in nodeForIndex[]
+                nodeForIndex[currVal] = currNode;
+
+                if (entry.getKey() == 0) { // Can't allot this currNode as parent to some other node as they are leaf nodes
                     continue;
                 }
 
+                // Where the magic happens
+                // Try to allot currNode as parent to available nodes (nodes whom parent is not yet allotted)
                 for (int i = 0; i < N; i++) {
-                    if (!parentFlagSet[i] && mat[val][i] == 1) {
-                        if (nodeStorageArr[val].left == null) {
-                            nodeStorageArr[val].left = nodeStorageArr[i];
+                    // If currVal is ancestor of i and parent is not yet allotted for i
+                    if (!parentAllotted[i] && mat[currVal][i] == 1) {
+                        // First fill left
+                        if (nodeForIndex[currVal].left == null) {
+                            nodeForIndex[currVal].left = nodeForIndex[i];
                         } else {
-                            nodeStorageArr[val].right = nodeStorageArr[i];
+                            // If left filled, then fill right
+                            nodeForIndex[currVal].right = nodeForIndex[i];
                         }
-                        parentFlagSet[i] = true;
+                        parentAllotted[i] = true; //Set parentAllotted to true
                     }
                 }
             }
         }
-        t.levelOrderTraversalWithoutRecursionWithQueue(new BinaryTree(nodeStorageArr[last]));
+        t.levelOrderTraversalWithoutRecursionWithQueue(new BinaryTree(nodeForIndex[last]));
     }
 
+    // Binary Tree to Ancestor Matrix
     public void constructAncestorMatrixFromBinaryTreeUsingExtraArray(BinaryTree tree) {
         Node node = tree.root;
         int size = findSize(node);
@@ -466,24 +574,29 @@ public class A02ConstructionAndConversion {
     }
 
     private Node constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(Node node, int[][] mat, int size) {
-        if (node == null) {
+        if (node == null) { // Return if null
             return null;
         }
-        int[] result = new int[size];
+        int[] isCurrAncestorOf = new int[size];
+
         Node left = constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(node.left, mat, size);
         Node right = constructAncestorMatrixFromBinaryTreeUsingExtraArrayUtil(node.right, mat, size);
         if (left != null) {
-            result[left.data] = 1;
-            addArrays(result, mat[left.data]);
+            isCurrAncestorOf[left.data] = 1; // Mark left as descendant of curr
+            addArrays(isCurrAncestorOf, mat[left.data]); // Merge ancestral data of left child and curr
         }
         if (right != null) {
-            result[right.data] = 1;
-            addArrays(result, mat[right.data]);
+            isCurrAncestorOf[right.data] = 1; // Mark right as descendant of curr
+            addArrays(isCurrAncestorOf, mat[right.data]); // Merge ancestral data of right child and curr
         }
-        mat[node.data] = result;
+
+        // For Leaf nodes, isCurrAncestorOf[] will be all 0s because curr is not ancestor of any node and its left and right gave null
+        // For non-leaf nodes, isCurrAncestorOf[] has merged values of both which nodes its children are ancestors of AND which 2 nodes it is a parent of
+        mat[node.data] = isCurrAncestorOf;
         return node;
     }
 
+    // Binary Tree to Ancestor Matrix : Without extra array to merge
     public void constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArray(BinaryTree tree) {
         Node node = tree.root;
         int size = findSize(node);
@@ -505,47 +618,51 @@ public class A02ConstructionAndConversion {
         constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArrayUtil(node.left, mat, size);
         constructAncestorMatrixFromBinaryTreeWithoutUsingExtraArrayUtil(node.right, mat, size);
         if (node.left != null) {
-            mat[node.data][node.left.data] = 1;
+            mat[node.data][node.left.data] = 1; // Mark left as descendant of curr
             for (int i = 0; i < size; i++) {
-                if (mat[node.left.data][i] == 1) {
+                if (mat[node.left.data][i] == 1) { // Merge ancestral data of left child and curr
                     mat[node.data][i] = 1;
                 }
             }
         }
         if (node.right != null) {
-            mat[node.data][node.right.data] = 1;
+            mat[node.data][node.right.data] = 1; // Mark right as descendant of curr
             for (int i = 0; i < size; i++) {
-                if (mat[node.right.data][i] == 1) {
+                if (mat[node.right.data][i] == 1) { // Merge ancestral data of right child and curr
                     mat[node.data][i] = 1;
                 }
             }
         }
     }
 
+    // Parent Array to Binary Tree
+    // https://www.geeksforgeeks.org/construct-a-binary-tree-from-parent-array-representation/
+    // Parent Array : Array indices are values in tree nodes and array values give the parent node of that particular index (or node).
     public void constructBinaryTreeFromParentArrayWithoutRecursionWithQueue(int[] arr) {
-        Map<Integer, List<Integer>> map = new HashMap<>();
+        Map<Integer, List<Integer>> parentToChildrenMap = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
-            List<Integer> list = map.computeIfAbsent(arr[i], k -> new ArrayList<>());
+            int parent = arr[i];
+            List<Integer> list = parentToChildrenMap.computeIfAbsent(parent, k -> new ArrayList<>());
             list.add(i);
         }
 
-        int rootVal = map.get(-1).get(0);
-        Node root = new Node(rootVal);
+        int rootVal = parentToChildrenMap.get(-1).get(0); // No parent of root node, so -1
+        Node root = new Node(rootVal);  // Return this at the end after constructing all its subtrees
         Queue<Node> que = new LinkedList<>();
         que.add(root);
 
         while (!que.isEmpty()) {
-            Node node = que.poll();
-            if (map.containsKey(node.data)) {
-                for (Integer child : map.get(node.data)) {
-                    if (node.left == null) {
+            Node popped = que.poll(); // Pop the next node
+            if (parentToChildrenMap.containsKey(popped.data)) { // If it is parent of any node as per parentToChildrenMap, create nodes for them and add them to queue
+                for (Integer child : parentToChildrenMap.get(popped.data)) {
+                    if (popped.left == null) {
                         Node left = new Node(child);
                         que.add(left);
-                        node.left = left;
+                        popped.left = left;
                     } else {
                         Node right = new Node(child);
                         que.add(right);
-                        node.right = right;
+                        popped.right = right;
                     }
                 }
             }
@@ -556,6 +673,7 @@ public class A02ConstructionAndConversion {
 
     Node root = null;
 
+    // Parent Array to Binary Tree
     public void constructBinaryTreeFromParentArrayWithRecursion(int[] parent) {
         Node[] nodes = new Node[parent.length];
 
@@ -584,6 +702,10 @@ public class A02ConstructionAndConversion {
         }
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Alternative forms of Binary Trees
+
+    // Construction : Binary Tree with LeftChild RightSibling Relationship
     public void constructBinaryTreeWithLeftChildRightSiblingRelationship() {
         Node root = new Node(10);
         Node n2 = addChildToConstructBinaryTreeWithLeftChildRightSiblingRelationship(root, 2);
@@ -621,6 +743,7 @@ public class A02ConstructionAndConversion {
         return node.right;
     }
 
+    // Conversion : Binary Tree with LeftChild RightSibling Relationship
     public void convertBinaryTreeToLeftChildRightSiblingRelationshipTree(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         convertBinaryTreeToLeftChildRightSiblingRelationshipTreeUtil(tree.root);
@@ -646,6 +769,7 @@ public class A02ConstructionAndConversion {
         node.right = null;
     }
 
+    // Conversion : Binary Tree with Children Sum Property
     public void convertBinaryTreeToTreeWithChildrenSumProperty(BinaryTree tree) {
         System.out.println("Before");
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
@@ -684,6 +808,7 @@ public class A02ConstructionAndConversion {
         }
     }
 
+    // Conversion : Sum Tree
     public void convertBinaryTreeToItsSumTree(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         System.out.println();
@@ -709,6 +834,7 @@ public class A02ConstructionAndConversion {
         return sum;
     }
 
+    // Conversion : Every Node Stores Sum Of All Nodes In Left Subtree And Its Own
     public void convertBinaryTreeToTreeInWhichEveryNodeStoresSumOfAllNodesInLeftSubtreeAndItsOwn(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         System.out.println();
@@ -729,6 +855,10 @@ public class A02ConstructionAndConversion {
         return node.data + rightSum;
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Reflections
+
+    // Mirror Tree
     public void convertBinaryTreeToItsMirrorTree(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         System.out.println();
@@ -747,6 +877,7 @@ public class A02ConstructionAndConversion {
         node.left = right;
     }
 
+    // Flip Binary Tree
     public void flipBinaryTreeWithRecursion(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         System.out.println();
@@ -769,6 +900,7 @@ public class A02ConstructionAndConversion {
         return flippedRoot;
     }
 
+    // Flip Binary Tree
     public void flipBinaryTreeWithoutRecursion(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         System.out.println();
@@ -790,6 +922,10 @@ public class A02ConstructionAndConversion {
         return prev;
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Construction from Expressions
+
+    // Bracket Representation
     public void constructBinaryTreeFromStringWithBracketRepresentation(String str) {
         BinaryTree tree = new BinaryTree(constructBinaryTreeFromStringWithBracketRepresentationUtil(str));
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
@@ -813,7 +949,7 @@ public class A02ConstructionAndConversion {
         que.add(str.charAt(ind));
         int i = ind + 1;
         for (; i < str.length(); i++) {
-            if(!(str.charAt(i) == '(' || str.charAt(i) == ')')){
+            if (!(str.charAt(i) == '(' || str.charAt(i) == ')')) {
                 continue;
             }
             char ch = str.charAt(i);
@@ -830,6 +966,7 @@ public class A02ConstructionAndConversion {
         return i;
     }
 
+    // Ternary Expression
     public void constructBinaryTreeFromStringWithTernaryExpression(String str) {
         BinaryTree tree = new BinaryTree(constructBinaryTreeFromStringWithTernaryExpressionUtil(str));
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
@@ -853,7 +990,7 @@ public class A02ConstructionAndConversion {
         que.add(str.charAt(ind));
         int i = ind + 1;
         for (; i < str.length(); i++) {
-            if(!(str.charAt(i) == '?' || str.charAt(i) == ':')){
+            if (!(str.charAt(i) == '?' || str.charAt(i) == ':')) {
                 continue;
             }
             char ch = str.charAt(i);
@@ -870,7 +1007,8 @@ public class A02ConstructionAndConversion {
         return i;
     }
 
-    public void convertBinaryTreeToTreeThatHoldsLogicalAndProperty(BinaryTree tree){
+    // Logical AND property
+    public void convertBinaryTreeToTreeThatHoldsLogicalAndProperty(BinaryTree tree) {
         t.levelOrderTraversalWithoutRecursionWithQueue(tree);
         System.out.println();
         Node root = tree.root;
@@ -879,7 +1017,7 @@ public class A02ConstructionAndConversion {
     }
 
     private void convertBinaryTreeToTreeThatHoldsLogicalAndPropertyUtil(Node node) {
-        if(node == null || (node.left == null && node.right == null)){
+        if (node == null || (node.left == null && node.right == null)) {
             return;
         }
         convertBinaryTreeToTreeThatHoldsLogicalAndPropertyUtil(node.left);

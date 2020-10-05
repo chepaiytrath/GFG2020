@@ -4,9 +4,11 @@ import java.util.Stack;
 
 public class LongestParenthesisSubstring {
     public static void main(String[] args) {
-        String input = "()()((()))(((";
+        //String input = "()()((()))(((";
+        String input = "()))((()))";
         System.out.println(lengthOfLongestParenthesisWithDynamicProgramming(input));
         System.out.println(lengthOfLongestParenthesisWithDynamicProgramming2(input));
+        System.out.println(lengthOfLongestParenthesis(input));
     }
 
     private static int lengthOfLongestParenthesis(String input) {
@@ -25,6 +27,15 @@ public class LongestParenthesisSubstring {
                 } else {
                     indexStack.add(i);
                 }
+
+
+                //This also works
+                /*if (!indexStack.isEmpty() && indexStack.peek() != -1 && input.charAt(indexStack.peek()) == '(') {
+                    indexStack.pop();
+                    maxLength = Math.max(maxLength, i - indexStack.peek());
+                } else {
+                    indexStack.add(i);
+                }*/
             }
         }
         return maxLength;

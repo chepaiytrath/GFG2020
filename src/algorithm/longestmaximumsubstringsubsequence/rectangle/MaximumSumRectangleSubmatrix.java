@@ -2,6 +2,8 @@ package algorithm.longestmaximumsubstringsubsequence.rectangle;
 
 import java.util.Arrays;
 
+// HAVENT UNDERSTOOD
+// #REVISIT
 public class MaximumSumRectangleSubmatrix {
     public static void main(String[] args) {
         int[][] mat = new int[][]{

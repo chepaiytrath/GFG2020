@@ -1,4 +1,4 @@
-package algorithm.palindromes;
+package algorithm.palindromesanagram;
 
 public class SaveIronmanPalindromeCheckWithoutSpecialCharacters {
     public static void main(String[] args) {

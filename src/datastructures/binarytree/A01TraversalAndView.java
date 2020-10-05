@@ -50,6 +50,7 @@ public class A01TraversalAndView {
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Morris Traversals
 
     public void morrisPreOrderTraversal(BinaryTree tree) {
         morrisPreOrderTraversalUtil(tree.root);
@@ -64,6 +65,8 @@ public class A01TraversalAndView {
             } else {
                 Node pred = findPredecessor(curr);
                 if (pred.right != curr) {
+                    // Print node before processing the left subtree : NLR
+                    // Comes back via the right node of predecessor
                     printNode(curr);
                     pred.right = curr;
                     curr = curr.left;
@@ -91,6 +94,8 @@ public class A01TraversalAndView {
                     pred.right = curr;
                     curr = curr.left;
                 } else {
+                    // Print node after processing the left subtree : LNR
+                    // Comes back via the right node of predecessor
                     pred.right = null;
                     printNode(curr); // Only difference from morrisPreOrderTraversal is placement of printNode
                     curr = curr.right;

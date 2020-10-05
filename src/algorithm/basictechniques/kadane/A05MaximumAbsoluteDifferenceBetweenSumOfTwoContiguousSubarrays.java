@@ -47,6 +47,7 @@ class A05MaximumAbsoluteDifferenceBetweenSumOfTwoContiguousSubarrays {
         return result;
     }
 
+    // Returns array of max_so_far, not curr_max
     static int maxLeftSubArraySum(int a[], int size,
                                   int sum[]) {
         int max_so_far = a[0];
@@ -62,7 +63,7 @@ class A05MaximumAbsoluteDifferenceBetweenSumOfTwoContiguousSubarrays {
         return max_so_far;
     }
 
-
+    // Returns array of max_so_far, not curr_max
     static int maxRightSubArraySum(int a[], int n, int sum[]) {
         int max_so_far = a[n];
         int curr_max = a[n];

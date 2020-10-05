@@ -1,4 +1,4 @@
-package algorithm.longestmaximumsubstringsubsequence.basic;
+package algorithm.stack;
 
 import java.util.Stack;
 
@@ -9,10 +9,10 @@ public class LongestParenthesisSubstring {
         String input = "()))((()))";
         System.out.println(lengthOfLongestParenthesisWithDynamicProgramming(input));
         System.out.println(lengthOfLongestParenthesisWithDynamicProgramming2(input));
-        System.out.println(lengthOfLongestParenthesis(input));
+        System.out.println(lengthOfLongestParenthesisWithStack(input));
     }
 
-    private static int lengthOfLongestParenthesis(String input) {
+    private static int lengthOfLongestParenthesisWithStack(String input) {
         int maxLength = -1;
         char[] arr = input.toCharArray();
         Stack<Integer> indexStack = new Stack<>();

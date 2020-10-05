@@ -1,12 +1,9 @@
-package company.walmart2.medium.pending;
-
-import leetcode.allproblems.A0122BestTimeToBuyAndSellStock2;
+package leetcode.allproblems;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class StockBuyAndSellToMaximizeProfit {
-    //https://www.geeksforgeeks.org/stock-buy-sell/
+public class A0122BestTimeToBuyAndSellStock2 {
     public static void main(String[] args) {
         //int[] arr = new int[]{7, 1, 5, 3, 6, 4}; // 7
         int[] arr = new int[]{100, 180, 260, 310, 40, 535, 695}; // 865

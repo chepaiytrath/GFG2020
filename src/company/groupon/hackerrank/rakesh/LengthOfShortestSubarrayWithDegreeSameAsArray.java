@@ -20,33 +20,39 @@ public class LengthOfShortestSubarrayWithDegreeSameAsArray {
 //    If a is one of the numbers that has the maximum frequency,
 //    update the res = min(res, i - first[A[i]] + 1)
     public int findShortestSubArray(int[] A) {
-        Map<Integer, Integer> count = new HashMap<>(), first = new HashMap<>();
+        Map<Integer, Integer> freq = new HashMap<>();
+        Map<Integer, Integer> firstMet = new HashMap<>();
         int res = 0, degree = 0;
         for (int i = 0; i < A.length; ++i) {
-            first.putIfAbsent(A[i], i);
-            count.put(A[i], count.getOrDefault(A[i], 0) + 1);
-            if (count.get(A[i]) > degree) {
-                degree = count.get(A[i]);
-                res = i - first.get(A[i]) + 1;
-            } else if (count.get(A[i]) == degree)
-                res = Math.min(res, i - first.get(A[i]) + 1);
+            firstMet.putIfAbsent(A[i], i);
+            freq.put(A[i], freq.getOrDefault(A[i], 0) + 1);
+            if (freq.get(A[i]) > degree) {
+                degree = freq.get(A[i]);
+                res = i - firstMet.get(A[i]) + 1;
+            } else if (freq.get(A[i]) == degree)
+                res = Math.min(res, i - firstMet.get(A[i]) + 1);
         }
         return res;
     }
 
-    public int findShortestSubArrayFromComments(int[] a) {
-        Map<Integer, Integer> freq = new HashMap<>(), firstMet = new HashMap<>();
+    public int findShortestSubArrayFromComments(int[] arr) {
+        Map<Integer, Integer> freq = new HashMap<>();
+        Map<Integer, Integer> firstMet = new HashMap<>();
         int minLen = 0;
-        for (int i = 0, maxFreq = 0; i < a.length; i++) {
-            int f = freq.getOrDefault(a[i], 0) + 1;
-            freq.put(a[i], f);
-            if (!firstMet.containsKey(a[i]))
-                firstMet.put(a[i], i);
-            if (f > maxFreq) {
-                minLen = i - firstMet.get(a[i]) + 1;
-                maxFreq = f;
-            } else if (f == maxFreq)
-                minLen = Math.min(minLen, i - firstMet.get(a[i]) + 1);
+        int maxFreq = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int curr = arr[i];
+            int frequency = freq.getOrDefault(curr, 0) + 1;
+            freq.put(arr[i], frequency);
+            if (!firstMet.containsKey(curr)) {
+                firstMet.put(curr, i); // Save first met index
+            }
+            if (frequency > maxFreq) {
+                minLen = i - firstMet.get(curr) + 1;
+                maxFreq = frequency;
+            } else if (frequency == maxFreq) {
+                minLen = Math.min(minLen, i - firstMet.get(curr) + 1);
+            }
         }
         return minLen;
     }

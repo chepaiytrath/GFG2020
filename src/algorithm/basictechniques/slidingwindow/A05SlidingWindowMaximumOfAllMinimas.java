@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 //#REVISIT
+// HAVENT UNDERSTOOD
 public class A05SlidingWindowMaximumOfAllMinimas {
     public int analyse(int numComputer, int[] hardDiskSpace, int segmentLength) {
         Deque<Integer> deq = new ArrayDeque<>();

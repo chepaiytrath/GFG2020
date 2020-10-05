@@ -16,6 +16,7 @@ class A03CountDistinctElementsInEveryWindowOfSizeK {
         System.out.println(countDistinct(arr, k));
     }
 
+    // Keep a list of countMap's key size for each window of size K
     private static List<Integer> countDistinct(int arr[], int k) {
         int n = arr.length;
         int start = 0;

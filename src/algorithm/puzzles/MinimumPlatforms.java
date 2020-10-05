@@ -15,7 +15,7 @@ public class MinimumPlatforms {
         int arr[] = {900, 940, 950, 1100, 1500, 1800};
         int dep[] = {910, 1200, 1120, 1130, 1900, 2000};
 
-        System.out.println(finMinimumPlatforms(arr, dep));
+        System.out.println(finMinimumPlatforms2(arr, dep));
     }
 
     //Minimum Platforms needed on railway station = Maximum platforms needed at any time
@@ -41,6 +41,26 @@ public class MinimumPlatforms {
                 i++;
             } else {
                 // DEPARTURE HAPPENS FIRST : DECREASE PLATFORM COUNT
+                platforms--;
+                j++;
+            }
+            maxPlatforms = Math.max(maxPlatforms, platforms);
+        }
+        return maxPlatforms;
+    }
+
+    private static int finMinimumPlatforms2(int[] arr, int[] dep) {
+        int platforms = 1;
+        int maxPlatforms = 1;
+
+        int i = 1;
+        int j = 0;
+
+        while (i < arr.length && j < dep.length) {
+            if (arr[i] <= dep[j]) {
+                platforms++;
+                i++;
+            } else {
                 platforms--;
                 j++;
             }

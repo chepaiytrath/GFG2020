@@ -369,19 +369,21 @@ public class CheckingAndPrinting {
         System.out.println(isSatisfied);
     }
 
+    // https://www.geeksforgeeks.org/check-if-a-given-binary-tree-is-sumtree/
     private boolean checkIfBinaryTreeIsSumTreeUtil(Node node) {
-        if (node == null || node.isLeaf()) {
+        // 2 base cases as mentioned in description
+        if (node == null || node.isLeaf()) {                                        //node.isLeaf() is mandatory
             return true;
         }
         int sum = 0;
         if (node.left != null) {
-            sum += node.left.isLeaf() ? node.left.data : 2 * node.left.data;
+            sum += node.left.isLeaf() ? node.left.data : 2 * node.left.data;        //2*node.left.data so as to take sum of both left and its children, if present
         }
         if (node.right != null) {
-            sum += node.right.isLeaf() ? node.right.data : 2 * node.right.data;
+            sum += node.right.isLeaf() ? node.right.data : 2 * node.right.data;     //2*node.right.data so as to take sum of both right and its children, if present
         }
-        return sum == node.data && checkIfBinaryTreeIsSumTreeUtil(node.left)
-                && checkIfBinaryTreeIsSumTreeUtil(node.right);
+        return sum == node.data && checkIfBinaryTreeIsSumTreeUtil(node.left)        //Check if sum of left subtree and right subtree is same as curr node data
+                && checkIfBinaryTreeIsSumTreeUtil(node.right);                      //and sum tree property holds true for its both left and right subtrees
     }
 
     public void checkIfBinaryTreeIsHeightBalanced(BinaryTree tree) {
@@ -475,6 +477,7 @@ public class CheckingAndPrinting {
         System.out.println(isSatisfied);
     }
 
+    // Intuitive
     private boolean checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(Node node1, Node node2) {
         if (node1 == null && node2 == null) {
             return true;
@@ -853,7 +856,7 @@ public class CheckingAndPrinting {
     }
 
     private boolean checkIfTwoNodesAreCousinsUtil(int a, int b, Node root) {
-        return (findLevel(a, root, 1) == findLevel(b, root, 1)) && (!isSibling(a, b, root));
+        return ((findLevel(a, root, 0) == findLevel(b, root, 0)) && (!isSibling(a, b, root)));
     }
 
     private int findLevel(int val, Node node, int level) {

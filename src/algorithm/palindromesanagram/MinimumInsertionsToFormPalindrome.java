@@ -1,4 +1,4 @@
-package algorithm.palindromes;
+package algorithm.palindromesanagram;
 
 public class MinimumInsertionsToFormPalindrome {
     public static void main(String[] args) {

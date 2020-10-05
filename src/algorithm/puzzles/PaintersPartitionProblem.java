@@ -28,8 +28,8 @@ class PaintersPartitionProblem {
         int best = Integer.MAX_VALUE;
 
         for (int i = 1; i <= n; i++) {
-            int left = partition(arr, i, k - 1);
-            int right = sum(arr, i, n - 1);
+            int left = partition(arr, i, k - 1); //Check for 0 to i boards with k-1 workers
+            int right = sum(arr, i, n - 1);     //Check for i to n-1 boards with 1 worker
             best = Math.min(best, Math.max(left, right));
         }
         return best;
