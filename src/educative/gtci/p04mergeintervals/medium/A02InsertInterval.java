@@ -19,7 +19,7 @@ public class A02InsertInterval {
         int[] newInt = new int[]{1, 4};
 
         int n = arr.length;
-          List<List<Integer>> res = new ArrayList<>();
+        List<List<Integer>> res = new ArrayList<>();
         int i = 0;
         while (i < n && arr[i][1] < newInt[0]) {
             res.add(Arrays.asList(arr[i][0], arr[i][1]));

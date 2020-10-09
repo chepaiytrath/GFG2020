@@ -443,11 +443,15 @@ public class CheckingAndPrinting {
         return leftSatisfied && rightSatisfied && diff <= 1;
     }
 
+    //Same as checkIfBinaryTreeIsSymmetric
     public void checkIfBinaryTreeIsMirrorOfItself(BinaryTree tree) {
         boolean isSatisfied = checkIfMirrorOfItselfUtil(tree.root);
         System.out.println(isSatisfied);
     }
 
+    // Check checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil for recursive soultion
+
+    // Iterative
     private boolean checkIfMirrorOfItselfUtil(Node root) {
         Queue<Node> que = new LinkedList<>();
         que.add(root.left);
@@ -461,6 +465,7 @@ public class CheckingAndPrinting {
                 continue;
             }
 
+            //Can use if (left == null || right == null) : To check if one of them is null and the other isn't
             if ((left == null && right != null) || (left != null && right == null) || (left.data != right.data)) {
                 return false;
             }
@@ -479,14 +484,14 @@ public class CheckingAndPrinting {
 
     // Intuitive
     private boolean checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(Node node1, Node node2) {
-        if (node1 == null && node2 == null) {
+        if (node1 == null && node2 == null) {   // Both are null
             return true;
         }
-        if (node1 == null || node2 == null) {
+        if (node1 == null || node2 == null) {   // Only one is null
             return false;
         }
 
-        return node1.data == node2.data
+        return node1.data == node2.data     // Both are surely not null so check their data
                 && checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(node1.left, node2.right)
                 && checkIfTwoBinaryTreesAreMirrorOfEachOtherWithRecursionUtil(node1.right, node2.left);
     }
@@ -536,10 +541,10 @@ public class CheckingAndPrinting {
     }
 
     private boolean checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(Node node1, Node node2) {
-        if (node1 == null && node2 == null) {
+        if (node1 == null && node2 == null) {       // Both are null
             return true;
         }
-        if (!(node1 != null && node2 != null)) {
+        if (!(node1 != null && node2 != null)) {    //Only one is null. Same as : if (node1 == null || node2 == null) {
             return false;
         }
         return node1.data == node2.data && checkIfTwoBinaryTreesAreIdenticalWithRecursionUtil(node1.left, node2.left)
@@ -619,6 +624,33 @@ public class CheckingAndPrinting {
         }
         return true;
     }
+
+    // https://www.geeksforgeeks.org/tree-isomorphism-problem/
+    // Isomorphic if one of them can be obtained from other by a series of flips, i.e. by swapping left and right children of a number of nodes.
+    // Any number of nodes at any level can have their children swapped.
+    // Two empty trees are isomorphic.
+    public void checkIfTwoBinaryTreesAreIsomorphicWithRecursion(BinaryTree tree1, BinaryTree tree2) {
+        boolean isIso = checkIfTwoBinaryTreesAreIsomorphicWithRecursionUtil(tree1.root, tree2.root);
+        System.out.println(isIso);
+    }
+
+    private boolean checkIfTwoBinaryTreesAreIsomorphicWithRecursionUtil(Node node1, Node node2) {
+        if (node1 == null && node2 == null) {       // Both are null
+            return true;
+        }
+
+        if (node1 == null || node2 == null) {       // Exactly one is null
+            return false;
+        }
+
+        return node1.data == node2.data &&          // Both are not null, check their data. Also check if their children are isomorphic in different combinations
+                ((checkIfTwoBinaryTreesAreIsomorphicWithRecursionUtil(node1.left, node2.left) && checkIfTwoBinaryTreesAreIsomorphicWithRecursionUtil(node1.right, node2.right)) ||
+                        (checkIfTwoBinaryTreesAreIsomorphicWithRecursionUtil(node1.left, node2.right) && checkIfTwoBinaryTreesAreIsomorphicWithRecursionUtil(node1.right, node2.left)));
+        // N1.LEFT + N2.LEFT AND N1.RIGHT + N2.RIGHT : IN CASE THERE ARE NO SWAPS AT THE NEXT LEVEL
+        // N1.LEFT + N2.RIGHT AND N1.RIGHT + N2.LEFT : IN CASE THERE ARE SWAPS AT THE NEXT LEVEL
+        // Either of above conditions should be true
+    }
+
 
     public void checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursion(BinaryTree parent, BinaryTree child) {
         boolean isSatisfied = checkIfOneTreeIsSubtreeOfAnotherTreeWithRecursionUtil(parent.root, child.root);
@@ -1430,6 +1462,11 @@ public class CheckingAndPrinting {
         System.out.println();
     }
 
+    // Basic approach
+    // Rule: Diamter of a tree is largest value of the following 3
+    // 1. Left subtree diameter
+    // 2. Right subtree diameter
+    // 3. 1 + left subtree height + right subtree height
     public void calculateDiameterOfBinaryTreeWithRecursionApproach1(BinaryTree tree) {
         // SAMPLE INPUT
         // BinaryTree tree = new BinaryTree(1);
@@ -1470,13 +1507,8 @@ public class CheckingAndPrinting {
         return Math.max(1 + leftHeight + rightHeight, Math.max(leftDiameter, rightDiameter));
     }
 
+    // Optimization : Not calling findHeight separately
     public void calculateDiameterOfBinaryTreeWithRecursionApproach2(BinaryTree tree) {
-        // Improvement over basic approach : O(n)
-        // Same one Rule: Diamter of a tree is largest value of the following 3
-        // 1. Left subtree diameter
-        // 2. Right subtree diameter
-        // 3. 1 + left subtree height + right subtree height
-
         int diameter = calculateDiameterOfBinaryTreeWithRecursionApproach2Util(tree.root, new Height());
         System.out.println(diameter);
     }
@@ -1487,6 +1519,11 @@ public class CheckingAndPrinting {
         int leftHeight = 0, rightHeight = 0;
     }
 
+    // Improvement over basic approach : O(n)
+    // Same one Rule: Diamter of a tree is largest value of the following 3
+    // 1. Left subtree diameter
+    // 2. Right subtree diameter
+    // 3. 1 + left subtree height + right subtree height
     private int calculateDiameterOfBinaryTreeWithRecursionApproach2Util(Node node, Height h) {
         if (node == null) {
             h.val = 0;
@@ -1497,13 +1534,14 @@ public class CheckingAndPrinting {
         int leftDiameter = calculateDiameterOfBinaryTreeWithRecursionApproach2Util(node.left, leftHeight);
         int rightDiameter = calculateDiameterOfBinaryTreeWithRecursionApproach2Util(node.right, rightHeight);
 
-        h.val = 1 + Math.max(leftHeight.val, rightHeight.val);
+        h.val = 1 + Math.max(leftHeight.val, rightHeight.val);      // Height of current node being sent to its parent
+        // 1 + leftHeight.val + rightHeight.val = max diameter achievable for current node from heights of left and right subtrees
+        // OR maybe leftDiameter, rightDiameter are higher than that
         return Math.max(1 + leftHeight.val + rightHeight.val, Math.max(leftDiameter, rightDiameter));
     }
 
     public void calculateDiameterOfBinaryTreeWithRecursionApproach3(BinaryTree tree) {
-        // Different Rule: Diameter of a tree is max of 1 + left subtree height + right
-        // subtree height for each node in tree
+        // Different Rule: Diameter of a tree is 1 + max of (left subtree height, right subtree height) for each node in tree
         Height h = new Height();
         calculateDiameterOfBinaryTreeWithRecursionApproach3Util(tree.root, h);
         int diameter = h.val;
@@ -1620,6 +1658,7 @@ public class CheckingAndPrinting {
         }
     }
 
+    //Given node (not root)
     public void printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1(BinaryTree tree, Node target, int k) {
         printAllNodesAtKDistanceFromGivenNodeWithRecursionApproach1Util(tree.root, target, k);
     }

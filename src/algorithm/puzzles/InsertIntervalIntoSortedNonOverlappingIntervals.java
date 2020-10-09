@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-class InsertInterval {
+class InsertIntervalIntoSortedNonOverlappingIntervals {
     public static void main(String[] args) {
         int[][] intervals = new int[][]{{1, 2}, {3, 5}, {6, 7}, {8, 10}, {12, 16}};
         int[] newInterval = new int[]{4, 8};
@@ -20,33 +20,35 @@ class InsertInterval {
     }
 
     public static int[][] insert(int[][] intervals, int[] newInterval) {
-        if(intervals == null || intervals.length == 0){
+        if (intervals == null || intervals.length == 0) {
             return new int[][]{{newInterval[0], newInterval[1]}};
         }
 
-        int x = newInterval[0];
-        int y = newInterval[1];
-
         int i = 0;
+        int n = intervals.length;
         List<List<Integer>> res = new ArrayList<>();
 
-        //ADD INTERVALS TO RESULT WHOSE END INDEX IS LESS THAN START INDEX OF NEW INTERVAL
-        while(i < intervals.length && intervals[i][1] < x){
+        int lo = newInterval[0];
+        int hi = newInterval[1];
+
+        // Skip all NON OVERLAPPING intervals who end before the new interval starts and add them to result directly
+        while (i < n && intervals[i][1] < lo) {
             res.add(Arrays.asList(intervals[i][0], intervals[i][1]));
             i++;
         }
 
-        //START MERGING INTERVALS WHOSE START INDEX IS LESS THAN END INDEX OF NEW INTERVAL
-        while(i < intervals.length && intervals[i][0] <= y){
-            x = Math.min(x, intervals[i][0]);
-            y = Math.max(y, intervals[i][1]);
+        // Merge all intervals and get a lo and hi value covering all overlapping intervals due to insertion of new interval
+        // Merge all intervals whose who start before the hi index (updated every step)
+        while (i < n && intervals[i][0] <= hi) {    // hi keeps getting updated and if the current interval falls under the updated lo, hi then merge it
+            lo = Math.min(lo, intervals[i][0]);
+            hi = Math.max(hi, intervals[i][1]);
             i++;
         }
 
         //X,Y NOW CONTAIN MERGED VALUE OF ALL SUCH INDICES
-        res.add(Arrays.asList(x, y));
+        res.add(Arrays.asList(lo, hi));
 
-        while(i < intervals.length){
+        while (i < n) {
             res.add(Arrays.asList(intervals[i][0], intervals[i][1]));
             i++;
         }

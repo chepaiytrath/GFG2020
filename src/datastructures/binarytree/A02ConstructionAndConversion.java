@@ -821,15 +821,15 @@ public class A02ConstructionAndConversion {
             return 0;
         }
         int sum = 0;
-        if (node.left == null && node.right == null) {
+        if (node.isLeaf()) {
             sum += node.data;
             node.data = 0;
         } else {
             int leftSum = convertBinaryTreeToItsSumTreeUtil(node.left);
             int rightSum = convertBinaryTreeToItsSumTreeUtil(node.right);
-            sum += node.data;
-            node.data = leftSum + rightSum;
-            sum += node.data;
+            int nodeData = node.data;       //Take out value of node before changing it to sum of its subtrees
+            node.data = leftSum + rightSum; //Change node data as sum of leftSum and rightSum
+            sum += nodeData + leftSum + rightSum;   //Return complete sum to parent call
         }
         return sum;
     }

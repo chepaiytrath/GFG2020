@@ -115,6 +115,8 @@ public class A01TraversalAndView {
     }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Iterative Traversals
+
     /* public void printInOrderWithStackWithoutRecursion(BinaryTree tree) {
         //Similar solution at : https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion/
         Stack<Node> st = new Stack<>();
@@ -141,20 +143,14 @@ public class A01TraversalAndView {
         Stack<Node> st = new Stack<>();
         Node curr = tree.root;
         while (curr != null || !st.isEmpty()) {
-            // Keep adding left children till null
-            while (curr != null) {
+            while (curr != null) { // Keep adding left children till null
                 st.push(curr);
                 curr = curr.left;
             }
-            Node node = st.pop();
-            printNode(node);
+            Node node = st.pop();       // curr is null when all left elements have been added to stack.
+            printNode(node);            // So its ancestors can be popped without again having to add all nodes.
             if (node.right != null) {
-                curr = node.right;
-                // No need to do this here : will be done in the next iteration at the beginning itself
-                // while (curr != null) {
-                //     st.push(curr);
-                //     curr = curr.left;
-                // }
+                curr = node.right;      // Change curr only if right is present
             }
         }
     }
@@ -302,6 +298,8 @@ public class A01TraversalAndView {
         Node node = tree.root;
         q.add(node);
 
+        // Add nodes to queue like normal level order
+        // Rather than printing popped nodes, add them to a stack for printing later in reverse order
         while (!q.isEmpty()) {
             Node n = q.poll();
             st.add(n);
@@ -442,11 +440,6 @@ public class A01TraversalAndView {
         }
     }
 
-
-    public static void main(String[] args) {
-        boundaryLevelOrderTraversal();
-    }
-
     //Check example first
     //https://www.geeksforgeeks.org/boundary-level-order-traversal-of-a-binary-tree/
     public static void boundaryLevelOrderTraversal() {
@@ -520,6 +513,10 @@ public class A01TraversalAndView {
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    public static void main(String[] args) {
+        diagonalOrderSumWithRecursion();
+    }
+
     // Uses TreeMap : For numeric keys to be sorted in ascending order
     public static void diagonalOrderTraversalWithRecursion() {
         BinaryTree tree = new BinaryTree();
@@ -549,6 +546,40 @@ public class A01TraversalAndView {
         list.add(node.data);
         diagonalOrderTraversalWithRecursionUtil(node.left, dis + 1, map);
         diagonalOrderTraversalWithRecursionUtil(node.right, dis, map);
+    }
+
+    public static void diagonalOrderSumWithRecursion() {
+        BinaryTree tree = new BinaryTree();
+        tree.root = new BinaryTree.Node(1);
+        tree.root.left = new BinaryTree.Node(2);
+        tree.root.left.left = new BinaryTree.Node(4);
+        tree.root.left.right = new BinaryTree.Node(5);
+        tree.root.left.right.left = new BinaryTree.Node(8);
+        tree.root.left.right.right = new BinaryTree.Node(9);
+        tree.root.right = new BinaryTree.Node(3);
+        tree.root.right.left = new BinaryTree.Node(6);
+        tree.root.right.right = new BinaryTree.Node(7);
+
+        Map<Integer, Integer> map = new TreeMap<>();
+        diagonalOrderSumWithRecursionUtil(tree.root, 0, map);
+        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
+            System.out.println(entry.getValue());
+        }
+    }
+
+    private static void diagonalOrderSumWithRecursionUtil(Node node, int dis, Map<Integer, Integer> map) {
+        if (node == null) {
+            return;
+        }
+
+        if (!map.containsKey(dis)) {
+            map.put(dis, node.data);
+        } else {
+            map.put(dis, map.get(dis) + node.data);
+        }
+
+        diagonalOrderSumWithRecursionUtil(node.left, dis + 1, map);
+        diagonalOrderSumWithRecursionUtil(node.right, dis, map);
     }
 
     // Uses Queue : Not Level Order Travsersal
@@ -821,14 +852,14 @@ public class A01TraversalAndView {
     }
 
     public void leftViewWithRecursion(BinaryTree tree) {
-        Map<Integer, Integer> map = new TreeMap<>();
+        TreeMap<Integer, Integer> map = new TreeMap<>();
         leftViewWithRecursionUtil(tree.root, 0, map);
         for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
             System.out.print(entry.getValue() + " ");
         }
     }
 
-    private void leftViewWithRecursionUtil(Node node, int level, Map<Integer, Integer> map) {
+    private void leftViewWithRecursionUtil(Node node, int level, TreeMap<Integer, Integer> map) {
         // Traverse in preorder manner
         if (node == null) {
             return;
