@@ -124,6 +124,4 @@ public class UnionFind {
             parent[v] += temp;
         }
     }
-
 }
-

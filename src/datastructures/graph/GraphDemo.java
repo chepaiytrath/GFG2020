@@ -16,14 +16,14 @@ public class GraphDemo {
      */
 
     public static void main(String[] args) {
-        ShortestPath sp = new ShortestPath();
-        GraphCycle gc = new GraphCycle();
+        A06ShortestPath sp = new A06ShortestPath();
+        A02GraphCycle gc = new A02GraphCycle();
         GraphEdgeArray gea = new GraphEdgeArray(8, 9);
-        BFSDFS bfs = new BFSDFS();
-        TopologicalSorting ts = new TopologicalSorting();
-        MinimumSpanningTree mst = new MinimumSpanningTree();
-        Backtracking bc = new Backtracking();
-        MiscProblems pr = new MiscProblems();
+        A01BFSDFS bfs = new A01BFSDFS();
+        A03TopologicalSorting ts = new A03TopologicalSorting();
+        A04MinimumSpanningTree mst = new A04MinimumSpanningTree();
+        A05Backtracking bc = new A05Backtracking();
+        A08MiscProblems pr = new A08MiscProblems();
 
         // int[][] mat = { { 2, 1, 0, 2, 1 }, { 1, 0, 1, 2, 1 }, { 1, 0, 0, 2, 1 } };
         int[][] mat = { { 2, 1, 0, 2, 1 }, { 0, 0, 1, 2, 1 }, { 1, 0, 0, 2, 1 } };

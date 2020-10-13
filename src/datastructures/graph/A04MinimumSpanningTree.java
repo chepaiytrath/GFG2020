@@ -2,7 +2,7 @@ package datastructures.graph;
 
 import java.util.*;
 
-public class MinimumSpanningTree {
+public class A04MinimumSpanningTree {
     public static void main(String[] args) {
         primsAlgorithmLazyApproach();
 
@@ -139,7 +139,6 @@ public class MinimumSpanningTree {
 
         return map;
     }
-
 
     private static void kruskalsAlgorithmLazyApproach() {
         int V = 8;

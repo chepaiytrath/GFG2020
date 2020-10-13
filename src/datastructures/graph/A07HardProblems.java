@@ -1,9 +1,9 @@
 package datastructures.graph;
 
-public class HardProblems {
+public class A07HardProblems {
 
     public static void main(String[] args) {
-        HardProblems hp = new HardProblems();
+        A07HardProblems hp = new A07HardProblems();
         hp.travellingSalesmanProblemMinCostWithBacktracking();
     }
 

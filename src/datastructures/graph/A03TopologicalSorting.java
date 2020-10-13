@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class TopologicalSorting {
+public class A03TopologicalSorting {
     // RULE
     // TOPOLOGICAL SORTING IN A DAG ALWAYS STARTS WITH ONE OF THE NODES WITH NO INCOMING EDGES
 
@@ -58,16 +58,17 @@ public class TopologicalSorting {
     // BACKTRACKING
     private void findAllPossibleTopologicalSortingForDAGUtil(int[] indeg, List<Integer>[] adj, int V, boolean[] visited,
                                                              List<Integer> list) {
-        boolean flag = false;
+        boolean flag = false;                                       // For last element flag will remain false
         for (int i = 0; i < V; i++) {
-            // FOR ALL UNVISITED VERTICES WITH NO INCOMING EDGES (INDEG = 0)
-            if (!visited[i] && indeg[i] == 0) {
-                // ACTION WHICH MIGHT NEED BACKTRACKING
-                visited[i] = true;
-                list.add(i);
-                for (int c : adj[i]) {
-                    indeg[c]--;
+            if (!visited[i] && indeg[i] == 0) {                     // Keep storing unvisited vertices with indeg = 0 into list and DFS for rest
+
+                // BACKTRACKING ACTION
+                visited[i] = true;                                  // Mark this as visited
+                list.add(i);                                        // Add to Topological sort list : Keeps storing indeg = 0 vertices
+                for (int c : adj[i]) {                              // As if you're removing this vertex from graph
+                    indeg[c]--;                                     // Decrement indeg of all child nodes of this vertex
                 }
+                // BACKTRACKING ACTION
 
                 findAllPossibleTopologicalSortingForDAGUtil(indeg, adj, V, visited, list);
 
@@ -77,6 +78,7 @@ public class TopologicalSorting {
                 for (int c : adj[i]) {
                     indeg[c]++;
                 }
+                // BACKTRACKING
                 flag = true;
             }
         }
@@ -86,6 +88,4 @@ public class TopologicalSorting {
             System.out.println(list);
         }
     }
-
-    
 }

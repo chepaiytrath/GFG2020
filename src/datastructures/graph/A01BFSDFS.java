@@ -1,18 +1,12 @@
 package datastructures.graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Stack;
-
 import datastructures.graph.types.DirectedGraphAdjacencyList;
 
-public class BFSDFS {
+import java.util.*;
 
+public class A01BFSDFS {
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // DFS BFS Iterative and Recursive
     public void dfs(DirectedGraphAdjacencyList graph) {
         // O(V + E)
         int v = graph.getV();
@@ -20,7 +14,7 @@ public class BFSDFS {
         boolean[] vis = new boolean[v];
 
         for (int i = 0; i < v; i++) {
-            if (!vis[i]) {
+            if (!vis[i]) {                          // To iterate over non connected components
                 dfsUtil(i, adj, vis);
             }
         }
@@ -42,7 +36,7 @@ public class BFSDFS {
         boolean[] visited = new boolean[v];
 
         for (int i = 0; i < v; i++) {
-            if (!visited[i]) {
+            if (!visited[i]) {                      // To iterate over non connected components
                 dfsIterativeUtil(i, adj, visited);
             }
         }
@@ -74,7 +68,7 @@ public class BFSDFS {
          * DirectedGraphAdjacencyList g = new DirectedGraphAdjacencyList(11);
          * g.addEdge(0, 1); g.addEdge(0, 2); g.addEdge(1, 4); g.addEdge(2, 3);
          * g.addEdge(3, 1); g.addEdge(3, 4); g.addEdge(4, 5);
-         * 
+         *
          * g.addEdge(6, 7); g.addEdge(7, 8); g.addEdge(7, 9); g.addEdge(8, 6);
          * g.addEdge(8, 9); g.addEdge(8, 10);
          */
@@ -102,7 +96,7 @@ public class BFSDFS {
             System.out.print(popped + " ");
             for (int child : adj[popped]) {
                 if (!visited[child]) {
-                    // HINT: Set visited[child] = true when adding it to the stack
+                    // HINT: Set visited[child] = true when adding it to the queue
                     visited[child] = true;
                     que.add(child);
                 }
@@ -110,6 +104,8 @@ public class BFSDFS {
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Mother vertex
     public void findMotherVertexBruteForce(DirectedGraphAdjacencyList graph) {
         // Time : O(V (V + E))
         // Space : O(V)
@@ -157,7 +153,7 @@ public class BFSDFS {
     List<Integer> finished = new ArrayList<>();
 
     // Kosarajus Strongly connected component algo
-    public void findMotherVertexBetterSolution(DirectedGraphAdjacencyList graph) {
+    public void findMotherVertexKosaraju(DirectedGraphAdjacencyList graph) {
         // O(V + E)
         // Also called Kosarajus Strongly connected component algo
         // EXPLANATION: If there exists a mother vertex (or vertices),
@@ -170,13 +166,13 @@ public class BFSDFS {
         boolean[] visited = new boolean[v];
         for (int i = 0; i < v; i++) {
             if (!visited[i]) {
-                findMotherVertexBetterSolutionUtil(i, adj, visited);
+                findMotherVertexKosarajuUtil(i, adj, visited);
             }
         }
 
-        visited = new boolean[v];
         int lastFin = finished.get(finished.size() - 1);
-        findMotherVertexBetterSolutionUtil(lastFin, adj, visited);
+        visited = new boolean[v];
+        findMotherVertexKosarajuUtil(lastFin, adj, visited);
         if (allVisited(visited)) {
             System.out.println("Mother vertex is : " + lastFin);
         } else {
@@ -184,14 +180,14 @@ public class BFSDFS {
         }
     }
 
-    private void findMotherVertexBetterSolutionUtil(int i, List<Integer>[] adj, boolean[] visited) {
-        visited[i] = true;
-        for (int child : adj[i]) {
+    private void findMotherVertexKosarajuUtil(int src, List<Integer>[] adj, boolean[] visited) {
+        visited[src] = true;
+        for (int child : adj[src]) {
             if (!visited[child]) {
-                findMotherVertexBetterSolutionUtil(child, adj, visited);
+                findMotherVertexKosarajuUtil(child, adj, visited);
             }
         }
-        finished.add(i);
+        finished.add(src);
     }
 
     public void printTransitiveClosure(DirectedGraphAdjacencyList graph) {
@@ -216,6 +212,9 @@ public class BFSDFS {
             }
         }
     }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // Count numbers
 
     public void countNumberOfNodesAtGivenLevel(DirectedGraphAdjacencyList graph, int level) {
         int v = graph.getV();
@@ -312,7 +311,7 @@ public class BFSDFS {
             for (int child : adj[popped]) {
                 if (!visited[child]) {
                     visited[child] = true;
-                    level[child] = level[popped] + 1;
+                    level[child] = 1 + level[popped];               // Set level for each vertex
                     que.add(child);
                 }
             }
@@ -323,6 +322,7 @@ public class BFSDFS {
         }
     }
 
+    //https://www.geeksforgeeks.org/transpose-graph/
     public void transposeGraph(DirectedGraphAdjacencyList graph) {
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();
@@ -349,6 +349,7 @@ public class BFSDFS {
 
     // THIS IS BFS TECHNIQUE TO CHECK 2-COLORING
     // ALSO CHECK mColoringDecisionProblem FOR DFS TECHNIQUE
+    // Graph is Bipartite if it is possible to colour its vertices with 2 colours
     public void checkWhetherGraphIsBipartite(DirectedGraphAdjacencyList graph) {
         // SAMPLE INPUT
         /*
@@ -376,13 +377,13 @@ public class BFSDFS {
         while (!que.isEmpty()) {
             Integer popped = que.poll();
             for (int child : adj[popped]) {
-                if (child == popped) {
+                if (child == popped) {                          // If self loop, then return false
                     return false;
                 }
                 if (!visited[child]) {
-                    if (color[child] == -1) {
-                        color[child] = 1 - color[popped];
-                    } else if (color[child] == color[popped]) {
+                    if (color[child] == -1) {                   // If color unassigned to child, then assign color
+                        color[child] = 1 - color[popped];       // 1-0 = 1 and 1-1 = 0
+                    } else if (color[child] == color[popped]) { // If color assigned but is equal to that of popped, return false
                         return false;
                     }
                     visited[child] = true;
@@ -397,38 +398,39 @@ public class BFSDFS {
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();
         boolean[] visited = new boolean[v];
-        int arr[] = new int[v];
-        printAllPathsFromGivenSourceToDestinationUsingDFSUtil(src, dest, adj, visited, arr, 0);
+        int path[] = new int[v];
+        printAllPathsFromGivenSourceToDestinationUsingDFSUtil(src, dest, adj, visited, path, 0);
     }
 
     private void printAllPathsFromGivenSourceToDestinationUsingDFSUtil(int src, int dest, List<Integer>[] adj,
-            boolean[] visited, int[] arr, int index) {
+                                                                       boolean[] visited, int[] path, int index) {
         visited[src] = true;
         if (src == dest) {
-            arr[index] = src;
+            path[index] = src;
             for (int i = 0; i <= index; i++) {
-                System.out.print(arr[i] + " ");
+                System.out.print(path[i] + " ");
             }
             System.out.println();
             return;
         }
-        arr[index] = src;
+        path[index] = src;
         for (int child : adj[src]) {
             if (!visited[child]) {
-                printAllPathsFromGivenSourceToDestinationUsingDFSUtil(child, dest, adj, visited, arr, index + 1);
-                visited[child] = false;
+                printAllPathsFromGivenSourceToDestinationUsingDFSUtil(child, dest, adj, visited, path, index + 1);
+                visited[child] = false;     // Typical DFS Backtracking
             }
         }
     }
 
     public void minimumNumberOfEdgesBetweenTwoVertices(DirectedGraphAdjacencyList graph, int src, int dest) {
+        // RULE : BFS between src and dest
         int v = graph.getV();
         List<Integer>[] adj = graph.getAdj();
         boolean[] visited = new boolean[v];
         int[] level = new int[v];
         Arrays.fill(level, -1);
         Queue<Integer> que = new LinkedList<>();
-        que.add(src);
+        que.add(src);                                           // Start BFS from src and end BFS when level of dest is set
         visited[src] = true;
         level[src] = 0;
 
@@ -437,12 +439,12 @@ public class BFSDFS {
             Integer popped = que.poll();
             for (int child : adj[popped]) {
                 if (!visited[child]) {
-                    level[child] = level[popped] + 1;
-                    if (level[dest] != -1) {
+                    level[child] = 1 + level[popped];           // Same as levelOfEachNodeUsingBFS
+                    if (level[dest] != -1) {                    // when level of dest is set
                         res = level[dest];
                         break;
                     }
-                    visited[child] = true;
+                    visited[child] = true;                      // Same as regular BFS : Mark as visited before adding to queue
                     que.add(child);
                 }
             }
@@ -491,44 +493,51 @@ public class BFSDFS {
 
     // RAKESH: visited ka panga : Backtracking mein revert krna hota hai as realized
     static int moves = Integer.MAX_VALUE;
-    static int[][] nextMove = new int[][] { { 0, -1, 0, 1 }, { -1, 0, 1, 0 } };
+    static int[][] nextMove = new int[][]{{0, -1, 0, 1}, {-1, 0, 1, 0}};
 
-    public void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFS(int[][] mat) {
+    // https://www.geeksforgeeks.org/find-minimum-numbers-moves-needed-move-one-cell-matrix-another/
+    public static void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFS() {
+        int[][] mat = {{3, 3, 1, 0},
+                {3, 0, 3, 3},
+                {2, 3, 0, 3},
+                {0, 3, 3, 3}
+        };
         Node src = new Node();
         Node dest = new Node();
-        retrieveSrcDest(src, dest, mat);
-        Map<Node, Boolean> visited = new HashMap<>();
+        retrieveSrcDest(src, dest, mat);            //Find node with 1, 2, 3 as src or dest
+        HashSet<Node> visited = new HashSet<>();
         findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(src, dest, visited, 0, mat);
         System.out.println("Minimum number of moves = " + moves);
     }
 
-    private void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(Node src, Node dest,
-            Map<Node, Boolean> visited, int movesTillHere, int[][] mat) {
+    private static void findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(Node src, Node dest,
+                                                                                                        HashSet<Node> visited, int movesTillHere, int[][] mat) {
         if (src.x == dest.x && src.y == dest.y) {
             moves = Math.min(moves, movesTillHere);
             return;
         }
-        visited.put(src, true);
-        List<Node> neighbours = findNeighbours(src);
+        visited.add(src);                                                       // Typical DFS
+        List<Node> neighbours = findNeighbours(src);                            // Up, down, left, right
         for (Node neighbour : neighbours) {
             if (isValidNeighbour(neighbour, visited, mat)) {
                 findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingDFSUtil(neighbour, dest,
-                        visited, movesTillHere + 1, mat);
+                        visited, movesTillHere + 1, mat);           // movesTillHere + 1
+                visited.remove(neighbour);                                      // Typical DFS Backtracking inside for loop
             }
         }
-        visited.put(src, false);
+        // visited.remove(src);        // Typical DFS Backtracking outside for loop : EITHER THIS OR inside for loop
     }
 
-    private boolean isValidNeighbour(Node neighbour, Map<Node, Boolean> visited, int[][] mat) {
-        if ((visited.get(neighbour) != null && visited.get(neighbour) == true)
+    private static boolean isValidNeighbour(Node neighbour, HashSet<Node> visited, int[][] mat) {
+        if (visited.contains(neighbour)
                 || (neighbour.x < 0 || neighbour.x >= mat.length || neighbour.y < 0 || neighbour.y >= mat[0].length)
-                || mat[neighbour.x][neighbour.y] == 0) {
+                || mat[neighbour.x][neighbour.y] == 0) {        // Blocked at 0
             return false;
         }
         return true;
     }
 
-    private List<Node> findNeighbours(Node src) {
+    private static List<Node> findNeighbours(Node src) {
         List<Node> neighbours = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
             Node neighbour = new Node(src.x + nextMove[0][i], src.y + nextMove[1][i]);
@@ -537,7 +546,7 @@ public class BFSDFS {
         return neighbours;
     }
 
-    private void retrieveSrcDest(Node src, Node dest, int[][] mat) {
+    private static void retrieveSrcDest(Node src, Node dest, int[][] mat) {
         int row = mat.length;
         int col = mat[0].length;
         for (int i = 0; i < row; i++) {
@@ -597,6 +606,7 @@ public class BFSDFS {
         return true;
     }
 
+    // Similar to minimumNumberOfEdgesBetweenTwoVertices
     private int findTheMinimumNumberOfMovesNeededToMoveFromOneCellOfMatrixToAnotherUsingGraphAndBFSUtil(
             DirectedGraphAdjacencyList graph, int src, int dest, int vertices) {
         List<Integer>[] adj = graph.getAdj();
@@ -605,52 +615,17 @@ public class BFSDFS {
         Queue<Integer> que = new LinkedList<>();
 
         que.add(src);
-        level[src] = 0;
+        level[src] = 0;                                                         // Used as visited
 
         while (!que.isEmpty()) {
             Integer popped = que.poll();
             for (int child : adj[popped]) {
-                if (level[child] < 0 || level[child] > level[popped] + 1) {
+                if (level[child] < 0 || level[child] > level[popped] + 1) {     // level[child] < 0 : NOT VISITED
                     que.add(child);
                     level[child] = level[popped] + 1;
                 }
             }
         }
         return level[dest];
-    }
-
-    public void findSteppingNumbers(int start, int end) {
-        for (int i = 0; i <= 9; i++) {
-            findSteppingNumbersUtil(i, start, end);
-        }
-    }
-
-    private void findSteppingNumbersUtil(int src, int start, int end) {
-        Queue<Integer> que = new LinkedList<>();
-        que.add(src);
-        while (!que.isEmpty()) {
-            Integer popped = que.poll();
-            if (popped >= start && popped <= end) {
-                System.out.print(popped + " ");
-            }
-
-            int lastDigit = popped % 10;
-            int n1 = popped * 10 + lastDigit - 1;
-            int n2 = popped * 10 + lastDigit + 1;
-
-            if (lastDigit == 0) {
-                continue;
-            }
-            if (lastDigit == 9) {
-                que.add(n1);
-            } else {
-                if (n1 >= start && n1 <= end) {
-                    que.add(n1);
-                }
-                if (n2 >= start && n2 <= end) {
-                    que.add(n2);
-                }
-            }
-        }
     }
 }

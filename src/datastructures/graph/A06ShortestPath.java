@@ -6,7 +6,7 @@ import datastructures.graph.types.GraphEdgeArray.Edge;
 import java.util.*;
 
 
-public class ShortestPath {
+public class A06ShortestPath {
 
     // ANOTHER APPROACH TO FIND SSSP: USING TOPOLOGICAL SORT : VERY SIMILAR TO BELLMAN FORD ALGO
     // STEPS TO FIND SSSP FROM SRC TO DEST
