@@ -1,6 +1,6 @@
 package leetcode.allproblems;
 
-public class A121BestTimeToBuyAndSellStockEverydayZeta {
+public class A0121BestTimeToBuyAndSellStockEverydayZeta {
     public static void main(String[] args) {
         int[] arr = new int[]{11, 18, 15, 19, 22, 15, 18, 22, 15, 19, 14};
         System.out.println(maxProfit(arr));

@@ -1,7 +1,7 @@
 package algorithm.basictechniques.kadane;
 
 //https://www.geeksforgeeks.org/maximum-contiguous-circular-sum/
-public class A04MaximumContiguousCircularSum {
+public class A04MaximumContiguousCircularSubarraySum {
     public static void main(String[] args) {
         //int[] arr = new int[]{8, -8, 9, -9, 10, -11, 12};     //22
         //int[] arr = new int[]{10, -3, -4, 7, 6, 5, -4, -1};   //23

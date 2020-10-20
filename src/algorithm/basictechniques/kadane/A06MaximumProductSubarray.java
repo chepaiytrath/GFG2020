@@ -60,7 +60,7 @@ public class A06MaximumProductSubarray {
         System.out.println(maxProd);
     }
 
-    // Doesn't overflow
+    // Doesn't overflow : Best solution
     private static void maxProductNonOverflow() {
         long[] arr = new long[]{90, 91, -91, 91, -91, -90, 90, 90, -90, -90};
 
