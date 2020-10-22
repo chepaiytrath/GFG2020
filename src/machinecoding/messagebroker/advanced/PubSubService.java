@@ -5,18 +5,18 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class PubSubService {
-    //Keeps set of subscriber topic wise, using set to prevent duplicates
+    // Keeps set of subscriber topic wise, using set to prevent duplicates
     Map<String, Set<Subscriber>> subscribersTopicMap = new ConcurrentHashMap<String, Set<Subscriber>>();
 
-    //Holds messages published by publishers
+    // Holds messages published by publishers
     Queue<Message> messagesQueue = new ConcurrentLinkedQueue<Message>();
 
-    //Adds message sent by publisher to queue
+    // Adds message sent by publisher to queue
     public void addMessageToQueue(Message message){
         messagesQueue.add(message);
     }
 
-    //Add a new Subscriber for a topic
+    // Add a new Subscriber for a topic
     public void addSubscriber(String topic, Subscriber subscriber){
 
         if(subscribersTopicMap.containsKey(topic)){
@@ -30,7 +30,7 @@ public class PubSubService {
         }
     }
 
-    //Remove an existing subscriber for a topic
+    // Remove an existing subscriber for a topic
     public void removeSubscriber(String topic, Subscriber subscriber){
         if(subscribersTopicMap.containsKey(topic)){
             Set<Subscriber> subscribers = subscribersTopicMap.get(topic);
@@ -39,7 +39,7 @@ public class PubSubService {
         }
     }
 
-    //Broadcast new messages added in queue to All subscribers of the topic. messagesQueue will be empty after broadcasting
+    // Broadcast new messages added in queue to All subscribers of the topic. messagesQueue will be empty after broadcasting.
     public void broadcast(){
         if(messagesQueue.isEmpty()){
             System.out.println("No messages from publishers to display");
@@ -51,7 +51,7 @@ public class PubSubService {
                 Set<Subscriber> subscribersOfTopic = subscribersTopicMap.get(topic);
 
                 for(Subscriber subscriber : subscribersOfTopic){
-                    //add broadcasted message to subscribers message queue
+                    // Add broadcasted message to subscribers message queue
                     List<Message> subscriberMessages = subscriber.getSubscriberMessages();
                     subscriberMessages.add(message);
                     subscriber.setSubscriberMessages(subscriberMessages);
@@ -60,7 +60,7 @@ public class PubSubService {
         }
     }
 
-    //Sends messages about a topic for subscriber at any point
+    // Sends messages about a topic for subscriber at any point
     public void getMessagesForSubscriberOfTopic(String topic, Subscriber subscriber) {
         if(messagesQueue.isEmpty()){
             System.out.println("No messages from publishers to display");
