@@ -17,6 +17,21 @@ import machinecoding.ridesharingapp.vehicle.services.VehicleServiceImpl;
 
 import java.util.List;
 
+
+// Features offered :
+// Register rider, driver, vehicle
+// Search cab in 100m radius(example)
+// Book cab
+// Ride History
+// End Trip
+
+
+// StorageService : Contains maps - riderStorage, driverStorage, vehicleStorage, bookingStorage
+// StorageService : saveRider, saveDriver, saveVehicle, updateLocation, book, find, rideHistory, endTrip
+// BookingService : book, history, endTrip
+// VehicleService : find, updateLocation, registerVehicle
+// DriverService : registerDriver
+// RiderService : registerRider
 public class CabMain {
     private static IStorageService storageService = new StorageServiceImpl();
     private static IRiderService riderService = new RiderServiceImpl(storageService);
@@ -24,7 +39,7 @@ public class CabMain {
     private static IVehicleService vehicleService = new VehicleServiceImpl(storageService);
     private static IBookingService bookingService = new BookingServiceImpl(vehicleService, storageService);
 
-    public static void main(String args[]){
+    public static void main(String args[]) {
         Rider rider = new Rider();
         rider.setName("harsh");
         rider.setCountryCode("+91");
@@ -50,6 +65,6 @@ public class CabMain {
         bookingService.book("+91910", 1D, 2D);
 
         List<Booking> bookingHistory = bookingService.history("+91910");
-        System.out.println("bookingHistory"+bookingHistory);
+        System.out.println("bookingHistory" + bookingHistory);
     }
 }

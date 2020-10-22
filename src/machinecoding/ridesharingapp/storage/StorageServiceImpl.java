@@ -78,7 +78,7 @@ public class StorageServiceImpl implements IStorageService {
             bookingHistory = new ArrayList<>();
         }
         bookingHistory.add(booking.getBookingId());
-        rider.setBookingHistory(bookingHistory);
+        rider.setBookingHistory(bookingHistory);                                    // Insert current booking ID into rider's booking history list
         this.riderStorage.put(booking.getRiderUserId(), rider);
         System.out.println("******* bookingStorage ******" + bookingStorage);
         System.out.println("******* riderStorage after updating ride history ******" + riderStorage.get(booking.getRiderUserId()).getBookingHistory().toString());
@@ -87,7 +87,7 @@ public class StorageServiceImpl implements IStorageService {
 
     @Override
     public Vehicle find(Double lat, Double lon, Double maxDistance) {
-        TreeMap<Double, Vehicle> distanceVehicleMap = new TreeMap<>();
+        TreeMap<Double, Vehicle> distanceVehicleMap = new TreeMap<>();          // Use TreeMap to sort on increasing distance
         for (String vehicleId : this.vehicleStorage.keySet()) {
             Vehicle vehicle = this.vehicleStorage.get(vehicleId);
             Double distance = Math.sqrt((lon) * (vehicle.getLon()) + (lat) * (vehicle.getLat()));
@@ -95,7 +95,7 @@ public class StorageServiceImpl implements IStorageService {
                 distanceVehicleMap.put(distance, vehicle);
             }
         }
-        return distanceVehicleMap.pollFirstEntry().getValue();
+        return distanceVehicleMap.pollFirstEntry().getValue();                  // Return the first vehicle from the map
     }
 
     @Override

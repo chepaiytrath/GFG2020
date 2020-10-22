@@ -20,7 +20,7 @@ public class BookingServiceImpl implements IBookingService {
     @Override
     public Booking book(String riderUserId, Double lat, Double lon) {
         // TODO check for valid rider
-        // find cab
+        // Find cab at provided co-ordinates
         Vehicle vehicle = vehicleService.find(lat, lon);
         // TODO lock the cab
         Booking booking = new Booking();
