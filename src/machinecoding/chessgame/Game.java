@@ -1,9 +1,9 @@
 package machinecoding.chessgame;
 
-import machinecoding.chessgame.account.Player;
+import machinecoding.chessgame.models.Player;
 import machinecoding.chessgame.enums.GameStatus;
-import machinecoding.chessgame.pieces.King;
-import machinecoding.chessgame.pieces.Piece;
+import machinecoding.chessgame.models.pieces.King;
+import machinecoding.chessgame.models.pieces.Piece;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package machinecoding.chessgame.account;
+package machinecoding.chessgame.models;
 
 import machinecoding.chessgame.enums.AccountStatus;
 

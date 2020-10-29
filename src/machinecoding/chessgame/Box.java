@@ -1,6 +1,6 @@
 package machinecoding.chessgame;
 
-import machinecoding.chessgame.pieces.Piece;
+import machinecoding.chessgame.models.pieces.Piece;
 
 public class Box {
   private Piece piece;

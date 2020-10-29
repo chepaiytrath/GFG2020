@@ -1,8 +1,7 @@
-package machinecoding.chessgame.pieces;
+package machinecoding.chessgame.models.pieces;
 
 import machinecoding.chessgame.Board;
 import machinecoding.chessgame.Box;
-import machinecoding.chessgame.pieces.Piece;
 
 public class Bishop extends Piece {
     public Bishop(boolean white) {

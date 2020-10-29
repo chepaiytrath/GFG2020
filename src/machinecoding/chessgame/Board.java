@@ -1,9 +1,9 @@
 package machinecoding.chessgame;
 
-import machinecoding.chessgame.pieces.Bishop;
-import machinecoding.chessgame.pieces.Knight;
-import machinecoding.chessgame.pieces.Pawn;
-import machinecoding.chessgame.pieces.Rook;
+import machinecoding.chessgame.models.pieces.Bishop;
+import machinecoding.chessgame.models.pieces.Knight;
+import machinecoding.chessgame.models.pieces.Pawn;
+import machinecoding.chessgame.models.pieces.Rook;
 
 public class Board {
     Box[][] boxes;

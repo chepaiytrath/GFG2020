@@ -1,4 +1,4 @@
-package machinecoding.chessgame.account;
+package machinecoding.chessgame.models;
 
 public class Player extends Account {
   private Person person;

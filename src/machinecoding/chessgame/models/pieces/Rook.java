@@ -1,10 +1,10 @@
-package machinecoding.chessgame.pieces;
+package machinecoding.chessgame.models.pieces;
 
 import machinecoding.chessgame.Board;
 import machinecoding.chessgame.Box;
 
-public class Queen extends Piece {
-    public Queen(boolean white) {
+public class Rook extends Piece {
+    public Rook(boolean white) {
         super(white);
     }
 

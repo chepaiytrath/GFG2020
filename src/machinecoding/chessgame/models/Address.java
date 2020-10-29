@@ -1,4 +1,4 @@
-package machinecoding.chessgame.account;
+package machinecoding.chessgame.models;
 
 public class Address {
   private String streetAddress;

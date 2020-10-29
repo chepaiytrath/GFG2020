@@ -1,7 +1,7 @@
 package machinecoding.chessgame;
 
-import machinecoding.chessgame.account.Player;
-import machinecoding.chessgame.pieces.Piece;
+import machinecoding.chessgame.models.Player;
+import machinecoding.chessgame.models.pieces.Piece;
 
 public class Move {
   private Player player;
